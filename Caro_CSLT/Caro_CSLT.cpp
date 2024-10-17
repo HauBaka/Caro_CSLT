@@ -53,15 +53,20 @@ int main()
 	ShowConsoleCursor(true);
 	int x = 5, y = 5;
 	system("color f5");//f: nền trắng, 5: chữ đen
+	bool turn = true;//true=x,false=0
     while (true) {
 		if (_kbhit()) {//kiểm tra có phím được nhấn không
 			int n = _getch();//lấy giá trị phím được nhấn
+			char c = (char)n;
+			if (c == 'w') y--;
+			if (c == 'a') x--;
+			if (c == 's') y++;
+			if (c == 'd') x++;
 			GotoXY(x, y);
-			//cout << (char) n << endl;
-			y++;
-			if (n == 97) {
-				wstring text = L"Mẹ mày béo";
-				printColoredText(x, y, text, 2, 4);
+			if (n == 32) {
+				if (turn == true) cout << "X";
+				else cout << "O";
+				turn = !turn;
 			}
 		}
     }
