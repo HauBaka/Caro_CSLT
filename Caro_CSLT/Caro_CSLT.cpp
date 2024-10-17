@@ -6,7 +6,7 @@
 #include <io.h> //lmaolmao
 using namespace std;
 
-
+//ghi chu
 void FixConsoleWindow() {//khong thay doi kich thuoc cua so
 	HWND consoleWindow = GetConsoleWindow();
 	LONG style = GetWindowLong(consoleWindow, GWL_STYLE);
