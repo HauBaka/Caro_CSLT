@@ -1,9 +1,12 @@
-﻿#include <iostream>//12345
+﻿#include "Caro_CSLT.h"
+#include <iostream>//12345
 #include <windows.h>
 #include <conio.h>
 #include <fcntl.h>
 #include <io.h> 
 using namespace std;
+
+
 void FixConsoleWindow() {//khong thay doi kich thuoc cua so
 	HWND consoleWindow = GetConsoleWindow();
 	LONG style = GetWindowLong(consoleWindow, GWL_STYLE);
@@ -45,7 +48,6 @@ void printColoredText(int x, int y, string text, int textColor, int bgColor) {
 	cout << text;
 	SetConsoleTextAttribute(hConsole, 0 + (15 << 4));
 }
-
 int main()
 {
     cout << "Hello World!\n";
