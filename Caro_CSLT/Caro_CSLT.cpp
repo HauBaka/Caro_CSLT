@@ -1,4 +1,4 @@
-﻿#include <iostream>
+﻿#include <iostream>//12345
 #include <windows.h>
 #include <conio.h>
 #include <fcntl.h>
