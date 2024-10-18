@@ -11,7 +11,20 @@ int main()
 	Audio audio;
 	audio.play(Audio::Memaybeo);
 	while (true) {
-
+		if (_kbhit()) {//kiểm tra có phím được nhấn không
+			int n = _getch();//lấy giá trị phím được nhấn
+			char c = (char)n;
+			if (c == 'w') y--;
+			if (c == 'a') x--;
+			if (c == 's') y++;
+			if (c == 'd') x++;
+			GotoXY(x, y);
+			if (n == 32) {
+				if (turn == true) cout << "X";
+				else cout << "O";
+				turn = !turn;
+			}
+		}
 	}
 	return 0;
 }
