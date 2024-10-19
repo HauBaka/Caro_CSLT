@@ -11,11 +11,13 @@ private:
 	int volume = 400;
 public:
 	enum Song {
-		Memaybeo
+		BACKGROUND_1,
+		BACKGROUND_2,
+		POP
 	};
 	wstring getNamebySong(Song song);
 	bool open();
-	void play(Song song);//bắt đầu chạy từ đầu
+	void play(Song song, bool repeat);//bắt đầu chạy từ đầu
 	void pause();//tạm dừng nhạc
 	void resume();//tiếp tục chạy bài nhạc
 	void close();//đóng(giải phóng giữ liệu)
