@@ -7,8 +7,6 @@ void drawLOGO(int x, int y) {
 	printColoredText(x, y+3, L"██║     ██╔══██║██╔══██╗██║   ██║    ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  ", 1, 14);
 	printColoredText(x, y + 4, L"╚██████╗██║  ██║██║  ██║╚██████╔╝    ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗", 1, 14);
 	printColoredText(x, y + 5, L" ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝      ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝", 1, 14);
-
-	printColoredText(x + 16, y + 1, L"▀", 7, 4);
 }
 string animatedText(string s, int& index) {
 	if (index >= s.size() && index <= s.size() + 4) {
