@@ -18,7 +18,7 @@ void drawQuitOptions() {
 	else MainScreen(3);
 }
 void MainScreen(int current) {
-	backgroundMusic.play(Audio::BACKGROUND_1, true);
+	if (current ==0) backgroundMusic.play(Audio::BACKGROUND_1, true);
 	for (int i = 16; i < 30; i++) {
 		GotoXY(0, i);
 		clearLine();
@@ -37,6 +37,9 @@ void MainScreen(int current) {
 		break;
 	case 1:
 		SettingsScreen();
+		break;
+	case 0:
+		GameScreen(0);
 		break;
 	}
 

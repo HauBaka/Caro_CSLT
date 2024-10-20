@@ -6,9 +6,5 @@ int main()
 {
 	SetUpWindow();
 	startIntroScreen();
-	while (true) {
-		if (_kbhit()) {
-		}
-	}
 	return 0;
 }

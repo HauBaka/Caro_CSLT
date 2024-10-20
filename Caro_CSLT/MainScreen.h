@@ -5,6 +5,7 @@
 #include "string.h"
 #include "ContributorsScreen.h"
 #include "SettingsScreen.h"
+#include "GameScreen.h"
 #include "Audio.h"
 void MainScreen(int current);
 void drawQuitOptions();

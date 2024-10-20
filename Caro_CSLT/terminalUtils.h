@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <conio.h>
 #include <fcntl.h>
+#include "MainScreen.h"
 #include <io.h>
 using namespace std;
 void FixConsoleWindow();

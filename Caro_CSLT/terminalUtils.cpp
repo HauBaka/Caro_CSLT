@@ -1,5 +1,4 @@
 ﻿#include "terminalUtils.h"
-#include "MainScreen.h"
 void FixConsoleWindow() {//khong thay doi kich thuoc cua so
 	HWND consoleWindow = GetConsoleWindow();
 	LONG style = GetWindowLong(consoleWindow, GWL_STYLE);

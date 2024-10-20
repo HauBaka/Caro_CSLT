@@ -8,7 +8,7 @@ using namespace std;
 class Audio {
 private:
 	wstring current;
-	int volume = 100;
+	int volume = 50;
 public:
 	enum Song {
 		BACKGROUND_1,
