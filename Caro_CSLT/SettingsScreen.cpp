@@ -16,6 +16,8 @@ void SettingsScreen() {
 			char c = (char)n;
 			GotoXY(0, 0);
 			if ((c == 'a' || c == 'd') && current <=1) {
+				GotoXY(1, 2);
+				cout << ">> Sound Effects:\t" + to_string(getSFX().getVolume() / 10) + "/100";
 				if (current == 0) {
 					getSFX().setVolume(getSFX().getVolume() + 10);
 					GotoXY(0, 0);

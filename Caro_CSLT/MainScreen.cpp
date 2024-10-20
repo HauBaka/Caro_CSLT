@@ -1,5 +1,5 @@
 #include "MainScreen.h"
-Audio** backgroundMusic, SFX;
+Audio backgroundMusic, SFX;
 Audio getBGMusic() {
 	return backgroundMusic;
 }
