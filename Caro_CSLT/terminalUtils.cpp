@@ -5,7 +5,7 @@ void FixConsoleWindow() {//khong thay doi kich thuoc cua so
 	style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
 	SetWindowLong(consoleWindow, GWL_STYLE, style);
 
-	MoveWindow(consoleWindow, (1920 - 1280) / 2 - 100, (1080 - 720) / 2 - 100, 1280, 720, TRUE);//ngang 172, doc 42 ki tu
+	MoveWindow(consoleWindow, 1280/8,720/8, 1280, 720, TRUE);//ngang 172, doc 42 ki tu
 	ShowScrollBar(GetConsoleWindow(), SB_VERT, 0);
 }
 void ShowConsoleCursor(bool showFlag)// tat con tro chuot
@@ -22,8 +22,8 @@ void GotoXY(int x, int y) {
 	coord.Y = y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
-void printColoredText(int x, int y, wstring text, int textColor, int bgColor) {//in text tại vị trí x,y với màu textColor
-	int OldMode = _setmode(_fileno(stdout), _O_WTEXT);//bgColor nền
+void printColoredText(int x, int y, wstring text, int textColor, int bgColor) {	//in text tại vị trí x,y với màu textColor
+	int OldMode = _setmode(_fileno(stdout), _O_WTEXT);							//bgColor nền
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	int colorAttribute = textColor + (bgColor << 4);
 	SetConsoleTextAttribute(hConsole, colorAttribute);
@@ -40,8 +40,9 @@ void printColoredText(int x, int y, string text, int textColor, int bgColor) {
 	cout << text;
 	SetConsoleTextAttribute(hConsole, 3 + (14 << 4));
 }
-void clearLine() {
-	for (int i = 0; i < 172; i++) {
+void clearLine(int line) {
+	GotoXY(0, line);
+	for (int i = 0; i < 173; i++) {
 		cout << " ";
 	}
 }
@@ -59,24 +60,20 @@ void drawOptions(string options[], int size, int& currentSelect, int& previousSe
 	while (true) {
 		if (_kbhit()) {
 			n = _getch();
-			getSFX().play(Audio::POP, false);
+			if ((n == 32 || n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);
 			if (n == 32) break;
-			GotoXY(0, 0);
-			cout << n;
 			previousSelect = currentSelect;
-			if (n == 119 or n == 97 or n == 724 or n == 754) {//go up
+			if (n == 'w' or n == 'a') {//go up
 				currentSelect--;
 				currentSelect = (currentSelect < 0) ? size - 1 : currentSelect;
 			}
-			else if (n == 115 or n == 100 or n == 804 or n == 774) {//go down
+			else if (n == 's' or n == 'd') {//go down
 				currentSelect++;
 				currentSelect = (currentSelect > size - 1) ? 0 : currentSelect;
 			}
-			GotoXY(0, startLine + 2 * previousSelect);
-			clearLine();
+			clearLine(startLine + 2 * previousSelect);
 			printColoredText((172 - (int)options[previousSelect].length()) / 2, startLine + 2 * previousSelect, options[previousSelect], 3, 14);
-			GotoXY(0, startLine + 2 * currentSelect);
-			clearLine();
+			clearLine(startLine + 2 * currentSelect);
 			printColoredText((172 - (int)options[currentSelect].length() - 6) / 2, startLine + 2 * currentSelect, ">> " + options[currentSelect] + " <<", 3, 14);
 		}
 	}

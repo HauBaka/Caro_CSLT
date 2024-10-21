@@ -1,7 +1,4 @@
-﻿#include "Caro_CSLT.h"
-#include "terminalUtils.h"
-#include "Audio.h"
-#include "IntroScreen.h"
+﻿#include "terminalUtils.h"
 int main()
 {
 	SetUpWindow();

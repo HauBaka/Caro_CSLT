@@ -1,46 +1,67 @@
 #include "Audio.h"
-
-wstring Audio::getNamebySong(Song song) {
+bool loaded[NUMSONGS] = { 0 };
+short volume = 400;
+//Songs:
+//0: None
+//1: BG1
+//2: BG2
+//3: POP
+wstring getSongbyNum(short song) {
 	switch (song) {
-	case BACKGROUND_1:
+	case 1:
 		return L"./Sounds/bg1.mp3";
-	case BACKGROUND_2:
+	case 2:
 		return L"./Sounds/bg2.mp3";
-	case POP:
+	case 3:
 		return L"./Sounds/pop.mp3";
+	default:
+		return L"";
 	}
-	return L"None";
 }
-bool Audio::open() {
-	if (this->current.empty()) return 0;
-	mciSendString((L"open " + this->current + L"  type mpegvideo alias " + this->current).c_str(), NULL, 0, NULL);
-	return 1;
-}
-void Audio::play(Song song, bool repeat) {
-	if (!this->current.empty()) this->close();
-	this->current = getNamebySong(song);
-	open();
-	mciSendString((L"play " + this->current + (repeat ? L" repeat":L"")).c_str(), NULL, 0, NULL);
-	mciSendString((L"setaudio mp3 volume to " + to_wstring(this->volume)).c_str(), NULL, 0, NULL);
-}
-void Audio::setVolume(int value) {
+void setVolume(short value) {
 	value = (value > 1000) ? 1000 : (value < 0) ? 0 : value;
-	this->volume = value; 
-	mciSendString((L"setaudio " + this->current + L" volume to " + to_wstring(this->volume)).c_str(), NULL, 0, NULL);
+	volume = value;
+	for (int i = 0; i < NUMSONGS; i++) {
+		wstring name = getSongbyNum(i);
+		mciSendString((L"setaudio " + name + L" volume to " + to_wstring(value)).c_str(), NULL, 0, NULL);
+	}
 }
-int Audio::getVolume() {
-	return this->volume;
+short getVolume() {
+	return volume;
 }
-void Audio::pause() {
-	mciSendString((L"pause " + this->current).c_str(), NULL, 0, NULL);
+void openSound(short song) {
+	wstring name = getSongbyNum(song);
+	mciSendString((L"open " + name + L"  type mpegvideo alias " + name).c_str(), NULL, 0, NULL);
+	loaded[song] = true;
 }
-void Audio::resume() {
-	mciSendString((L"resume " + this->current).c_str(), NULL, 0, NULL);
+void pauseSound(short song) {
+	if (loaded[song]) {
+		wstring name = getSongbyNum(song);
+		mciSendString((L"pause " + name).c_str(), NULL, 0, NULL);
+	}
 }
-void Audio::close() {
-	this->stop();
-	mciSendString((L"close " + this->current).c_str(), NULL, 0, NULL);
+void resumeSound(short song) {
+	if (loaded[song]) {
+		wstring name = getSongbyNum(song);
+		mciSendString((L"resume " + name).c_str(), NULL, 0, NULL);
+	}
 }
-void Audio::stop() {
-	mciSendString((L"stop " + this->current).c_str(), NULL, 0, NULL);
+void stopSound(short song) {
+	wstring name = getSongbyNum(song);
+	mciSendString((L"stop " + name).c_str(), NULL, 0, NULL);
+	mciSendString((L"close " + name).c_str(), NULL, 0, NULL);
+	loaded[song] = false;
+}
+void restartSound(short song) {
+	wstring name = getSongbyNum(song);
+	mciSendString((L"seek " + name + L" to 0").c_str(), NULL, 0, NULL);
+}
+void playSound(short song, bool repeat) {
+	if (song != 0) {
+		if (loaded[song] == false) openSound(song);
+		restartSound(song);
+		wstring name = getSongbyNum(song);
+		mciSendString((L"play " + name + (repeat ? L" repeat" : L"")).c_str(), NULL, 0, NULL);
+		setVolume(volume);
+	}
 }

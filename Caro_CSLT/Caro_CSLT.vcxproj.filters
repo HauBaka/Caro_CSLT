@@ -41,9 +41,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Caro_CSLT.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="terminalUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>

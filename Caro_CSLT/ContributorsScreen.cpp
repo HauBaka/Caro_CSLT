@@ -1,11 +1,8 @@
 ﻿#include "ContributorsScreen.h"
-#include "MainScreen.h"
 void ContributorsScreen() {
 	for (int i = 16; i < 30; i++) {
-		GotoXY(0, i);
-		clearLine();
+		clearLine(i);
 	}
-	clearLine();
 	wstring guides[5][2] = { {L"Bùi Ngọc Hiệp	", L"24120309"},
 						 {L"Phạm Đình Hải	", L"24120303"},
 						 {L"Vòng Sau Hậu	", L"24120307"},
@@ -18,5 +15,5 @@ void ContributorsScreen() {
 	string options[1] = { "BACK TO MAIN MENU"};
 	int current = 0, previous = 0;
 	drawOptions(options, 1, current, previous, 30);
-	MainScreen(2);
+	MainScreen(2,0);
 }

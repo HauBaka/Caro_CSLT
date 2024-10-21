@@ -1,95 +1,123 @@
 ﻿#include "SettingsScreen.h"
+bool enableSFX = true, enableBGM = true;
+void drawVolume(bool isCurrent) {
+	wstring status, status_1;
+	for (int i = 1; i <= getVolume() / 200; i++) {
+		status += L"█";
+	}
+	for (int i = getVolume() / 200 + 1; i <= 5; i++) {
+		status_1 += L"█";
+	}
+	clearLine(18);
+	if (isCurrent) printColoredText(47, 18, ">> Volume:\t", 3, 14);
+	else  printColoredText(50, 18, "Volume:\t", 3, 14);
+	printColoredText(50 + 22, 18, status, 10, 14);
+	printColoredText(50 + 22+ (int) status.length(), 18, status_1, 4, 14);
+}
+void drawSFX(bool isCurrent) {
+	string status ;
+	status = enableSFX ? "ON" : "OFF";
+	clearLine(20);
+	if (isCurrent) printColoredText(47, 20, ">> Sound Effects:\t" + status, 3, 14);
+	else  printColoredText(50, 20, "Sound Effects:\t" + status, 3, 14);
+}
+void drawBGM(bool isCurrent) {
+	string status;
+	status = enableBGM ? "ON" : "OFF";
+	clearLine(22);
+	if (isCurrent) printColoredText(47, 22, ">> Music:\t\t" + status, 3, 14);
+	else  printColoredText(50, 22, "Music:\t\t" + status, 3, 14);
+}
+void drawLanguage(bool isCurrent) {
+	clearLine(24);
+	if (isCurrent) printColoredText(47, 24, ">> LANGUAGE: COMING SOON", 4, 14);
+	else printColoredText(50, 24, "LANGUAGE: COMING SOON", 4, 14);
+}
+void drawBackOption(bool isCurrent) {
+	clearLine(26);
+	if (isCurrent) printColoredText(47, 26, ">> BACK TO MAIN MENU", 3, 14);
+	else printColoredText(50, 26, "BACK TO MAIN MENU", 3, 14);
+}
 void SettingsScreen() {
 	for (int i = 16; i < 30; i++) {
-		GotoXY(0, i);
-		clearLine();
+		clearLine(i);
 	}
-	printColoredText(47, 18, ">> Sound Effects:\t" + to_string(getSFX().getVolume() / 10) + "/100", 3, 14);
-	printColoredText(50, 20, "Music:\t" + to_string(getBGMusic().getVolume() / 10) + "/100", 3, 14);
-	printColoredText(50, 22, "Language:(coming soon)\t", 4, 14);
-	printColoredText(50, 25, "BACK TO MAIN MENU", 3, 14);
-	clearLine();
+
+	drawVolume(true);
+	drawSFX(false);
+	drawBGM(false);
+	drawLanguage(false);
+	drawBackOption(false);
+
 	int current = 0, previous = 0;
 	while (true) {
 		if (_kbhit()) {
 			int n = tolower(_getch());
-			char c = (char)n;
-			//GotoXY(0, 0);
-			if ((c == 'a' || c == 'd') && current <=1) {
-				GotoXY(0, 2);
-				clearLine();
-				cout << ">> Sound Effects:\t" + to_string(getSFX().getVolume() / 10) + "/100 " + to_string(current);
+			if ((n == 'a' || n == 'd') && current <=2) {
 				if (current == 0) {
-					getSFX().setVolume(getSFX().getVolume() + 100);
-					getBGMusic().setVolume(0);
-					GotoXY(0, 18);
-					clearLine();
-					printColoredText(47, 18, ">> Sound Effects:\t" + to_string(getSFX().getVolume() / 10) + "/100", 4, 14);
+					setVolume(getVolume() + (n == 'd' ? 200 : -200));
+					drawVolume(true);
 				}
 				else if (current == 1) {
-					getBGMusic().setVolume(1000);
-					GotoXY(0, 0);
-					cout << getBGMusic().getVolume();
-					GotoXY(0, 20);
-					clearLine();
-					printColoredText(47, 20, ">> Music:\t" + to_string(getBGMusic().getVolume() / 10) + "/100", 3, 14);
+					enableSFX = !enableSFX;
+					drawSFX(true);
+				}
+				else if (current == 2) {
+					enableBGM = !enableBGM;
+					if (enableBGM) playSound(1, 1);
+					else stopSound(1);
+					drawBGM(true);
 				}
 			}
-			if (c == 's' or c == 'w') {
-				if (c == 's') {
+			if ((n == 32 || n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);
+			if (n == 's' or n == 'w') {
+				if (n == 's') {
 					previous = current;
-					current = (current == 3) ? 0 : current + 1;
+					current = (current == 4) ? 0 : current + 1;
 				}
-				if (c == 'w') {
+				if (n == 'w') {
 					previous = current;
-					current = (current == 0) ? 3 : current - 1;
+					current = (current == 0) ? 4 : current - 1;
 				}
 				switch (previous) {
 				case 0:
-					GotoXY(0, 18);
-					clearLine();
-					printColoredText(50, 18, "Sound Effects:\t" + to_string(getSFX().getVolume() / 10) + "/100", 3, 14);
+					drawVolume(false);
 					break;
 				case 1:
-					GotoXY(0, 20);
-					clearLine();
-					printColoredText(50, 20, "Music:\t" + to_string(getBGMusic().getVolume() / 10) + "/100", 3, 14);
+					drawSFX(false);
 					break;
 				case 2:
-					GotoXY(0, 22);
-					clearLine();
-					printColoredText(50, 22, "Language:(coming soon)\t", 4, 14);
+					drawBGM(false);
 					break;
 				case 3:
-					GotoXY(0, 25);
-					clearLine();
-					printColoredText(50, 25, "BACK TO MAIN MENU", 3, 14);
+					drawLanguage(false);
+					break;
+				case 4:
+					drawBackOption(false);
 					break;
 				}
 				switch (current) {
 				case 0:
-					GotoXY(0, 18);
-					clearLine();
-					printColoredText(47, 18, ">> Sound Effects:\t" + to_string(getSFX().getVolume() / 10) + "/100", 3, 14);
+					drawVolume(true);
 					break;
 				case 1:
-					GotoXY(0, 20);
-					clearLine();
-					printColoredText(47, 20, ">> Music:\t" + to_string(getBGMusic().getVolume() / 10) + "/100", 3, 14);
+					drawSFX(true);
 					break;
 				case 2:
-					GotoXY(0, 22);
-					clearLine();
-					printColoredText(47, 22, ">> Language:(coming soon)\t", 4, 14);
+					drawBGM(true);
 					break;
 				case 3:
-					GotoXY(0, 25);
-					clearLine();
-					printColoredText(47, 25, ">> BACK TO MAIN MENU <<", 3, 14);
+					drawLanguage(true);
+					break;
+				case 4:
+					drawBackOption(true);
 					break;
 				}
 			}
-			if (n == 32 && current == 3) MainScreen(1);
+			if (n == 32 && (current == 4 or current == 3)) {
+				if (enableBGM == false) stopSound(1);
+				MainScreen(1, 0);
+			}
 		}
 	}
 }
