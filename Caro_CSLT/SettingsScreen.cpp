@@ -42,7 +42,7 @@ void SettingsScreen() {
 	for (int i = 16; i < 30; i++) {
 		clearLine(i);
 	}
-	printColoredText(30, 20, L"Ấn W/A để thay đổi tùy chọn",3,14);
+	printColoredText(90, 25, L"Ấn W/A để thay đổi tùy chọn",3,14);
 	drawVolume(true);
 	drawSFX(false);
 	drawBGM(false);

@@ -69,7 +69,7 @@ void StartGame(int mode) {
 	system("cls");
 	/////////
 	printColoredText(80, 20, L"Ấn W/A/S/D để di chuyển", 13, 14);
-	printColoredText(80, 21, L"Ấn 'SPACE' để đặt", 13, 14);
+	printColoredText(80, 21, L"Ấn 'ENTER' để đặt", 13, 14);
 	printColoredText(80, 22, L"Ấn 'Q' để quay lại", 13   , 14);
 	/////////
 	int x = 10, y = 5, length = 61, width = 31;//15x15 cells
