@@ -203,7 +203,17 @@ void drawStartButton(int x, int y) {
 █    ▀▀▀  ▀▀ ▀▀  ▀   ▀▀     █
  ▀▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀
     */
-    printColoredText(x, y, L"▄", 0, 14);
-    printColoredText(x+26, y, L"▄", 0, 14);
-    BetterDraw(x+1, y, L"&0▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", 8);
+    printColoredText(x+1, y, L"▄", 0, 14);
+    printColoredText(x+27, y, L"▄", 0, 14);
+    BetterDraw(x+2, y, L"&0▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", 8);
+
+    BetterDraw(x, y+1, L"&0█      &f▄▄&0                   █", 8);
+    BetterDraw(x, y+2, L"&0█&f     █   █▄ ▀▀▄ ▄▄  █▄     &0█", 8);
+    BetterDraw(x, y+3, L"&0█&f      ▀▄ █  █▀█ █ ▀ █      &0█", 8);
+    BetterDraw(x, y+4, L"&0█&f    ▀▀▀  ▀▀ ▀▀  ▀   ▀▀     &0█", 8);
+
+
+    printColoredText(x + 1, y+5, L"▀", 0, 14);
+    printColoredText(x + 27, y+5, L"▀", 0, 14);
+    BetterDraw(x + 2, y+5, L"&0▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", 8);
 }

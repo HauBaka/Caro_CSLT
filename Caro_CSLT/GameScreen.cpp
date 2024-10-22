@@ -92,7 +92,7 @@ void StartGame(int mode) {
 				if (enableSFX) playSound(3, 0);
 				break;
 			}
-			if (n == 32) {//space
+			if (n == 13) {
 				if (enableSFX) playSound(3, 0);
 				if (check) continue;
 				if (board[loc_y][loc_x] == 0) {

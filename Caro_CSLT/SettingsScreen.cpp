@@ -42,7 +42,7 @@ void SettingsScreen() {
 	for (int i = 16; i < 30; i++) {
 		clearLine(i);
 	}
-
+	printColoredText(30, 20, L"Ấn W/A để thay đổi tùy chọn",3,14);
 	drawVolume(true);
 	drawSFX(false);
 	drawBGM(false);
@@ -69,7 +69,7 @@ void SettingsScreen() {
 					drawBGM(true);
 				}
 			}
-			if ((n == 32 || n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);
+			if ((n == 13 || n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);
 			if (n == 's' or n == 'w') {
 				if (n == 's') {
 					previous = current;
@@ -114,7 +114,7 @@ void SettingsScreen() {
 					break;
 				}
 			}
-			if (n == 32 && (current == 4 or current == 3)) {
+			if (n == 13 && (current == 4 or current == 3)) {
 				if (enableBGM == false) stopSound(1);
 				MainScreen(1, 0);
 			}

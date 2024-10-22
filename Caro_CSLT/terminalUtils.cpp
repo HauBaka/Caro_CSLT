@@ -60,8 +60,10 @@ void drawOptions(string options[], int size, int& currentSelect, int& previousSe
 	while (true) {
 		if (_kbhit()) {
 			n = _getch();
-			if ((n == 32 || n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);
-			if (n == 32) break;
+			GotoXY(0, 0);
+			cout << n;
+			if ((n == 13 || n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);
+			if (n == 13) break;
 			previousSelect = currentSelect;
 			if (n == 'w' or n == 'a') {//go up
 				currentSelect--;

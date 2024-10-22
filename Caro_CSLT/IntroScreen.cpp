@@ -19,7 +19,6 @@ string animatedText(string s, int& index) {
 void startIntroScreen() {
 	playSound(2, true);
 	drawLOGO((172-73)/2, 5);
-	//drawStartButton(30, 30);
 	int count = 0, index =0;
 	GotoXY(0, 30);
 	while (true) {
