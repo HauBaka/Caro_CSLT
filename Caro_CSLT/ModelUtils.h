@@ -11,4 +11,5 @@ void veMay(int, int);
 void drawPlayer(bool, bool, int, int, int, int);
 void drawTurn(bool, int, int);
 void drawGameBoard(int, int, int, int);
+void drawStartButton(int, int);
 #endif

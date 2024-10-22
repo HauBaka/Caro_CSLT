@@ -194,3 +194,16 @@ void drawGameBoard(int x, int y, int length, int width) {
         }
     }
 }
+void drawStartButton(int x, int y) {
+    /*
+ ▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄
+█      ▄▄                   █
+█     █   █▄ ▀▀▄ ▄▄  █▄     █
+█      ▀▄ █  █▀█ █ ▀ █      █
+█    ▀▀▀  ▀▀ ▀▀  ▀   ▀▀     █
+ ▀▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀
+    */
+    printColoredText(x, y, L"▄", 0, 14);
+    printColoredText(x+26, y, L"▄", 0, 14);
+    BetterDraw(x+1, y, L"&0▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", 8);
+}
