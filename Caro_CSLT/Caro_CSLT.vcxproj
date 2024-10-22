@@ -133,6 +133,7 @@
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="IntroScreen.cpp" />
     <ClCompile Include="MainScreen.cpp" />
+    <ClCompile Include="ModelUtils.cpp" />
     <ClCompile Include="SettingsScreen.cpp" />
     <ClCompile Include="terminalUtils.cpp" />
   </ItemGroup>
@@ -142,6 +143,7 @@
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="IntroScreen.h" />
     <ClInclude Include="MainScreen.h" />
+    <ClInclude Include="ModelUtils.h" />
     <ClInclude Include="SettingsScreen.h" />
     <ClInclude Include="terminalUtils.h" />
   </ItemGroup>

@@ -5,6 +5,7 @@
 #include <fcntl.h>//_O_WTEXT
 #include "MainScreen.h"
 #include <io.h>//_setmode
+#include "ModelUtils.h"
 using namespace std;
 void FixConsoleWindow();
 void ShowConsoleCursor(bool);
