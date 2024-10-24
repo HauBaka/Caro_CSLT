@@ -11,8 +11,8 @@ bool rowCheck(int a[][15], int value, int i, int j) {
 }
 bool colCheck(int a[][15], int value, int i, int j) {
 	int count = 0;
-	while (i < 15) {
-		if (a[i][j]) count++;
+	while (j < 15) {
+		if (a[i][j]==value) count++;
 		else return count >= 5;
 		i++;
 	}
