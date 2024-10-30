@@ -17,8 +17,13 @@ string animatedText(string s, int& index) {
 	return s.substr(0, index) + " " + s.substr(index + 1, s.size());
 }
 void startIntroScreen() {
+	drawMainMenu_Play(10, 2, true);
+
+	drawMainMenu_Options(10, 7, true);
+
+	drawMainMenu_Authors(10, 12, true);
 	playSound(2, true);
-	drawLOGO((172-73)/2, 5);
+	drawLOGO(100, 5);
 	int count = 0, index =0;
 	GotoXY(0, 30);
 	while (true) {

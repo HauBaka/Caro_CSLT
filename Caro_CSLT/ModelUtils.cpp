@@ -217,3 +217,112 @@ void drawStartButton(int x, int y) {
     printColoredText(x + 27, y+5, L"▀", 0, 14);
     BetterDraw(x + 2, y+5, L"&0▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", 8);
 }
+int color(int r, int g, int b) {
+    struct RGB { int r, g, b; };
+    RGB consoleColors[16] = {
+        {0, 0, 0}, {0, 0, 128}, {0, 128, 0}, {0, 128, 128},
+        {128, 0, 0}, {128, 0, 128}, {128, 128, 0}, {192, 192, 192},
+        {128, 128, 128}, {0, 0, 255}, {0, 255, 0}, {0, 255, 255},
+        {255, 0, 0}, {255, 0, 255}, {255, 255, 0}, {255, 255, 255}
+    };
+    int closestColor = 0, minDist = INT_MAX;
+
+    for (int i = 0; i < 16; ++i) {
+        int dist = (r - consoleColors[i].r) * (r - consoleColors[i].r) +
+            (g - consoleColors[i].g) * (g - consoleColors[i].g) +
+            (b - consoleColors[i].b) * (b - consoleColors[i].b);
+        if (dist < minDist) {
+            minDist = dist;
+            closestColor = i;
+        }
+    }
+    return closestColor;
+}
+
+void drawMainMenu_Play(int x, int y, bool check) {
+// ▄▀▀▀▀▀█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄
+//█ ▄█▄█▄ █       █▀▄ █   ▄▀▄ ▀▄▀         █
+//█  ▀█▀  █       █▀  █▄▄ █▀█  █          █
+// ▀▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀
+    printColoredText(x, y, L" ", 0, 15);
+    printColoredText(x+1, y, L"▄▀▀▀▀▀█", 0, 15);
+    printColoredText(x+1+7, y, L"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", 0, 13);
+    printColoredText(x+1+7+31, y, L"▄", 0, 15);
+    //
+    printColoredText(x, y+1, L"█", 0, 14);
+    printColoredText(x+1, y+1, L" ▄█▄█▄ ", 13, 15);
+    printColoredText(x+1+7, y+1, L"█ ", 0, 14);
+    printColoredText(x+1+7+1, y+1, L"     █▀▄ █   ▄▀▄ ▀▄▀           ", 15, 13);
+    printColoredText(x+1+7+1+30+1, y+1, L"█", 0, 14);
+    //
+    printColoredText(x, y+2, L"█", 0, 14);
+    printColoredText(x+1, y+2, L"  ▀█▀  ", 13, 15);
+    printColoredText(x+1+7, y+2, L"█", 0, 14);
+    printColoredText(x+1+7+1, y+2, L"     █▀  █▄▄ █▀█  █            ", 15, 13);
+    printColoredText(x+1+7+1+31, y+2, L"█", 0, 14);
+    //
+    printColoredText(x, y+3, L" ", 0, 15);
+    printColoredText(x+1, y+3, L"▀▄▄▄▄▄█", 0, 15);
+    printColoredText(x+1+7, y+3, L"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", 0, 13);
+    printColoredText(x+1+7+31, y+3, L"▀", 0, 15);
+}
+
+void drawMainMenu_Options(int x, int y, bool check) {
+// ▄▀▀▀▀▀█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄
+//█ ▄█▄█▄ █  ▄▀▄ █▀▄ ▀█▀ ▀ ▄▀▄ █▄ █ ▄▀    █
+//█  ▀█▀  █  ▀▄▀ █▀   █  █ ▀▄▀ █ ▀█ ▄▀    █
+// ▀▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀
+
+    printColoredText(x, y, L" ", 0, 15);
+    printColoredText(x + 1, y, L"▄▀▀▀▀▀█", 0, 15);
+    printColoredText(x + 1 + 7, y, L"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", 0, 13);
+    printColoredText(x + 1 + 7 + 31, y, L"▄", 0, 15);
+    //
+    printColoredText(x, y + 1, L"█", 0, 14);
+    printColoredText(x + 1, y + 1, L" ▄█▄█▄ ", 13, 15);
+    printColoredText(x + 1 + 7, y + 1, L"█ ", 0, 14);
+    printColoredText(x + 1 + 7 + 1, y + 1, L"  ▄▀▄ █▀▄ ▀█▀ ▀ ▄▀▄ █▄ █ ▄▀    ", 15, 13);
+    printColoredText(x + 1 + 7 + 1 + 31, y + 1, L"█", 0, 14);
+    //
+    printColoredText(x, y + 2, L"█", 0, 14);
+    printColoredText(x + 1, y + 2, L"  ▀█▀  ", 13, 15);
+    printColoredText(x + 1 + 7, y + 2, L"█", 0, 14);
+    printColoredText(x + 1 + 7 + 1, y + 2, L"  ▀▄▀ █▀   █  █ ▀▄▀ █ ▀█ ▄▀    ", 15, 13);
+    printColoredText(x + 1 + 7 + 1 + 31, y + 2, L"█", 0, 14);
+    //
+    printColoredText(x, y + 3, L" ", 0, 15);
+    printColoredText(x + 1, y + 3, L"▀▄▄▄▄▄█", 0, 15);
+    printColoredText(x + 1 + 7, y + 3, L"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", 0, 13);
+    printColoredText(x + 1 + 7 + 31, y + 3, L"▀", 0, 15);
+}
+
+void drawMainMenu_Authors(int x, int y, bool check) {
+// ▄▀▀▀▀▀█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄
+//█ ▄█▄█▄ █  ▄▀▄ █ █ ▀█▀ █ █ ▄▀▄ █▀▄ ▄▀   █ wstring
+//█  ▀█▀  █  █▀█ ▀▄▀  █  █▀█ ▀▄▀ █▀▄ ▄▀   █
+// ▀▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀
+
+
+    printColoredText(x, y, L" ", 0, 15);
+    printColoredText(x + 1, y, L"▄▀▀▀▀▀█", 0, 15);
+    printColoredText(x + 1 + 7, y, L"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", 0, 13);
+    printColoredText(x + 1 + 7 + 31, y, L"▄", 0, 15);
+    //
+    printColoredText(x, y + 1, L"█", 0, 14);
+    printColoredText(x + 1, y + 1, L" ▄█▄█▄ ", 13, 15);
+    printColoredText(x + 1 + 7, y + 1, L"█ ", 0, 14);
+    printColoredText(x + 1 + 7 + 1, y + 1, L"  ▄▀▄ █ █ ▀█▀ █ █ ▄▀▄ █▀▄ ▄▀   ", 15, 13);
+    printColoredText(x + 1 + 7 + 1 + 31, y + 1, L"█", 0, 14);
+    //
+    printColoredText(x, y + 2, L"█", 0, 14);
+    printColoredText(x + 1, y + 2, L"  ▀█▀  ", 13, 15);
+    printColoredText(x + 1 + 7, y + 2, L"█", 0, 14);
+    printColoredText(x + 1 + 7 + 1, y + 2, L"  █▀█ ▀▄▀  █  █▀█ ▀▄▀ █▀▄ ▄▀   ", 15, 13);
+    printColoredText(x + 1 + 7 + 1 + 31, y + 2, L"█", 0, 14);
+    //
+    printColoredText(x, y + 3, L" ", 0, 15);
+    printColoredText(x + 1, y + 3, L"▀▄▄▄▄▄█", 0, 15);
+    printColoredText(x + 1 + 7, y + 3, L"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", 0, 13);
+    printColoredText(x + 1 + 7 + 31, y + 3, L"▀", 0, 15);
+}
+
