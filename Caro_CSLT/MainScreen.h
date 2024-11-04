@@ -2,10 +2,11 @@
 #define _MAINSCREEN_H_
 #include "terminalUtils.h"
 #include "Audio.h"
-#include "IntroScreen.h"
+#include "ModelUtils.h"
 #include "ContributorsScreen.h"
 #include "SettingsScreen.h"
 #include "GameScreen.h"
-void MainScreen(int, bool);
+#include "ModelUtils.h"
+void MainScreen(int, bool, bool);
 void drawQuitOptions();
 #endif

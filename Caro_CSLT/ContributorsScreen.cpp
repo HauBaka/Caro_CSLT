@@ -10,10 +10,10 @@ void ContributorsScreen() {
 						 {L"Đặng Thái Hòa	", L"24120312"} };
 	for (int i = 0; i < 5; i++) {
 		wstring text = guides[i][0] + L"          " + guides[i][1];
-		printColoredText((172 - (int)text.size()) / 2, 16 + i, text, 3, 14);
+		printColoredText((172 - (int)text.size()) / 2, 16 + i, text, 3, 15);
 	}
 	string options[1] = { "BACK TO MAIN MENU"};
 	int current = 0, previous = 0;
-	drawOptions(options, 1, current, previous, 30);
-	MainScreen(2,0);
+	drawOptions(90,30, options, 1, current, previous);
+	MainScreen(2,0, false);
 }

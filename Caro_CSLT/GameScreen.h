@@ -1,6 +1,7 @@
 #ifndef _GAMESCREEN_H_
 #define _GAMESCREEN_H_
 #include "terminalUtils.h"
+#include "ModelUtils.h"
 bool rowCheck(int a[][15], int , int , int );
 bool colCheck(int a[][15], int , int , int);
 bool leftDiagonalCheck(int a[][15], int, int, int);

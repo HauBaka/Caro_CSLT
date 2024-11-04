@@ -10,9 +10,7 @@ using namespace std;
 void FixConsoleWindow();
 void ShowConsoleCursor(bool);
 void GotoXY(int, int);
-void printColoredText(int, int, wstring, int, int);
-void printColoredText(int, int, string, int, int);
 void clearLine(int);
-void drawOptions(string options[], int, int&, int&, int);
+void drawOptions(int,int,string options[], int, int&, int&);
 void SetUpWindow();
 #endif

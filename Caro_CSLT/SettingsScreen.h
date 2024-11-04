@@ -1,6 +1,7 @@
 #ifndef _SETTINGSSCREEN_H_
 #define _SETTINGSSCREEN_H_
-#include "terminalUtils.h"
+#include "ModelUtils.h"
+#include "MainScreen.h"
 void SettingsScreen();
 extern bool enableSFX, enableBGM ;
 void drawVolume(bool);

@@ -68,9 +68,9 @@ bool checkWin(int a[][15], int value, int& xpos, int& ypos) {//0=None,1=X,2=O
 void StartGame(int mode) {
 	system("cls");
 	/////////
-	printColoredText(80, 20, L"Ấn W/A/S/D để di chuyển", 13, 14);
-	printColoredText(80, 21, L"Ấn 'ENTER' để đặt", 13, 14);
-	printColoredText(80, 22, L"Ấn 'Q' để quay lại", 13   , 14);
+	printColoredText(80, 20, L"Ấn W/A/S/D để di chuyển", 13, 15);
+	printColoredText(80, 21, L"Ấn 'ENTER' để đặt", 13, 15);
+	printColoredText(80, 22, L"Ấn 'Q' để quay lại", 13   , 15);
 	/////////
 	int x = 10, y = 5, length = 61, width = 31;//15x15 cells
 	drawGameBoard(x, y, length, width);
@@ -103,9 +103,9 @@ void StartGame(int mode) {
 					else  check = checkWin(board, 2, x, y);
 					if (check) {
 						if (turn) {
-							printColoredText(30, 4, "X WONNNNNNNNNN", 4, 14);
+							printColoredText(30, 4, "X WONNNNNNNNNN", 4, 15);
 						} else
-							printColoredText(30, 4, "O WONNNNNNNNNN", 4, 14);
+							printColoredText(30, 4, "O WONNNNNNNNNN", 4, 15);
 					}
 					else {
 						turn = !turn;
@@ -115,7 +115,7 @@ void StartGame(int mode) {
 			}
 			else if (c=='w' or c=='a' or c=='s' or  c== 'd') {
 				if (enableSFX) playSound(3, 0);
-				printColoredText(x + 2 + loc_x * 4, y + 2 * loc_y + 1, (board[loc_y][loc_x] == 0 ? " " : board[loc_y][loc_x] == 1 ? "X" : "O"),0,14);
+				printColoredText(x + 2 + loc_x * 4, y + 2 * loc_y + 1, (board[loc_y][loc_x] == 0 ? " " : board[loc_y][loc_x] == 1 ? "X" : "O"),0,15);
 				switch (c) {
 				case 'w': 
 					loc_y = (loc_y == 0) ? loc_y : loc_y - 1;
@@ -140,21 +140,47 @@ void StartGame(int mode) {
 }
 void GameScreen(int state) {//state = 0: select mode, state = 1: in-game screen
 	if (state == 0) {
-		for (int i = 16; i < 30; i++) {
-			clearLine(i);
+		drawPanel(100, 20, 5);
+
+		wstring options[4] = {L"Player vs Player", L"Player vs Bot(Coming soon)", L"LOAD GAME", L"BACK TO MAIN MENU"};
+		int currentSelect = 0, previousSelect = 0;
+		//RGBPrint(100+20, 20 + 6, L"Player vs Player", { 255,255,255 }, { 255,129,216 }, true);
+		int n, size = 4;
+		for (int i = 0; i < size; i++) {
+			if (i==0) RGBPrint(126 - ((int)options[i].length()) / 2, 23 + 2 * i, L">> " + options[i] + L" <<", {255,255,255}, { 255,129,216 }, true);
+			else RGBPrint(126 - ((int)options[i].length()) / 2, 23 + 2 * i, L"   " + options[i] + L"   ", { 255,255,255 }, { 255,129,216 }, true);
 		}
-		string options[3] = {"Player vs Player", "Player vs Bot(Coming soon)", "BACK TO MAIN MENU"};
-		int current = 0, previous = 0;
-		drawOptions(options, 3, current, previous, 16);
-		switch (current) {
+		while (true) {
+			if (_kbhit()) {
+				n = _getch();
+				n = tolower(n);
+				if ((n == 13 || n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);
+				if (n == 13) break;
+				previousSelect = currentSelect;
+				if (n == 'w' or n == 'a') {//go up
+					currentSelect--;
+					currentSelect = (currentSelect < 0) ? size - 1 : currentSelect;
+				}
+				else if (n == 's' or n == 'd') {//go down
+					currentSelect++;
+					currentSelect = (currentSelect > size - 1) ? 0 : currentSelect;
+				}
+				//clearLine(y + 2 * previousSelect);
+				RGBPrint(126- ((int)options[previousSelect].length()) / 2, 23 + 2 * previousSelect, L"   "+options[previousSelect] + L"   ", { 255,255,255 }, { 255,129,216 }, true);
+				//clearLine(y + 2 * currentSelect);
+				RGBPrint(126 - ((int)options[currentSelect].length()) / 2, 23 + 2 * currentSelect, L">> " + options[currentSelect] + L" <<", { 255,255,255 }, { 255,129,216 }, true);
+			}
+		}
+		switch (currentSelect) {
 		case 0:
 			StartGame(0);
 			break;
 		case 1: 
 			GameScreen(0);
 			break;
-		case 2:
-			MainScreen(0,0);
+		case 3:
+			removePanel(100, 20, 5);
+			MainScreen(0,0, false);
 			break;
 		}
 	}

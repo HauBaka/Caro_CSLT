@@ -17,13 +17,14 @@ string animatedText(string s, int& index) {
 	return s.substr(0, index) + " " + s.substr(index + 1, s.size());
 }
 void startIntroScreen() {
-	drawMainMenu_Play(10, 2, true);
 
-	drawMainMenu_Options(10, 7, true);
+	//drawMainMenu_Play(10, 20, true);
+	//drawMainMenu_Options(10, 25, true);
+	//drawMainMenu_Authors(10, 30, true);
+	//drawMainMenu_Out(10, 35, true);
 
-	drawMainMenu_Authors(10, 12, true);
 	playSound(2, true);
-	drawLOGO(100, 5);
+	drawLOGO(50, 5);
 	int count = 0, index =0;
 	GotoXY(0, 30);
 	while (true) {
@@ -35,14 +36,14 @@ void startIntroScreen() {
 		}
 		count++;
 		GotoXY(74, 21);
-		printColoredText(74, 21, animatedText("PRESS ANY KEY TO START!", count), 3, 14);
+		printColoredText(74, 21, animatedText("PRESS ANY KEY TO START!", count), 3, 15);
 		if (_kbhit()) {
-			_getch();
+			int _t = _getch();
 			if (enableSFX) playSound(3, 0);
 			break;
 		}
 		Sleep(200);
 	}
 	stopSound(2);
-	MainScreen(0, true);
+	MainScreen(0, true, true);
 }
