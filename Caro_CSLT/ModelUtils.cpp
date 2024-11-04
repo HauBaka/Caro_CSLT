@@ -456,5 +456,5 @@ void drawCheckBox(int x, int y, RGB color) {
     RGBPrint(x, y - 1, L" ▄▄▄", black, light_pink, false);
     RGBPrint(x, y,     L"█ ▄ █", black, color, false);
     RGBPrint(x, y + 1, L"▀   ▀", black, light_pink, false);
-    RGBPrint(x, y + 1, L" ▄▄▄ ", black, color, false);
+    RGBPrint(x+1, y + 1, L"▄▄▄", black, color, false);
 }

@@ -2,42 +2,38 @@
 bool enableSFX = true, enableBGM = true;
 void drawVolume(bool isCurrent) {
 	if (isCurrent) RGBPrint(105, 24, L">> Volume", white, light_pink, true);
-	else  RGBPrint(108, 24, L"Volume", white, light_pink, true);
+	else  RGBPrint(105, 24, L"   Volume", white, light_pink, true);
 	int n = getVolume() / 50;
 	drawSlider(110+15,24,24,n);
 	drawDOT(111 + 15 + n+1, 24);
 }
 void drawSFX(bool isCurrent) {
 	if (isCurrent) RGBPrint(105, 27, L">> Sound Effects:", white, light_pink,true);
-	else RGBPrint(108, 27, L"Sound Effects:", white, light_pink, true);
-	if (enableSFX) drawCheckBox(110 + 15, 27, light_pink);
-	else drawCheckBox(110 + 15, 27, white_pink);
+	else RGBPrint(105, 27, L"   Sound Effects:", white, light_pink, true);
+	if (enableSFX) drawCheckBox(110 + 15, 27, white_pink);
+	else drawCheckBox(110 + 15, 27, {81,81,81});
 }
 void drawBGM(bool isCurrent) {
-	string status;
-	status = enableBGM ? "ON" : "OFF";
-	clearLine(22);
-	if (isCurrent) printColoredText(47, 22, ">> Music:\t\t" + status, 3, 15);
-	else  printColoredText(50, 22, "Music:\t\t" + status, 3, 15);
+	if (isCurrent) RGBPrint(105, 30, L">> Music:", white, light_pink, true);
+	else RGBPrint(105, 30, L"   Music:", white, light_pink, true);
+	if (enableBGM) drawCheckBox(110 + 15, 30, white_pink);
+	else drawCheckBox(110 + 15, 30, { 81,81,81 });
 }
 void drawLanguage(bool isCurrent) {
-	clearLine(24);
-	if (isCurrent) printColoredText(47, 24, ">> LANGUAGE: COMING SOON", 4, 15);
-	else printColoredText(50, 24, "LANGUAGE: COMING SOON", 4, 15);
+	if (isCurrent) RGBPrint(105, 32, L">> LANGUAGE: COMING SOON", white, light_pink, true);
+	else RGBPrint(105, 32, L"   LANGUAGE: COMING SOON", white, light_pink, true);
 }
 void drawBackOption(bool isCurrent) {
-	clearLine(26);
-	if (isCurrent) printColoredText(47, 26, ">> BACK TO MAIN MENU", 3, 15);
-	else printColoredText(50, 26, "BACK TO MAIN MENU", 3, 15);
+	if (isCurrent) RGBPrint(105, 34, L">> BACK TO MAIN MENU", white, light_pink, true);
+	else RGBPrint(105, 34, L"   BACK TO MAIN MENU", white, light_pink, true);
 }
 void SettingsScreen() {
-	drawPanel(100, 20, 10);
-	//printColoredText(90, 25, L"Ấn W/A để thay đổi tùy chọn",3,15);
-	//drawBGM(false);
-	//drawLanguage(false);
-	//drawBackOption(false);
+	drawPanel(100, 20, 12);
 	drawVolume(true);
 	drawSFX(false);
+	drawBGM(false);
+	drawLanguage(false);
+	drawBackOption(false);
 	int current = 0, previous = 0;
 	while (true) {
 		if (_kbhit()) {
@@ -105,6 +101,7 @@ void SettingsScreen() {
 			}
 			if (n == 13 && (current == 4 or current == 3)) {
 				if (enableBGM == false) stopSound(1);
+				removePanel(100, 20, 12);
 				MainScreen(1, 0, false);
 			}
 		}

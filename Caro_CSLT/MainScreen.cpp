@@ -1,13 +1,36 @@
 ﻿#include "MainScreen.h"
 void drawQuitOptions() {
-	for (int i = 16; i < 30; i++) {
-		clearLine(i);
+	drawPanel(100, 20, 4);
+	
+	RGBPrint(120, 24, L"Want to quit?", white, light_pink, true);
+
+	RGBPrint(123, 26, L"\033[4mYES\033[0m", white, light_pink, true);
+	RGBPrint(131, 26, L"NO", white, light_pink, true);
+	bool check = true;
+	while (true) {
+		if (_kbhit()) {
+			int n = tolower(_getch());
+			if ((n == 13 || n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);
+			if (n == 13) break;
+			if (n == 'w' || n == 'a' || n == 's' || n == 'd') {
+				check = !check;
+				if (check) {
+					RGBPrint(123, 26, L"\033[4mYES\033[0m", white, light_pink, true);
+					RGBPrint(131, 26, L"NO", white, light_pink, true);
+				}
+				else {
+					RGBPrint(123, 26, L"YES", white, light_pink, true);
+					RGBPrint(131, 26, L"\033[4mNO\033[0m", white, light_pink, true);
+				}
+			}
+
+		}
 	}
-	string options[2] = { "I WANT TO QUIT", "NO, TAKE ME BACK" };
-	int a=0, b=0;
-	drawOptions(90,16,options, 2, a, b);
-	if (a == 0) ExitProcess(0);
-	else MainScreen(3,0, false);
+	if (check) ExitProcess(0);
+	else {
+		removePanel(100, 20, 4);
+		MainScreen(3, 0, false);
+	}
 }
 void MainScreen(int currentSelect, bool playBGM, bool clear) {
 	if (playBGM) playSound(1, true);
