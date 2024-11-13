@@ -5,7 +5,7 @@ void FixConsoleWindow() {//khong thay doi kich thuoc cua so
 	style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
 	SetWindowLong(consoleWindow, GWL_STYLE, style);
 
-	MoveWindow(consoleWindow, 1280/8,720/8, 1280, 720, TRUE);//ngang 172, doc 42 ki tu
+	MoveWindow(consoleWindow, 0,0, 1280, 720, TRUE);//ngang 172, doc 42 ki tu
 	ShowScrollBar(GetConsoleWindow(), SB_VERT, 0);
 }
 void ShowConsoleCursor(bool showFlag)// tat con tro chuot
@@ -60,4 +60,6 @@ void SetUpWindow() {
 	FixConsoleWindow();
 	ShowConsoleCursor(false);
 	system("color F1");
+
+	SetConsoleOutputCP(CP_UTF8);
 }

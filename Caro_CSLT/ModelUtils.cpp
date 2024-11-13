@@ -1,15 +1,20 @@
 ﻿#include "ModelUtils.h"
 #include "terminalUtils.h"
 RGB pink = { 255,89,199 }, white_pink = { 255,217,254 }, light_pink = { 255,129,216 }, black = { 0,0,0 }, white = { 255,255,255 }, default_white = { 242,242,242 };
-void RGBPrint(int x, int y, wstring text, RGB textColor, RGB bgColor, bool bold) {
+void RGBPrint(int x, int y, wstring text, RGB textColor, RGB bgColor, bool fromFile) {
     GotoXY(x, y);
-    int OldMode = _setmode(_fileno(stdout), _O_WTEXT);
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    int OldMode;
+    if (fromFile) {
+        SetConsoleOutputCP(CP_UTF8);
+    } else {
+        OldMode = _setmode(_fileno(stdout), _O_WTEXT);
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    }
     wcout << "\x1b[38;2;" << textColor.R << ";" << textColor.G << ";" << textColor.B << "m";//text color
     wcout << "\x1b[48;2;" << bgColor.R << ";" << bgColor.G << ";" << bgColor.B << "m";//bg color
-    if (bold) wcout << "\x1b[1m";
     wcout << text;
-    _setmode(_fileno(stdout), OldMode);
+    if (!fromFile) _setmode(_fileno(stdout), OldMode);
+    
 }
 void printColoredText(int x, int y, wstring text, int textColor, int bgColor) {	//in text tại vị trí x,y với màu textColor
     int OldMode = _setmode(_fileno(stdout), _O_WTEXT);							//bgColor nền

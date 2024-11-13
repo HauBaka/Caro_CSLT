@@ -136,6 +136,7 @@
     <ClCompile Include="ModelUtils.cpp" />
     <ClCompile Include="SettingsScreen.cpp" />
     <ClCompile Include="terminalUtils.cpp" />
+    <ClCompile Include="FileConfiguration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio.h" />
@@ -146,6 +147,7 @@
     <ClInclude Include="ModelUtils.h" />
     <ClInclude Include="SettingsScreen.h" />
     <ClInclude Include="terminalUtils.h" />
+    <ClInclude Include="FileConfiguration.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

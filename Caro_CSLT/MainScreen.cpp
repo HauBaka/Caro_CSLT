@@ -1,9 +1,7 @@
 ﻿#include "MainScreen.h"
 void drawQuitOptions() {
 	drawPanel(100, 20, 4);
-	
-	RGBPrint(120, 24, L"Want to quit?", white, light_pink, true);
-
+	RGBPrint(122, 24, L"Want to quit?", white, light_pink, true);
 	RGBPrint(123, 26, L"\033[4mYES\033[0m", white, light_pink, true);
 	RGBPrint(131, 26, L"NO", white, light_pink, true);
 	bool check = true;
@@ -23,7 +21,6 @@ void drawQuitOptions() {
 					RGBPrint(131, 26, L"\033[4mNO\033[0m", white, light_pink, true);
 				}
 			}
-
 		}
 	}
 	if (check) ExitProcess(0);
@@ -34,9 +31,7 @@ void drawQuitOptions() {
 }
 void MainScreen(int currentSelect, bool playBGM, bool clear) {
 	if (playBGM) playSound(1, true);
-	if (clear) for (int i = 16; i < 42; i++) {
-		clearLine(i);
-	}
+	if (clear) for (int i = 16; i < 42; i++) clearLine(i);
 	int previousSelect =0;
 	drawMainMenu_Play(10, 20, true);
 	drawMainMenu_Options(10, 25, true);
@@ -67,7 +62,8 @@ void MainScreen(int currentSelect, bool playBGM, bool clear) {
 			//xóa đánh dấu cũ
 			drawTriagle(55, 20 + previousSelect * 5, false);
 			//đánh dấu mới
-			drawTriagle(55, 20 + currentSelect * 5, draw_tria);
+			drawTriagle(55, 20 + currentSelect * 5, true);
+			index = 400;
 		}
 		Sleep(50);
 		index += 50;

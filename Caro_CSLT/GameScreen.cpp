@@ -138,13 +138,12 @@ void StartGame(int mode) {
 	drawLOGO((172 - 73) / 2, 5);
 	GameScreen(0);
 }
-void GameScreen(int state) {//state = 0: select mode, state = 1: in-game screen
+void GameScreen(int state) {//0: select mode,1: in-game screen
 	if (state == 0) {
 		drawPanel(100, 20, 5);
 
 		wstring options[4] = {L"Player vs Player", L"Player vs Bot(Coming soon)", L"LOAD GAME", L"BACK TO MAIN MENU"};
 		int currentSelect = 0, previousSelect = 0;
-		//RGBPrint(100+20, 20 + 6, L"Player vs Player", { 255,255,255 }, { 255,129,216 }, true);
 		int n, size = 4;
 		for (int i = 0; i < size; i++) {
 			if (i==0) RGBPrint(126 - ((int)options[i].length()) / 2, 23 + 2 * i, L">> " + options[i] + L" <<", {255,255,255}, { 255,129,216 }, true);

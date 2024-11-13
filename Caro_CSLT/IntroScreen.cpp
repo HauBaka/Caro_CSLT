@@ -17,12 +17,6 @@ string animatedText(string s, int& index) {
 	return s.substr(0, index) + " " + s.substr(index + 1, s.size());
 }
 void startIntroScreen() {
-
-	//drawMainMenu_Play(10, 20, true);
-	//drawMainMenu_Options(10, 25, true);
-	//drawMainMenu_Authors(10, 30, true);
-	//drawMainMenu_Out(10, 35, true);
-
 	playSound(2, true);
 	drawLOGO(50, 5);
 	int count = 0, index =0;
