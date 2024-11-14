@@ -60,6 +60,6 @@ void SetUpWindow() {
 	FixConsoleWindow();
 	ShowConsoleCursor(false);
 	system("color F1");
-
+	SetConsoleTitleA("GROUP 6 | 24CTT3 | HCMUS");
 	SetConsoleOutputCP(CP_UTF8);
 }

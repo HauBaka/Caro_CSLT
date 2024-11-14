@@ -6,11 +6,10 @@ vector<wstring> toKeyValue(wstring s) {
 		s.pop_back();
 	}
 	vector<wstring> result = { {},{} };
-	for (int i = 0; i < s.size()-2; i++) {
+	for (int i = 0; i < s.size(); i++) {
 		if (s[i] == ':') {
 			result[0] = s.substr(0, i);
-			result[1] = s.substr(i + 3);
-			result[1] = result[1].substr(0, result[1].size() - 1);
+			result[1] = s.substr(i + 2);
 			RGBPrint(0,i,result[0] + L": "+ result[1], black, default_white, true);
 			return result;
 		}
@@ -18,9 +17,9 @@ vector<wstring> toKeyValue(wstring s) {
 	return result;
 }
 bool loadConfiguration(FILE* file) {
-	if (file == NULL) return false;
+	if (file == NULL) return 0;
 	//kiểm tra file đã được load chưa
-	for (int i = 0; i < yaml_loaded.size(); i++) if (yaml_loaded[i].file == file) return 0;
+	for (int i = 0; i < yaml_loaded.size(); i++) if (yaml_loaded[i].file == file) return 1;
 	//nạp file
 	FileConfiguration yaml = { file, {}, {} };
 	wchar_t s[256];

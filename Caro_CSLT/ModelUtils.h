@@ -30,8 +30,11 @@ void drawMainMenu_Authors(int, int, bool);
 void drawMainMenu_Out(int, int, bool);
 void drawTriagle(int, int, bool);
 void drawPanel(int, int, int);
+void drawMiniPanel();
 void removePanel(int, int, int);
 void drawSlider(int, int, int, int);
 void drawDOT(int, int);
 void drawCheckBox(int, int, RGB);
+void fill(RGB);
+void drawInGameHeader(int, int);
 #endif
