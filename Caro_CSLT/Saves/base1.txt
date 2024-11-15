@@ -1,19 +1,19 @@
-time-left: 15
+time-left: 11
 turn: 1
 ratio: 0 0
-hits: 0 0
-history-1: No data
-history-2: No data
-history-3: No data
-history-4: No data
-history-5: No data
-board-line-01: 0 0 0 0 0 0 0 0 1 2 0 0 0 0 0 
-board-line-02: 0 0 0 2 2 1 2 1 2 1 0 0 0 0 0 
-board-line-03: 0 0 1 2 1 2 1 2 1 2 0 0 0 0 0 
-board-line-04: 0 0 0 1 0 2 1 2 1 0 0 0 0 0 0 
-board-line-05: 0 0 2 0 1 2 1 1 2 0 0 0 0 0 0 
-board-line-06: 0 0 1 1 2 2 1 2 0 0 0 0 0 0 0 
-board-line-07: 0 0 0 2 1 1 2 0 0 0 0 0 0 0 0 
-board-line-08: 0 0 0 2 1 0 0 0 0 0 0 0 0 0 0 
+hits: 11 11
+history-1: 696
+history-2: 686
+history-3: 676
+history-4: 667
+history-5: 662
+board-line-01: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+board-line-02: 0 2 1 2 1 2 1 1 2 1 0 0 0 0 0 
+board-line-03: 0 0 0 0 0 2 0 0 0 2 0 0 0 0 0 
+board-line-04: 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 
+board-line-05: 0 0 0 0 0 2 0 0 0 2 0 0 0 0 0 
+board-line-06: 1 2 0 0 0 1 2 1 2 1 0 0 0 0 0 
+board-line-07: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+board-line-08: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 board-line-09: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 board-line-10: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
