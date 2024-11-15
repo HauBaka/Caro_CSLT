@@ -10,7 +10,6 @@ vector<wstring> toKeyValue(wstring s) {
 		if (s[i] == ':') {
 			result[0] = s.substr(0, i);
 			result[1] = s.substr(i + 2);
-			RGBPrint(0,i,result[0] + L": "+ result[1], black, default_white, true);
 			return result;
 		}
 	}

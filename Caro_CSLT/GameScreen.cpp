@@ -1,6 +1,8 @@
 ﻿#include "GameScreen.h"
 #include "FileConfiguration.h"
+#include <wchar.h>
 GAME game;
+bool key_w = false, key_a = false, key_s = false, key_d = false;
 bool rowCheck(int value, int i, int j) {
 	int count = 0;
 	while (i < game.board_heigh && j < game.board_width) {
@@ -80,9 +82,9 @@ bool loadGame(string filename) {
 	FILE* savef;
 	fopen_s(&savef, ("./Saves/" + filename + ".txt").c_str(), "r");
 	if (loadConfiguration(savef)) {
+		wstring text;
 		game = {};
 		game.board_heigh = 10; game.board_width = 15;
-		wstring text;
 	   //load time & turn
 		game.time = getInt(savef, L"time-left");
 		game.turn = getInt(savef, L"turn");
@@ -105,7 +107,7 @@ bool loadGame(string filename) {
 			text = getString(savef, L"history-" + to_wstring(i + 1));
 			if (text == L"No data") break;
 			game.history.resize(i + 1);
-			game.history[i].first = text[0];
+			wcstombs_s(NULL, &game.history[i].first, 1, &text[0], 1);
 			game.history[i].second = stoi(text.substr(1));
 		};
 		//load board
@@ -145,32 +147,79 @@ bool saveGame(string filename) {
 	fclose(savef);
 	return 1;
 }
+void fixKeyboard() {
+	if (key_w) {
+		key_w = !key_w;
+		drawInGameKeyboard(123 + 13, 10 + 1, 'w', key_w, black, white_pink);
+	}
+	if (key_a) {
+		key_a = !key_a;
+		drawInGameKeyboard(123 + 3, 10 + 5, 'a', key_a, black, white_pink);
+	}
+	if (key_s) {
+		key_s = !key_s;
+		drawInGameKeyboard(123 + 13, 10 + 6, 's', key_s, black, white_pink);
+	}
+	if (key_d) {
+		key_d = !key_d;
+		drawInGameKeyboard(123 + 24, 10 + 5, 'd', key_d, black, white_pink);
+	}
+}
+void updateScreen() {
+	RGBPrint(16, 12, L"RATIO:", black, white_pink, false);
+	RGBPrint(22, 13, wstring(L"[X]: ") + ((game.ratio[0] < 10) ? L"0" : L"") + to_wstring(game.ratio[0]) + wstring(L" | [O]: ") + ((game.ratio[1] < 0) ? wstring(L"0") : wstring(L"")) + to_wstring(game.ratio[1]), black, white_pink, false);
+	
+	RGBPrint(16, 15, L"TIME: " + wstring((game.time < 10) ? L"0" : L"") + to_wstring(game.time) + L"s", black, white_pink, false);
+	
+	RGBPrint(16, 17, L"HITS:", black, white_pink, false);
+	RGBPrint(22, 17, wstring(L"[X]: " + wstring((game.hits[0] < 10) ? L"0" : L"")) + to_wstring(game.hits[0]) + wstring(L" | [O]: ") + wstring((game.hits[1] < 10) ? L"0" : L"") + to_wstring(game.hits[1]), black, white_pink, false);
+	bool c = !game.turn;
+	for (int i = 0; i < game.history.size(); i++) {
+		if (i == 5) break;
+		string text = (c) ? "[X]" : "[O]";
+		c = !c;
+		RGBPrint(20, 25 + 2 * i, text, black, white_pink);
+		RGBPrint(30, 25 + 2 * i, game.history[i].first +string((game.history[i].second < 10) ? "0":"") + to_string(game.history[i].second), black, white_pink);
+	}
+}
+void drawScreen() {
+	fill(white_pink);
+	drawInGameHeader(3, 1);
+	//match statistics
+	drawInGamePanel_1(10,10, black, white_pink, white, white_pink);
+	//history
+	drawInGamePanel_2(12, 22, black, white_pink, white, white_pink);
+	//turn
+	drawInGamePanel_3(69, 6, black, white_pink, white, white_pink);
+	//keyboard
+	drawInGamePanel_4(123, 10, black, white_pink, white, white_pink);
+	drawInGameKeyboard(123 + 13, 10 + 1, 'w', key_w, black, white_pink);
+	drawInGameKeyboard(123 + 3, 10 + 5, 'a', key_a, black, white_pink);
+	drawInGameKeyboard(123 + 13, 10 + 6, 's', key_s, black, white_pink);
+	drawInGameKeyboard(123 + 24, 10 + 5, 'd', key_d, black, white_pink);
+	//
+	drawGameBoard(55, 16, 61, 21);
+	updateScreen();
+}
+
 void StartGame(int mode) {
 	system("cls");
 	int loc_x = 7;//[0,14]
 	int loc_y = 5;//[0,14]
 	int length = 61, width = 21;//10x15 cells
-	int x = 55, y = 17;
-
-	printColoredText(80, 20, L"Ấn W/A/S/D để di chuyển", 13, 15);
-	printColoredText(80, 21, L"Ấn 'ENTER' để đặt", 13, 15);
-	printColoredText(80, 22, L"Ấn 'Q' để quay lại", 13   , 15);
-
-	fill(white_pink);
-	drawInGameHeader(3, 2);
-	drawGameBoard(x, y, length, width);
-	GameScreen(1);
-
+	int x = 55, y = 16, count = 0;
+	drawScreen();
+	GameScreen(1);//??????????????????????
 	//nếu game đc nạp lại thì load cả board
 	for (int i =0;i<game.board_heigh;i++) 
 		for (int j =0;j<game.board_width;j++) printColoredText(x + 2 + j * 4, y + 2 * i + 1, (game.board[i][j] == 0 ? L" " : game.board[i][j] == 1 ? L"✖":L"⚫"), 0, 15);
 	printColoredText(x + 2 + loc_x * 4, y + 2 * loc_y + 1, (game.board[loc_y][loc_x] == 0 ? L" " : game.board[loc_y][loc_x] == 1 ? L"✖" : L"⚫"), 0, 7);
-	drawTurn(game.turn, 150, 10);
+	drawTurn(game.turn, 69, 6, light_pink, pink, white_pink);
 	bool check = false;
 	while (true) {
 		if (_kbhit()) {
 			int n = _getch();
-			char c =(char) tolower(n);
+			char c = (char)tolower(n);
 			if (c == 'q') {
 				if (enableSFX) playSound(3, 0);
 				break;
@@ -183,54 +232,73 @@ void StartGame(int mode) {
 				if (enableSFX) playSound(3, 0);
 				if (check) continue;
 				if (game.board[loc_y][loc_x] == 0) {
+					game.history.insert(game.history.begin(), {65+loc_y, loc_x+1});
 					game.board[loc_y][loc_x] = game.turn ? 1 : 2;
-					printColoredText(x + 2 + loc_x * 4, y + 2 * loc_y + 1, (game.board[loc_y][loc_x] == 0 ? L" " : game.board[loc_y][loc_x] == 1 ? L"✖":L"⚫"), 0, 7);
-					int x, y;
-					if (game.turn) check = checkWin(1,x,y);
+					printColoredText(x + 2 + loc_x * 4, y + 2 * loc_y + 1, (game.board[loc_y][loc_x] == 0 ? L" " : game.board[loc_y][loc_x] == 1 ? L"✖" : L"⚫"), 0, 7);
+					int x, y;//???????????????????????
+					if (game.turn) check = checkWin(1, x, y);
 					else  check = checkWin(2, x, y);
 					if (check) {
 						if (game.turn) {
 							printColoredText(30, 4, "X WONNNNNNNNNN", 4, 15);
-						} else
+						}
+						else
 							printColoredText(30, 4, "O WONNNNNNNNNN", 4, 15);
 					}
 					else {
-						game.turn = !game.turn;
-						drawTurn(game.turn, 150, 10);
+						if (game.time >= 0) {
+							game.time = 15;
+							count = 0;
+							if (game.turn) game.hits[0]++;
+							else game.hits[1]++;
+							game.turn = !game.turn;
+							drawTurn(game.turn, 69, 6, light_pink, pink, white_pink);
+						}
+						else {
+							//time out!
+						}
 					}
 				}
 			}
-			else if (c=='w' or c=='a' or c=='s' or  c== 'd') {
+			else if (c == 'w' or c == 'a' or c == 's' or c == 'd') {
 				if (enableSFX) playSound(3, 0);
-				printColoredText(x + 2 + loc_x * 4, y + 2 * loc_y + 1, (game.board[loc_y][loc_x] == 0 ? L" " : game.board[loc_y][loc_x] == 1 ? L"✖":L"⚫"),0,15);
+				printColoredText(x + 2 + loc_x * 4, y + 2 * loc_y + 1, (game.board[loc_y][loc_x] == 0 ? L" " : game.board[loc_y][loc_x] == 1 ? L"✖" : L"⚫"), 0, 15);
 				switch (c) {
-				case 'w': 
+				case 'w':
 					loc_y = (loc_y == 0) ? loc_y : loc_y - 1;
+					key_w = !key_w;
+					drawInGameKeyboard(123 + 13, 10 + 1, 'w', key_w, black, white_pink);
 					break;
 				case 'a':
 					loc_x = (loc_x == 0) ? loc_x : loc_x - 1;
+					key_a = !key_a;
+					drawInGameKeyboard(123 + 3, 10 + 5, 'a', key_a, black, white_pink);
 					break;
 				case 'd':
-					loc_x = (loc_x == game.board_width-1) ? loc_x : loc_x + 1;
+					loc_x = (loc_x == game.board_width - 1) ? loc_x : loc_x + 1;
+					key_d = !key_d;
+					drawInGameKeyboard(123 + 24, 10 + 5, 'd', key_d, black, white_pink);
 					break;
 				case 's':
-					loc_y = (loc_y == game.board_heigh-1) ? loc_y : loc_y + 1;
+					loc_y = (loc_y == game.board_heigh - 1) ? loc_y : loc_y + 1;
+					key_s = !key_s;
+					drawInGameKeyboard(123 + 13, 10 + 6, 's', key_s, black, white_pink);
 					break;
 				}
-				//GotoXY(0, 0);
-				//cout << "                            ";
-				//GotoXY(0, 0);
-				//cout << loc_y << "|" << loc_x;
-				//for (int i = 0; i < game.board.size(); i++) {
-
-				//	GotoXY(0, i+1);
-				//	cout << game.board.size() << "-" << game.board[i].size();
-				//}
-				printColoredText(x + 2 + loc_x * 4, y + 2 * loc_y + 1, (game.board[loc_y][loc_x] == 0 ? L" " : (game.board[loc_y][loc_x] == 1 ? L"✖":L"⚫")), 0, 7);
+				printColoredText(x + 2 + loc_x * 4, y + 2 * loc_y + 1, (game.board[loc_y][loc_x] == 0 ? L" " : (game.board[loc_y][loc_x] == 1 ? L"✖" : L"⚫")), 0, 7);
 			}
+		};
+		Sleep(50);
+		count += 50;
+		if (count >= 1000) {
+			game.time -= 1;
+			count = 0;
 		}
+		updateScreen();
+		fixKeyboard();
 	}
 	system("cls");
+	fill(white);
 	drawLOGO((172 - 73) / 2, 5);
 	GameScreen(0);
 }
@@ -277,7 +345,7 @@ void GameScreen(int state) {//0: PVP, 1: PVE, 2:Load,3:Save
 		case 0: {
 			short a[2] = { 0 };
 			vector<vector<int>> board = vector<vector<int>>(10, vector<int>(15));
-			setupGame(0, 15, a, a, {}, board);
+			setupGame(1, 15, a, a, {}, board);
 			StartGame(0);
 			break;
 		}

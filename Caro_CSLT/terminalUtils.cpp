@@ -56,6 +56,16 @@ void drawOptions(int x, int y, string options[], int size, int& currentSelect, i
 		}
 	}
 }
+char getCharAtCoord(COORD coord) {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); 
+	char ch;
+	DWORD charsRead;
+
+	if (ReadConsoleOutputCharacterA(hConsole, &ch, 1, coord, &charsRead)) {
+		return ch;  
+	}
+	return '\0';
+}
 void SetUpWindow() {
 	FixConsoleWindow();
 	ShowConsoleCursor(false);

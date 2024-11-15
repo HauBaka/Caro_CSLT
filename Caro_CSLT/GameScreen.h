@@ -19,4 +19,8 @@ bool rightDiagonalCheck(int, int, int);
 bool checkWin(int, int&, int&);
 void StartGame(int);
 void GameScreen(int);
+bool fileExists(string);
+bool loadGame(string);
+bool saveGame(string);
+void setupGame(bool, short, short[2], short[2], vector<pair<char, short>>, vector<vector<int>>);
 #endif

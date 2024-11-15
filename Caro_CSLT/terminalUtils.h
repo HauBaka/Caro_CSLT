@@ -12,5 +12,6 @@ void ShowConsoleCursor(bool);
 void GotoXY(int, int);
 void clearLine(int);
 void drawOptions(int,int,string options[], int, int&, int&);
+char getCharAtCoord(COORD);
 void SetUpWindow();
 #endif

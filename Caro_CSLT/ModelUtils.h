@@ -14,14 +14,15 @@ struct RGB {
 extern RGB pink, white_pink, light_pink, black, white, default_white;
 
 void RGBPrint(int, int, wstring, RGB, RGB, bool);
+void RGBPrint(int, int, string, RGB, RGB);
 void printColoredText(int, int, wstring, int, int);
 void printColoredText(int, int, string, int, int);
 void BetterDraw(int, int, string, int); 
 void BetterDraw(int, int, wstring, int);
 void drawLOGO(int, int);
 void veMay(int, int); 
-void drawPlayer(bool, bool, int, int, int, int);
-void drawTurn(bool, int, int);
+void drawPlayer(bool, bool, int, int, RGB, RGB);
+void drawTurn(bool, int, int, RGB, RGB, RGB);
 void drawGameBoard(int, int, int, int);
 void drawStartButton(int, int);
 void drawMainMenu_Play(int, int, bool);
@@ -30,11 +31,16 @@ void drawMainMenu_Authors(int, int, bool);
 void drawMainMenu_Out(int, int, bool);
 void drawTriagle(int, int, bool);
 void drawPanel(int, int, int);
-void drawMiniPanel();
 void removePanel(int, int, int);
 void drawSlider(int, int, int, int);
 void drawDOT(int, int);
 void drawCheckBox(int, int, RGB);
 void fill(RGB);
 void drawInGameHeader(int, int);
+void drawInGamePanel_1(int, int, RGB, RGB, RGB, RGB);
+void drawInGamePanel_2(int, int, RGB, RGB, RGB, RGB);
+void drawInGamePanel_3(int, int, RGB, RGB, RGB, RGB);
+void drawInGamePanel_4(int, int, RGB, RGB, RGB, RGB);
+void drawInGameKeyboard(int, int, char, bool, RGB, RGB);
+void drawKeyCap(int, int, bool, RGB, RGB);
 #endif
