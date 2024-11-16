@@ -217,18 +217,18 @@ void drawTurn(bool turn, int x, int y, RGB text_color1, RGB text_color2, RGB bac
         drawPlayer(false, true, x+18, y + 1, text_color2, background_color);//o
     }
 }
-void drawGameBoard(int x, int y, int length, int width) {
+void drawGameBoard(int x, int y, int length, int width, RGB border_color, RGB background_color) {
     for (int i = 0; i < length; i++) {
         for (int j = 0; j < width; j++) {
-            if (i == 0 && j == 0) printColoredText(x + i, y + j, L"╔", 3, 15);
-            else if (i == 0 && j == width - 1) printColoredText(x + i, y + j, L"╚", 3, 15);
-            else if (i == length - 1 && j == 0)  printColoredText(x + i, y + j, L"╗", 3, 15);
-            else if (i == length - 1 && j == width - 1)  printColoredText(x + i, y + j, L"╝", 3, 15);
-            else if ((i == 0 or i == length - 1) && (j != 0 && j != width - 1))  printColoredText(x + i, y + j, L"║", 3, 15);
-            else if ((i != 0 && i != length - 1) && (j == 0 or j == width - 1))   printColoredText(x + i, y + j, L"═", 3, 15);
+            if (i == 0 && j == 0) RGBPrint(x + i, y + j, L"╔",border_color, background_color, false);
+            else if (i == 0 && j == width - 1) RGBPrint(x + i, y + j, L"╚", border_color, background_color, false);
+            else if (i == length - 1 && j == 0)  RGBPrint(x + i, y + j, L"╗", border_color, background_color, false);
+            else if (i == length - 1 && j == width - 1)  RGBPrint(x + i, y + j, L"╝", border_color, background_color, false);
+            else if ((i == 0 or i == length - 1) && (j != 0 && j != width - 1))  RGBPrint(x + i, y + j, L"║", border_color, background_color, false);
+            else if ((i != 0 && i != length - 1) && (j == 0 or j == width - 1))   RGBPrint(x + i, y + j, L"═", border_color, background_color, false);
             else {
-                if ((j % 2 == 1 && i % 4 == 1)) printColoredText(x + i, y + j, L"   │", 3, 15);
-                if (j % 2 == 0 && i % 4 == 1) printColoredText(x + i, y + j, L"───┼", 3, 15);
+                if ((j % 2 == 1 && i % 4 == 1)) RGBPrint(x + i, y + j, L"   │", border_color, background_color, false);
+                if (j % 2 == 0 && i % 4 == 1) RGBPrint(x + i, y + j, L"───┼", border_color, background_color, false);
             }
         }
     }
@@ -646,4 +646,25 @@ void drawInGameKeyboard(int x, int y, char key, bool status, RGB on_color, RGB o
         RGBPrint(x + 3, y + 3, L"▀", on_color, off_color, false);
         break;
     }
+}
+void drawSavingGamePanel(int x, int y, RGB border_color, RGB background_color, RGB dot_color, RGB outside_color) {
+    //line 1
+    RGBPrint(x, y, L" ▄", border_color, outside_color, false);
+    RGBPrint(x + 2, y, L"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", border_color, background_color, false);
+    RGBPrint(x + 2 + 29, y, L"▄ ", border_color, outside_color, false);
+    //line n
+    for (int i = 0; i < 5; i++) {
+        RGBPrint(x, y + i + 1, L"█                               █", border_color, background_color, false);
+    }
+    //line n+1
+    RGBPrint(x, y + 6, L" ▀▄                           ▄▀ ", border_color, outside_color, false);
+    RGBPrint(x + 2, y + 6, L"▄                           ▄", border_color, background_color, false);
+    //last line
+    RGBPrint(x, y + 7, L"   ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀   ", border_color, outside_color, false);
+    RGBPrint(x + 3, y + 7, L"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", border_color, { 220,220,220 }, false);
+    //draw dot
+    RGBPrint(x + 3, y + 1, L"▄", dot_color, background_color, false);
+    RGBPrint(x + 29, y + 1, L"▄", dot_color, background_color, false);
+    RGBPrint(x + 3, y + 5, L"▄", dot_color, background_color, false);
+    RGBPrint(x + 29, y + 5, L"▄", dot_color, background_color, false);
 }

@@ -23,7 +23,7 @@ void drawLOGO(int, int);
 void veMay(int, int); 
 void drawPlayer(bool, bool, int, int, RGB, RGB);
 void drawTurn(bool, int, int, RGB, RGB, RGB);
-void drawGameBoard(int, int, int, int);
+void drawGameBoard(int, int, int, int, RGB, RGB);
 void drawStartButton(int, int);
 void drawMainMenu_Play(int, int, bool);
 void drawMainMenu_Options(int, int, bool);
@@ -43,4 +43,5 @@ void drawInGamePanel_3(int, int, RGB, RGB, RGB, RGB);
 void drawInGamePanel_4(int, int, RGB, RGB, RGB, RGB);
 void drawInGameKeyboard(int, int, char, bool, RGB, RGB);
 void drawKeyCap(int, int, bool, RGB, RGB);
+void drawSavingGamePanel(int, int, RGB, RGB, RGB, RGB);
 #endif
