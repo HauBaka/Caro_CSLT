@@ -1,6 +1,5 @@
 ﻿#include "GameScreen.h"
-#include "FileConfiguration.h"
-#include <wchar.h>
+
 GAME game;
 bool key_w = false, key_a = false, key_s = false, key_d = false;
 bool rowCheck(int value, int i, int j) {

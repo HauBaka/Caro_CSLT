@@ -4,6 +4,6 @@
 #include "ModelUtils.h"
 #include "Caro_CSLT.h"
 #include "FileConfiguration.h"
-string animatedText(string, int&);
+wstring animatedText(wstring, int&);
 void startIntroScreen();
 #endif

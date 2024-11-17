@@ -125,6 +125,7 @@ void BetterDraw(int x, int y, wstring text, int bgcolor) {
         _preText = _text;
     }
 }
+
 void drawLOGO(int x, int y) {
     RGBPrint(x, y,     L" ██████╗ █████╗ ██████╗  ██████╗ ✖⚫   ██████╗  █████╗ ███╗   ███╗███████╗", black, white_pink, false);
     RGBPrint(x, y + 1, L"██╔════╝██╔══██╗██╔══██╗██╔═══██╗    ██╔════╝ ██╔══██╗████╗ ████║██╔════╝", black, white_pink, false);
@@ -170,6 +171,7 @@ void veMay(int x, int y) {
     //█                         ▀▄
     //▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 }
+
 void drawPlayer(bool player, bool border, int x, int y, RGB  color, RGB bgcolor) {
     if (player) {//turn x
         if (border) {
@@ -236,6 +238,7 @@ void drawGameBoard(int x, int y, int length, int width, RGB border_color, RGB ba
         }
     }
 }
+
 void drawStartButton(int x, int y) {
     /*
  ▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄
@@ -323,6 +326,7 @@ void drawTriagle(int x, int y, bool show) {
     }
 
 }
+
 void drawPanel(int x, int y, int lines) {//52 in length
 // ▄▀▀▀▄                                             ▄▀▀▀▄
 //█ ▄█▄ █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█ ▄█▄ █
@@ -416,9 +420,11 @@ void drawCheckBox(int x, int y, RGB color) {
     RGBPrint(x, y + 1, L"▀   ▀", black, light_pink, false);
     RGBPrint(x+1, y + 1, L"▄▄▄", black, color, false);
 }
+
 void fill(RGB color) {
     for (int i = 0; i < 42; i++) RGBPrint(0, i, L"                                                                                                                                                                             ", color, color, false);
 }
+
 void drawInGameHeader(int x, int y) {
     wstring lines[] =
     {

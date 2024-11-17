@@ -6,6 +6,8 @@
 #include <vector>
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
 #include <experimental/filesystem>
+#include "FileConfiguration.h"
+#include <wchar.h>
 using namespace std; 
 
 namespace fs = std::experimental::filesystem;
@@ -24,12 +26,21 @@ bool colCheck(int , int , int);
 bool leftDiagonalCheck(int, int, int);
 bool rightDiagonalCheck(int, int, int);
 bool checkWin(int, int&, int&);
-void StartGame(bool);
-void GameScreen(int);
+
 bool fileExists(string);
 bool loadGame(string);
 bool saveGame();
-void setupGame(string,bool, short, short[2], short[2], vector<pair<short, short>>, vector<vector<int>>);
+void saveGameScreen(bool);
+
+void fixKeyboard();
+void updateScreen();
+void drawTheScreen();
+
+void StartGame(bool);
+void setupGame(string, bool, short, short[2], short[2], vector<pair<short, short>>, vector<vector<int>>);
+int loadAllSaves(vector<string>&);
+string gameEditor_name(int, int, RGB, RGB, RGB);
+void gameEditor_remove(string);
 void loadSaveGameEditor(string, bool);
-string gameEditor_name(int x, int y, RGB text_color, RGB background_color, RGB selected_color);
+void GameScreen(int);
 #endif
