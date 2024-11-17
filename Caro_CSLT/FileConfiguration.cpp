@@ -18,7 +18,7 @@ vector<wstring> toKeyValue(wstring s) {
 bool loadConfiguration(FILE* file) {
 	if (file == NULL) return 0;
 	//kiểm tra file đã được load chưa
-	for (int i = 0; i < yaml_loaded.size(); i++) if (yaml_loaded[i].file == file) return 1;
+	//for (int i = 0; i < yaml_loaded.size(); i++) if (yaml_loaded[i].file == file) return 1;
 	//nạp file
 	FileConfiguration yaml = { file, {}, {} };
 	wchar_t s[256];

@@ -154,11 +154,12 @@ bool saveGame() {
 }
 void saveGameScreen(bool refresh) {
 	if (refresh) drawSavingGamePanel(69, 22, black, white_pink, white_pink, white_pink);
-	RGBPrint(71, 24, L"✍  Name:", black, light_pink, false);
-	RGBPrint(80, 24, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(game.name), black, white_pink, false);
+	RGBPrint(71, 24, L"✍  ", black, light_pink, false);
+	RGBPrint(74, 24, getwstring(language, L"save_name")+L":", black, light_pink, true);
+	RGBPrint(76+(int) getwstring(language, L"save_name").size(), 24, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(game.name), black, white_pink, false);
 
-	RGBPrint(90, 26, L"[SAVE]", black, white_pink, true);
-	RGBPrint(75, 26, L"[CANCEL]", black, white_pink, true);
+	RGBPrint(90, 26, getwstring(language, L"save_save"), black, white_pink, true);
+	RGBPrint(75, 26, getwstring(language, L"save_cancel"), black, white_pink, true);
 	bool isEditing = false;
 	string oldname = game.name;
 	int currentSelect = 0, previousSelect = 0;
@@ -177,25 +178,26 @@ void saveGameScreen(bool refresh) {
 			if (currentSelect != previousSelect) {
 				switch (previousSelect) {
 				case 0:
-					RGBPrint(71, 24, L"✍  Name: " + wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(game.name), black, white_pink, false);
+					RGBPrint(71, 24, L"✍  ", black, white_pink, false);
+					RGBPrint(74, 24, getwstring(language, L"save_name")+L": " + wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(game.name), black, white_pink, true);
 					break;
 				case 1:
-					RGBPrint(75, 26, L"[CANCEL]", black, white_pink, true);
+					RGBPrint(75, 26, getwstring(language, L"save_cancel"), black, white_pink, true);
 					break;
 				case 2:
-					RGBPrint(90, 26, L"[SAVE]", black, white_pink, true);
+					RGBPrint(90, 26, getwstring(language, L"save_save"), black, white_pink, true);
 					break;
 				}
 				switch (currentSelect) {
-
 				case 0:
-					RGBPrint(71, 24, L"✍  Name:", black, light_pink, false);
+					RGBPrint(71, 24, L"✍  ", black, light_pink, false);
+					RGBPrint(74, 24, getwstring(language, L"save_name")+L":", black, light_pink, true);
 					break;
 				case 1:
-					RGBPrint(75, 26, L"[CANCEL]", black, light_pink, true);
+					RGBPrint(75, 26, getwstring(language, L"save_cancel"), black, light_pink, true);
 					break;
 				case 2:
-					RGBPrint(90, 26, L"[SAVE]", black, light_pink, true);
+					RGBPrint(90, 26, getwstring(language, L"save_save"), black, light_pink, true);
 					break;
 				}
 			}
@@ -245,13 +247,13 @@ void fixKeyboard() {
 	}
 }
 void updateScreen() {
-	RGBPrint(16, 12, L"RATIO:", black, white_pink, false);
+	RGBPrint(16, 12, getwstring(language, L"ingame_ratio"), black, white_pink, true);
 	RGBPrint(22, 13, wstring(L"[X]: ") + ((game.ratio[0] < 10) ? L"0" : L"") + to_wstring(game.ratio[0]) + wstring(L" | [O]: ") + ((game.ratio[1] < 0) ? wstring(L"0") : wstring(L"")) + to_wstring(game.ratio[1]), black, white_pink, false);
 	
-	RGBPrint(16, 15, L"TIME: " + wstring((game.time < 10) ? L"0" : L"") + to_wstring(game.time) + L"s", black, white_pink, false);
+	RGBPrint(16, 15,getwstring(language, L"ingame_time") + L": " + wstring((game.time < 10) ? L"0" : L"") + to_wstring(game.time) + L"s", black, white_pink, true);
 	
-	RGBPrint(16, 17, L"HITS:", black, white_pink, false);
-	RGBPrint(22, 17, wstring(L"[X]: " + wstring((game.hits[0] < 10) ? L"0" : L"")) + to_wstring(game.hits[0]) + wstring(L" | [O]: ") + wstring((game.hits[1] < 10) ? L"0" : L"") + to_wstring(game.hits[1]), black, white_pink, false);
+	RGBPrint(16, 17,getwstring(language, L"ingame_hits")+ L":", black, white_pink, true);
+	RGBPrint(16 + (int)getwstring(language, L"ingame_hits").size(), 17, wstring(L"[X]: " + wstring((game.hits[0] < 10) ? L"0" : L"")) + to_wstring(game.hits[0]) + wstring(L" | [O]: ") + wstring((game.hits[1] < 10) ? L"0" : L"") + to_wstring(game.hits[1]), black, white_pink, false);
 	bool c = !game.turn;
 	for (int i = 0; i < game.history.size(); i++) {
 		if (i == 5) break;
@@ -425,64 +427,78 @@ int loadAllSaves(vector<string> &saves) {
 string gameEditor_name(int x, int y, RGB text_color, RGB background_color, RGB selected_color) {//default: x=112, y=27
 	ShowConsoleCursor(true);
 	string newname = game.name;
-	GotoXY(x+9 + (int)game.name.size(), y);
+	GotoXY(x  + 2 + (int)getwstring(language, L"save_name").size() + (int)game.name.size(), y);//fix here
 	int n;
 	while (true) {///8: delete, 13: enter, 27: escape
 		if (_kbhit()) {
 			n = _getch();
-			if ((n >= 'A' && n <= 'Z') || (n>='a' && n<='z') || (n>='0' && n<='9') ||n=='_') {
+			if ((n >= 'A' && n <= 'Z') || (n>='a' && n<='z') || (n>='0' && n<='9') ||n=='_') {//write
 				if (newname.size() < 12) {
 					newname.push_back(n);
-					RGBPrint(x, y, L"✍  Name:                     ", text_color, background_color, false);
-					RGBPrint(x, y, L"✍  Name:", text_color, selected_color, false);
-					RGBPrint(x+9, y, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(newname) + L" ", text_color, background_color, false);
+					RGBPrint(x, y, L"                             ", text_color, background_color, false);
+					RGBPrint(x, y, L"✍  ", text_color, selected_color, false);
+					RGBPrint(x+3, y, getwstring(language, L"save_name")+L":", text_color, selected_color, true);
+					RGBPrint(x+2+ (int)getwstring(language, L"save_name").size(), y, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(newname) + L" ", text_color, background_color, false);
 				}
 			}
 			if (n == 8) {//delete
 				if (newname.size() > 0) {
 					newname.pop_back();
-					RGBPrint(x, y, L"✍  Name:                     ", text_color, background_color, false);
-					RGBPrint(x, y, L"✍  Name:", text_color, selected_color, false);
-					RGBPrint(x + 9, y, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(newname) + L" ", text_color, background_color, false);
+					RGBPrint(x, y, L"                             ", text_color, background_color, false);
+					RGBPrint(x, y, L"✍  ", text_color, selected_color, false);
+					RGBPrint(x + 3, y, getwstring(language, L"save_name")+L":", text_color, selected_color, true);
+					RGBPrint(x + 2 + (int)getwstring(language, L"save_name").size(), y, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(newname) + L" ", text_color, background_color, false);
 				}
 			}
 			if (fileExists(newname) && newname != game.name) {
-				RGBPrint(x+8, y-1, L"File Exists!", {255,0,0}, background_color, false);
+				RGBPrint(x+8, y-1, getwstring(language, L"save_exists"), {255,0,0}, background_color, true);
 			}
 			else {
 				RGBPrint(x+8, y-1, L"             ", { 255,0,0 }, background_color, false);
 				if (n == 13 || n == 27) {
 					if (n == 13) {
 						if (newname.size() == 0) {
-							RGBPrint(x+8, y-1, L"Invalid name!", { 255,0,0 }, background_color, false);
+							RGBPrint(x+8, y-1, getwstring(language, L"save_invalidName"), {255,0,0}, background_color, true);
 							gameEditor_name(x, y, text_color, background_color, selected_color);
 						}
 					}
 					else {
 						newname = game.name;
-						RGBPrint(x, y, L"✍  Name:", text_color, selected_color, false);
-						RGBPrint(x + 9, y, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(newname) + L" ", text_color, background_color, false);
+						RGBPrint(x, y, L"✍  ", text_color, selected_color, false);
+						RGBPrint(x+3, y, getwstring(language, L"save_name")+L":", text_color, selected_color, true);
+
+						RGBPrint(x + 2 + (int)getwstring(language, L"save_name").size(), y, L"            ", text_color, background_color, false);
+						RGBPrint(x + 2 + (int)getwstring(language, L"save_name").size(), y, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(newname) + L" ", text_color, background_color, false);
 					}
 					break;
 				}
 			}
-			GotoXY(x+9 + (int)newname.size(), y);
+			GotoXY(x+2 + (int)getwstring(language, L"save_name").size() + (int)newname.size(), y);
 		}
 	}
-	RGBPrint(x, y, L"✍  Name:", text_color, selected_color, false);
-	RGBPrint(x + 9, y, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(newname) + L" ", text_color, background_color, false);
+	RGBPrint(x, y, L"✍      :", text_color, selected_color, false);
+	RGBPrint(x + 3, y, getwstring(language, L"save_name"), text_color, selected_color, true);
+	RGBPrint(x + 2 + (int)getwstring(language, L"save_name").size(), y, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(newname) + L" ", text_color, background_color, false);
 	ShowConsoleCursor(false);
 	return newname;
 }
 void gameEditor_remove(string savename) {
 	int second_to_remove = 7;
-	RGBPrint(123 - 15, 33, L"REMOVE IN " + to_wstring(second_to_remove) + L"s (Press any key to cancel)", black, light_pink, false);
+	wstring _message = getwstring(language, L"save_remove_countdown"), message;
+	int index = 0;
+	for (int i = 0; i < _message.size(); i++) if (_message[i] == '%') {
+		index = i;
+		message = _message.substr(0, index) + to_wstring(second_to_remove) + _message.substr(index + 2);
+		break;
+	}
+	RGBPrint(123 - 15, 33, message, black, light_pink, true);
 	while (true) {
 		if (_kbhit()) {
 			_getch();
 			break;
 		}
-		RGBPrint(123 - 15, 33, L"REMOVE IN " + to_wstring(second_to_remove) + L"s (Press any key to cancel)", black, light_pink, false);
+		message = _message.substr(0, index) + to_wstring(second_to_remove) + _message.substr(index + 2);
+		RGBPrint(123 - 15, 33,message, black, light_pink, true);
 		second_to_remove -= 1;
 		Sleep(1000);
 		if (second_to_remove <= 0) {
@@ -501,19 +517,17 @@ void loadSaveGameEditor(string savename, bool refresh) {
 	if (refresh) {
 		removePanel(100, 20, 13);
 		drawPanel(100, 20, 11);
-		RGBPrint(120, 23, L"SAVE EDITOR", black, light_pink, false);
+		RGBPrint(120, 23, getwstring(language, L"save_editor"), black, light_pink, true);
 	}
-	RGBPrint(123, 25, L"[LOAD GAME]", black, pink, false);
-
-	RGBPrint(112, 27, L"✍  Name: " + wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(savename), black, light_pink, false);
-	RGBPrint(115, 28, string("Turn: ") + string((game.turn) ? "[X]" : "[O]"), black, light_pink);
-	RGBPrint(115, 29, wstring(L"Time left: ") + wstring((game.time < 10) ? L"0" : L"") + to_wstring(game.time) + L"s", black, light_pink, false);
-	RGBPrint(115, 30, wstring(L"Ratio: ") + wstring(L"[X]: ") + ((game.ratio[0] < 10) ? L"0" : L"") + to_wstring(game.ratio[0]) + wstring(L" | [O]: ") + wstring((game.ratio[1] < 0) ? L"0" : L"") + to_wstring(game.ratio[1]), black, light_pink, false);
-	RGBPrint(115, 31, wstring(L"Hits: [X]: ") + wstring((game.hits[0] < 10) ? L"0" : L"") + to_wstring(game.hits[0]) + wstring(L" | [O]: ") + wstring((game.hits[1] < 10) ? L"0" : L"") + to_wstring(game.hits[1]), black, light_pink, false);
-
-
-	RGBPrint(123, 33, L"[REMOVE]", black, light_pink, false);
-	RGBPrint(123, 35, L" [BACK]", black, light_pink, false);
+	RGBPrint(123, 25, getwstring(language, L"save_load"), black, pink, true);
+	RGBPrint(112, 27, L"✍  ", black, light_pink, false);
+	RGBPrint(115, 27, getwstring(language, L"ingame_name") +L": " + wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(savename), black, light_pink, true);
+	RGBPrint(115, 28, getwstring(language, L"ingame_turn") + wstring(L": ") + wstring((game.turn) ? L"[X]" : L"[O]"), black, light_pink, true);
+	RGBPrint(115, 29, getwstring(language, L"ingame_timeleft") + wstring(L": ") + wstring((game.time < 10) ? L"0" : L"") + to_wstring(game.time) + L"s", black, light_pink, true);
+	RGBPrint(115, 30, getwstring(language, L"ingame_ratio") + wstring(L": ") + wstring(L"[X]: ") + ((game.ratio[0] < 10) ? L"0" : L"") + to_wstring(game.ratio[0]) + wstring(L" | [O]: ") + wstring((game.ratio[1] < 0) ? L"0" : L"") + to_wstring(game.ratio[1]), black, light_pink, true);
+	RGBPrint(115, 31, getwstring(language, L"ingame_hits") + wstring(L": [X]: ") + wstring((game.hits[0] < 10) ? L"0" : L"") + to_wstring(game.hits[0]) + wstring(L" | [O]: ") + wstring((game.hits[1] < 10) ? L"0" : L"") + to_wstring(game.hits[1]), black, light_pink, true);
+	RGBPrint(123, 33,getwstring(language, L"save_remove"), black, light_pink, true);
+	RGBPrint(123, 35, getwstring(language, L"save_back"), black, light_pink, true);
 	int n, currentSelect = 0,previousSelect = 0;
 	while (true) {
 		if (_kbhit()) {
@@ -531,30 +545,32 @@ void loadSaveGameEditor(string savename, bool refresh) {
 			if (currentSelect != previousSelect) {
 				switch (previousSelect) {
 				case 0:
-					RGBPrint(123, 25, L"[LOAD GAME]", black, light_pink, false);
+					RGBPrint(123, 25, getwstring(language, L"save_load"), black, light_pink, true);
 					break;
 				case 1:
-					RGBPrint(112, 27, L"✍  Name:", black, light_pink, false);
+					RGBPrint(112, 27, L"✍  ", black, light_pink, false);
+					RGBPrint(115, 27,getwstring(language, L"ingame_name") + L":", black, light_pink, true);
 					break;
 				case 2:
-					RGBPrint(123, 33, L"[REMOVE]", black, light_pink, false);
+					RGBPrint(123, 33, getwstring(language, L"save_remove"), black, light_pink, true);
 					break;
 				case 3:
-					RGBPrint(123, 35, L" [BACK]", black, light_pink, false);
+					RGBPrint(123, 35, getwstring(language, L"save_back"), black, light_pink, true);
 					break;
 				}
 				switch (currentSelect) {
 				case 0:
-					RGBPrint(123, 25, L"[LOAD GAME]", black, pink, false);
+					RGBPrint(123, 25, getwstring(language, L"save_load"), black, pink, true);
 					break;
 				case 1:
-					RGBPrint(112, 27, L"✍  Name:" , black, pink, false);
+					RGBPrint(112, 27, L"✍  ", black, pink, false);
+					RGBPrint(115, 27,  getwstring(language, L"ingame_name") + L":", black, pink, true);
 					break;
 				case 2:
-					RGBPrint(123, 33, L"[REMOVE]", black, pink, false);
+					RGBPrint(123, 33, getwstring(language, L"save_remove"), black, pink, true);
 					break;
 				case 3:
-					RGBPrint(123, 35, L" [BACK]", black, pink, false);
+					RGBPrint(123, 35, getwstring(language, L"save_back"), black, pink, true);
 					break;
 			   }
 			}
@@ -715,7 +731,7 @@ void GameScreen(int state) {//0: game menu, 1:new game menu, 2: load game menu
 		RGBPrint(108 + 38, 24 + 11, L">>", black, light_pink, false);
 
 		RGBPrint(108, 24 + 12, L"═══════════════════════════════════════════", black, light_pink, false);
-		RGBPrint(115, 24 + 13, "   BACK TO PLAY GAME MENU   ", black, light_pink);
+		RGBPrint(115, 24 + 13, L"   " + getwstring(language, L"play_back") +L"   ", black, light_pink, true);
 		//
 		if (saves_names.size() >= 1) {
 			RGBPrint(108 + 2, 24 + 2 * index + 1, string((index + 1 < 10) ? "0" : "") + to_string(index + 1), black, pink);
@@ -737,12 +753,13 @@ void GameScreen(int state) {//0: game menu, 1:new game menu, 2: load game menu
 						RGBPrint(108 + 2, 24 + 2 * previousSelect + 1, string((previousSelect + 1 + d < 10) ? "0" : "") + to_string(previousSelect + d + 1), black, light_pink);
 						RGBPrint(108 + 7 + (14 - (int)saves_names[previousSelect + d].size() / 2), 24 + 2 * previousSelect + 1, saves_names[previousSelect + d], black, light_pink);
 					} 
-					else RGBPrint(115, 24 + 13, "   BACK TO PLAY GAME MENU   ", black, light_pink);
+					else RGBPrint(115, 24 + 13, L"   " + getwstring(language, L"play_back") + L"   ", black, light_pink, true);
+					
 					if (index < maxindex) {
 						RGBPrint(108 + 2, 24 + 2 * index +  1, string((index + d +1 < 10) ? "0" : "") + to_string(index + d + 1), black, pink);
 						RGBPrint(108 + 7 + (14 - (int)saves_names[index + d].size() / 2), 24 + 2 * index + 1, saves_names[index + d], black, pink);
 					}
-					else RGBPrint(115, 24 + 13, ">> BACK TO PLAY GAME MENU <<", black, light_pink);
+					else RGBPrint(115, 24 + 13, L">> " + getwstring(language, L"play_back") + L" <<", black, light_pink, true);
 				}
 				if ((n == 'a' || n == 'd') && index < maxindex) {
 					if (n == 'a') currentpage = (currentpage == 1) ? maxpages : currentpage - 1;

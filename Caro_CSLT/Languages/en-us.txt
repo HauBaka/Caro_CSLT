@@ -2,17 +2,27 @@ name: English
 press_any_key_to_start: PRESS ANY KEY TO START YA
 play: Play
 play_newgame: NEW GAME
-play_loadgame: LOAD GAME
+play_loadgame: [LOAD GAME]
 play_back: BLACK TO PLAY GAME MENU
 play_pvp: Player vs Player
 play_pve: Player vs BOT
+ingame_name: NAME
+ingame_turn: Turn
 ingame_ratio: RATIO
 ingame_time: TIME
 ingame_hits: HITS
-save_cancel: CANCEL
-save_save: SAVE
+ingame_timeleft: Time left
+save_cancel: [CANCEL]
+save_save: [SAVE]
 save_id: ID
 save_name: Name
+save_editor: SAVE EDITOR
+save_load: [LOAD SAVE]
+save_remove: [REMOVE]
+save_remove_countdown: REMOVE IN %ds (Press any key to cancel)
+save_back: [BACK]
+save_exists: File Exists!
+save_invalidName: Invalid Name!
 back_to_main: BACK TO MAIN MENU
 settings_volume: Volume
 settings_sfx: Sound Effects

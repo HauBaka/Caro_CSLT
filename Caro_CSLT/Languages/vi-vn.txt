@@ -1,16 +1,36 @@
-name: 'Tiếng Việt'
-t: 'ahihi'
-press_any_key_to_start: 'NHẤN PHÍM BẤT KÌ ĐỂ BẮT ĐẦU'
-play: 'Chơi'
-pvp: 'Người chơi vs Người chơi'
-pve: 'Người chơi vs Máy'
-load_game: 'Tải game đã lưu'
-back_to_main: 'Quay lại menu chính'
-volume: 'Âm lượng'
-sfx: 'Hiệu ứng'
-bgm: 'Nhạc'
-language: 'Ngôn ngữ'
-coming_soon: 'Sắp có'
-message: 'Bạn có muốn thoát?'
-yes: 'Có'
-no: 'Không'
+name: Tiếng Việt
+press_any_key_to_start: NHẤN PHÍM BẤT KÌ ĐỂ BẮT ĐẦU
+play: CHƠI
+play_newgame: TRÒ CHƠI MỚI
+play_loadgame: [NẠP GAME]
+play_back: QUAY LẠI TRANG TRƯỚC
+play_pvp: Người chơi vs Người chơi
+play_pve: Người chơi vs Máy
+ingame_name: Bản lưu
+ingame_turn: Lượt
+ingame_ratio: TỈ SỐ
+ingame_time: THỜI GIAN
+ingame_hits: LƯỢT ĐÁNH
+ingame_timeleft: Thời gian còn lại
+save_cancel: [HỦY]
+save_save: [LƯU]
+save_id: Mã
+save_name: Bản lưu
+save_editor: SỬA BẢN LƯU
+save_load: [NẠP BẢN LƯU]
+save_remove: [XÓA]
+save_remove_countdown: Sẽ xóa trong %ds (Nhấn phím bất kì để hủy)
+save_back: [QUAY LẠI]
+save_exists: Tập tin đã tồn tại!
+save_invalidName: Tên không hợp lệ!
+back_to_main: QUAY LẠI TRANG TRƯỚC
+settings_volume: Âm lượng
+settings_sfx: Hiệu ứng
+settings_bgm: Nhạc
+settings_language: Ngôn ngữ
+coming_soon: Sắp có
+authors_name: Tên
+authors_id: MSSV
+quit_message: Bạn có chắc muốn thoát không
+quit_confirm: Có
+quit_cancel: Không

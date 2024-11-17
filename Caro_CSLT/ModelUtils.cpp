@@ -4,7 +4,9 @@ RGB pink = { 255,89,199 }, white_pink = { 255,217,254 }, light_pink = { 255,129,
 void RGBPrint(int x, int y, wstring text, RGB textColor, RGB bgColor, bool fromFile) {
     GotoXY(x, y);
     int OldMode;
+    UINT oldcp;
     if (fromFile) {
+        oldcp = GetConsoleOutputCP();
         SetConsoleOutputCP(CP_UTF8);
     } else {
         OldMode = _setmode(_fileno(stdout), _O_WTEXT);
@@ -13,6 +15,7 @@ void RGBPrint(int x, int y, wstring text, RGB textColor, RGB bgColor, bool fromF
     wcout << "\x1b[38;2;" << textColor.R << ";" << textColor.G << ";" << textColor.B << "m";//text color
     wcout << "\x1b[48;2;" << bgColor.R << ";" << bgColor.G << ";" << bgColor.B << "m";//bg color
     wcout << text;
+    if (fromFile) SetConsoleCP(oldcp);
     if (!fromFile) _setmode(_fileno(stdout), OldMode);
     
 }

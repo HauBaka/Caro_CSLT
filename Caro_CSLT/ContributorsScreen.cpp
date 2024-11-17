@@ -11,8 +11,8 @@ void ContributorsScreen() {
 						 {L"Đặng Thái Hòa	", L"24120312"} };
 
 	RGBPrint(111, 24, L"                 ║                 ", black, light_pink, false);
-	RGBPrint(111+(17-(int)text_name.size())/2, 24, text_name, black, light_pink, false);
-	RGBPrint(111 + 18 + (17 - (int)text_id.size()) / 2, 24, text_id, black, light_pink, false);
+	RGBPrint(111+(17-(int)text_name.size())/2, 24, text_name, black, light_pink, true);
+	RGBPrint(111 + 18 + (17 - (int)text_id.size()) / 2, 24, text_id, black, light_pink, true);
 	int _d = 0;
 	for (int i = 0; i < 10; i++) {
 		if (i % 2 == 0) RGBPrint(111, 25 + i, L"═════════════════╬═════════════════", black, light_pink, false);
@@ -24,7 +24,7 @@ void ContributorsScreen() {
 		}
 	}
 	RGBPrint(111, 35, L"═════════════════╩═════════════════", black, light_pink, false);
-	RGBPrint(117, 36, L">> "+ getwstring(language, L"text_id") + L" <<", black, light_pink, false);
+	RGBPrint(117, 36, L">> "+ text_back + L" <<", black, light_pink, true);
 	while (true) {
 		if (_kbhit()) {
 			_getch();

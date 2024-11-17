@@ -11,26 +11,26 @@ void drawVolume(bool isCurrent) {
 void drawSFX(bool isCurrent) {
 	wstring text = getwstring(language, L"settings_sfx");
 	if (isCurrent) RGBPrint(105, 27, L">> " + text+L":", white, light_pink, true);
-	else RGBPrint(105, 27, L"   "+text+L":", white, light_pink, false);
+	else RGBPrint(105, 27, L"   "+text+L":", white, light_pink, true);
 	if (enableSFX) drawCheckBox(110 + 15, 27, white_pink);
 	else drawCheckBox(110 + 15, 27, {81,81,81});
 }
 void drawBGM(bool isCurrent) {
 	wstring text = getwstring(language, L"settings_bgm");
-	if (isCurrent) RGBPrint(105, 30, L">> " + text+L":", white, light_pink, false);
-	else RGBPrint(105, 30, L"   " + text +L":", white, light_pink, false);
+	if (isCurrent) RGBPrint(105, 30, L">> " + text+L":", white, light_pink, true);
+	else RGBPrint(105, 30, L"   " + text +L":", white, light_pink, true);
 	if (enableBGM) drawCheckBox(110 + 15, 30, white_pink);
 	else drawCheckBox(110 + 15, 30, { 81,81,81 });
 }
 void drawLanguage(bool isCurrent) {
 	wstring text = getwstring(language, L"settings_language");
-	if (isCurrent) RGBPrint(105, 32, L">> " + text + L":", white, light_pink, false);
-	else RGBPrint(105, 32, L"   " + text + L":", white, light_pink, false);
+	if (isCurrent) RGBPrint(105, 32, L">> " + text + L":", white, light_pink, true);
+	else RGBPrint(105, 32, L"   " + text + L":", white, light_pink, true);
 }
 void drawBackOption(bool isCurrent) {
 	wstring text = getwstring(language, L"back_to_main");
-	if (isCurrent) RGBPrint(105, 34, L">> "+ text, white, light_pink, false);
-	else RGBPrint(105, 34, L"   "+ text, white, light_pink, false);
+	if (isCurrent) RGBPrint(105, 34, L">> "+ text, white, light_pink, true);
+	else RGBPrint(105, 34, L"   "+ text, white, light_pink, true);
 }
 void SettingsScreen() {
 	drawPanel(100, 20, 12);
@@ -57,6 +57,12 @@ void SettingsScreen() {
 					if (enableBGM) playSound(1, 1);
 					else stopSound(1);
 					drawBGM(true);
+				}
+				else if (current == 3) {
+					fclose(language);
+					fopen_s(&language, "./Languages/en-us.txt", "r");
+					loadConfiguration(language);
+					RGBPrint(0, 0, L"Language: " + getwstring(language, L"name"), black, white_pink, false);
 				}
 			}
 			if ((n == 13 || n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);
