@@ -1,9 +1,11 @@
 ﻿#include "MainScreen.h"
 void drawQuitOptions() {
+	wstring confirm = getwstring(language, L"quit_confirm"), cancel = getwstring(language, L"quit_cancel");
+
 	drawPanel(100, 20, 4);
-	RGBPrint(122, 24, L"Want to quit?", white, light_pink, true);
-	RGBPrint(123, 26, L"\033[4mYES\033[0m", white, light_pink, true);
-	RGBPrint(131, 26, L"NO", white, light_pink, true);
+	RGBPrint(122, 24, getwstring(language, L"quit_message"), white, light_pink, true);
+	RGBPrint(123, 26, L"\033[4m" +confirm + L"\033[0m", white, light_pink, true);
+	RGBPrint(131, 26, cancel , white, light_pink, true);
 	bool check = true;
 	while (true) {
 		if (_kbhit()) {
@@ -13,12 +15,12 @@ void drawQuitOptions() {
 			if (n == 'w' || n == 'a' || n == 's' || n == 'd') {
 				check = !check;
 				if (check) {
-					RGBPrint(123, 26, L"\033[4mYES\033[0m", white, light_pink, true);
-					RGBPrint(131, 26, L"NO", white, light_pink, true);
+					RGBPrint(123, 26, L"\033[4m" + confirm + L"\033[0m", white, light_pink, true);
+					RGBPrint(131, 26, cancel, white, light_pink, true);
 				}
 				else {
-					RGBPrint(123, 26, L"YES", white, light_pink, true);
-					RGBPrint(131, 26, L"\033[4mNO\033[0m", white, light_pink, true);
+					RGBPrint(123, 26, confirm, white, light_pink, true);
+					RGBPrint(131, 26, L"\033[4m" + cancel + L"\033[0m", white, light_pink, true);
 				}
 			}
 		}

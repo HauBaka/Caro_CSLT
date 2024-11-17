@@ -72,4 +72,7 @@ void SetUpWindow() {
 	system("color F1");
 	SetConsoleTitleA("GROUP 6 | 24CTT3 | HCMUS");
 	SetConsoleOutputCP(CP_UTF8);
+	
+	fopen_s(&language, "./Languages/en-us.txt", "r");
+	loadConfiguration(language);
 }

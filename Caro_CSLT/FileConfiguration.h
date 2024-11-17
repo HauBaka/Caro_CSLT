@@ -18,7 +18,7 @@ extern vector<FileConfiguration> yaml_loaded;
 vector<wstring> toKeyValue(wstring);
 bool loadConfiguration(FILE*);
 FileConfiguration getYAML(FILE*);
-wstring getString(FILE*, wstring);
+wstring getwstring(FILE*, wstring);
 int getInt(FILE*, wstring);
 bool getBool(FILE*, wstring);
 

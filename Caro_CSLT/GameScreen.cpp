@@ -91,14 +91,14 @@ bool loadGame(string filename) {
 		game.time = getInt(savef, L"time-left");
 		game.turn = getInt(savef, L"turn");
 	   //load ratio
-		text = getString(savef, L"ratio");
+		text = getwstring(savef, L"ratio");
 		for (int i = 0; i < text.size(); i++) if (text[i] == ' ') {
 			game.ratio[0] = stoi(text.substr(0, i).c_str());
 			game.ratio[1] = stoi(text.substr(i + 1));
 			break;
 		};
 	   //load hits
-		text = getString(savef, L"hits");
+		text = getwstring(savef, L"hits");
 		for (int i = 0; i < text.size(); i++) if (text[i] == ' ') {
 			game.hits[0] = stoi(text.substr(0, i).c_str());
 			game.hits[1] = stoi(text.substr(i + 1));
@@ -106,7 +106,7 @@ bool loadGame(string filename) {
 		};
 	   //load history
 		for (int i = 0; i < 5; i++) {
-			text = getString(savef, L"history-" + to_wstring(i + 1));
+			text = getwstring(savef, L"history-" + to_wstring(i + 1));
 			if (text == L"No data") break;
 			game.history.resize(i + 1);
 
@@ -116,7 +116,7 @@ bool loadGame(string filename) {
 		//load board
 		game.board  = vector<vector<int>>(game.board_heigh, vector<int>(game.board_width));
 		for (int i = 0; i < game.board_heigh; i++) {
-			text = getString(savef, (wstring(L"board-line-") + ((i < 9) ? L"0" : L"") + to_wstring(i + 1)));
+			text = getwstring(savef, (wstring(L"board-line-") + ((i < 9) ? L"0" : L"") + to_wstring(i + 1)));
 			for (int j = 0; j < game.board_width; j++) {
 				game.board[i][j] = stoi(text.substr(2*j,1));
 			}
@@ -590,7 +590,7 @@ void GameScreen(int state) {//0: game menu, 1:new game menu, 2: load game menu
 	if (state == 0) {//new/load game options
 		drawPanel(100, 20, 5);
 
-		wstring options[3] = {L"NEW GAME", L"LOAD GAME", L"BACK TO MAIN MENU"};
+		wstring options[3] = {getwstring(language, L"play_newgame"), getwstring(language, L"play_loadgame"), getwstring(language, L"back_to_main") };
 		int currentSelect = 0, previousSelect = 0;
 		int n, size = sizeof(options)/sizeof(wstring);
 		for (int i = 0; i < size; i++) {
@@ -633,7 +633,7 @@ void GameScreen(int state) {//0: game menu, 1:new game menu, 2: load game menu
 	else if (state == 1) {//select mode
 		removePanel(100, 20, 5);
 		drawPanel(100, 20, 4);
-		wstring miniOptions[3] = { L"PLAYER VS PLAYER", L"PLAYER VS BOT", L"BACK TO PLAY GAME MENU" };
+		wstring miniOptions[3] = { getwstring(language, L"play_pvp"),getwstring(language, L"play_pve"), getwstring(language, L"play_back") };
 		int miniCurrentSelect = 0, miniPreviousSelect = 0;
 		int n, size = sizeof(miniOptions) / sizeof(wstring);
 		for (int i = 0; i < size; i++) {
@@ -691,15 +691,15 @@ void GameScreen(int state) {//0: game menu, 1:new game menu, 2: load game menu
 			maxindex = (saves - 5 * currentpage >= 0) ? 5 : saves;
 		if (maxpages == 0) maxpages++;
 		//ve
+		wstring text_name = getwstring(language, L"save_name");
 		removePanel(100, 20, 5);
 		drawPanel(100, 20, 13);
-		RGBPrint(108, 23, L"  ID  ║           Name                     ", black, light_pink, false);
+		RGBPrint(108, 23, L"      ║                                    ", black, light_pink, false);
 		RGBPrint(108, 24, L"══════╬════════════════════════════════════", black, light_pink, false);
 		int _i = 0;
 		for (int i = 0; i < 2*5; i++) {
 			if (i % 2 == 0) {
 				RGBPrint(108, 24 + i + 1, L"      ║                                    ", black, light_pink, false);
-				RGBPrint(0, 1, "saves:" + to_string(saves_names.size()), black, white_pink);
 				if (_i < saves_names.size() && _i <= maxindex - 1) {
 					RGBPrint(108 + 2, 24 + i + 1, string((_i + 1 < 10) ? "0" : "") + to_string(_i + 1), black, light_pink);
 					RGBPrint(108 + 7 + (14 - (int)saves_names[_i].size() / 2), 24 + i + 1, saves_names[_i], black, light_pink);

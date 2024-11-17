@@ -38,7 +38,7 @@ FileConfiguration getYAML(FILE* file) {
 	}
 	return {};
 }
-wstring getString(FILE* file, wstring path) {
+wstring getwstring(FILE* file, wstring path) {
 	FileConfiguration yaml = getYAML(file);
 	if (yaml.file != NULL) {
 		for (int i = 0; i < yaml.keys.size(); i++) {
@@ -48,10 +48,10 @@ wstring getString(FILE* file, wstring path) {
 	return path + L" is not found!";
 }
 int getInt(FILE* file, wstring path) {
-	return stoi(getString(file, path));
+	return stoi(getwstring(file, path));
 }
 bool getBool(FILE* file, wstring path) {
-	return (getString(file, path) == L"true") ? 1 : 0;
+	return (getwstring(file, path) == L"true") ? 1 : 0;
 }
 
 

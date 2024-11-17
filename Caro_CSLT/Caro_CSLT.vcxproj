@@ -140,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="Caro_CSLT.h" />
     <ClInclude Include="ContributorsScreen.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="IntroScreen.h" />

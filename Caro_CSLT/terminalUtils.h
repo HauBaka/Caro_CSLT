@@ -6,6 +6,8 @@
 #include "MainScreen.h"
 #include <io.h>//_setmode
 #include "ModelUtils.h"
+#include "Caro_CSLT.h"
+#include "FileConfiguration.h"
 using namespace std;
 void FixConsoleWindow();
 void ShowConsoleCursor(bool);
