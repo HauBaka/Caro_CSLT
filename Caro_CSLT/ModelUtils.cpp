@@ -123,12 +123,12 @@ void BetterDraw(int x, int y, wstring text, int bgcolor) {
     }
 }
 void drawLOGO(int x, int y) {
-    printColoredText(x, y,     L" ██████╗ █████╗ ██████╗  ██████╗ ✖⚫   ██████╗  █████╗ ███╗   ███╗███████╗", 1, 15);
-    printColoredText(x, y + 1, L"██╔════╝██╔══██╗██╔══██╗██╔═══██╗    ██╔════╝ ██╔══██╗████╗ ████║██╔════╝", 1, 15);
-    printColoredText(x, y + 2, L"██║     ███████║██████╔╝██║   ██║    ██║  ███╗███████║██╔████╔██║█████╗  ", 1, 15);
-    printColoredText(x, y + 3, L"██║     ██╔══██║██╔══██╗██║   ██║    ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  ", 1, 15);
-    printColoredText(x, y + 4, L"╚██████╗██║  ██║██║  ██║╚██████╔╝    ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗", 1, 15);
-    printColoredText(x, y + 5, L" ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝      ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝", 1, 15);
+    RGBPrint(x, y,     L" ██████╗ █████╗ ██████╗  ██████╗ ✖⚫   ██████╗  █████╗ ███╗   ███╗███████╗", black, white_pink, false);
+    RGBPrint(x, y + 1, L"██╔════╝██╔══██╗██╔══██╗██╔═══██╗    ██╔════╝ ██╔══██╗████╗ ████║██╔════╝", black, white_pink, false);
+    RGBPrint(x, y + 2, L"██║     ███████║██████╔╝██║   ██║    ██║  ███╗███████║██╔████╔██║█████╗  ", black, white_pink, false);
+    RGBPrint(x, y + 3, L"██║     ██╔══██║██╔══██╗██║   ██║    ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  ", black, white_pink, false);
+    RGBPrint(x, y + 4, L"╚██████╗██║  ██║██║  ██║╚██████╔╝    ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗", black, white_pink, false);
+    RGBPrint(x, y + 5, L" ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝      ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝", black, white_pink, false);
 }
 void veMay(int x, int y) {
     printColoredText(x - 1, y + 3, L" ", 3, 15);
@@ -256,147 +256,93 @@ void drawStartButton(int x, int y) {
     printColoredText(x + 27, y+5, L"▀", 0, 15);
     BetterDraw(x + 2, y+5, L"&0▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", 8);
 }
-void drawMainMenu_Play(int x, int y, bool check) {
-// ▄▀▀▀▀▀█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄
-//█ ▄█▄█▄ █       █▀▄ █   ▄▀▄ ▀▄▀         █
-//█  ▀█▀  █       █▀  █▄▄ █▀█  █          █
-// ▀▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀
-    
-    printColoredText(x, y, L" ", 15, 15);
-    RGBPrint(x+1, y, L"▄▀▀▀▀▀█", black, white, false);
-    RGBPrint(x+1+7, y, L"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", black, white_pink, false);
-    printColoredText(x+1+7+31, y, L"▄", 0, 15);
+void drawMainMenuButton(int x, int y) {
+    // ▄▀▀▀▀▀█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄
+    //█ ▄█▄█▄ █                               █
+    //█  ▀█▀  █                               █
+    // ▀▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀
+    RGBPrint(x + 1, y, L"▄", black, white_pink, false);
+    RGBPrint(x + 2, y, L"▀▀▀▀▀█", black, white, false);
+    RGBPrint(x + 1 + 7, y, L"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", black, white_pink, false);
+    RGBPrint(x + 1 + 7 + 31, y, L"▄", black, white_pink, false);
     //
-    printColoredText(x, y+1, L"█", 0, 15);
-    RGBPrint(x+1, y+1, L" ▄█▄█▄ ", pink, white, false);
-    printColoredText(x+1+7, y+1, L"█ ", 0, 15);
+    printColoredText(x, y + 1, L"█", 0, 15);
+    RGBPrint(x + 1, y + 1, L" ▄█▄█▄ ", pink, white, false);
+    printColoredText(x + 1 + 7, y + 1, L"█ ", 0, 15);
+    RGBPrint(x + 1 + 7 + 1, y + 1, L"                               ", white, light_pink, false);
+    printColoredText(x + 1 + 7 + 1 + 30 + 1, y + 1, L"█", 0, 15);
+    //
+    printColoredText(x, y + 2, L"█", 0, 15);
+    RGBPrint(x + 1, y + 2, L"  ▀█▀  ", pink, white, false);
+    printColoredText(x + 1 + 7, y + 2, L"█", 0, 15);
+    RGBPrint(x + 1 + 7 + 1, y + 2, L"                               ", white, light_pink, false);
+    printColoredText(x + 1 + 7 + 1 + 31, y + 2, L"█", 0, 15);
+    //
+    RGBPrint(x + 1, y + 3, L"▀", black, white_pink, false);
+    RGBPrint(x + 2, y + 3, L"▄▄▄▄▄█", black, white, false);
+    RGBPrint(x + 1 + 7, y + 3, L"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", black, pink, false);
+    RGBPrint(x + 1 + 7 + 31, y + 3, L"▀", black, white_pink, false);
+}
+void drawMainMenu_Play(int x, int y) {
+    drawMainMenuButton(x, y);
     RGBPrint(x+1+7+1, y+1, L"     █▀▄ █   ▄▀▄ ▀▄▀           ", white, light_pink, false);
-    printColoredText(x+1+7+1+30+1, y+1, L"█", 0, 15);
-    //
-    printColoredText(x, y+2, L"█", 0, 15);
-    RGBPrint(x+1, y+2, L"  ▀█▀  ", pink, white, false);
-    printColoredText(x+1+7, y+2, L"█", 0, 15);
     RGBPrint(x+1+7+1, y+2, L"     █▀  █▄▄ █▀█  █            ", white, light_pink, false);
-    printColoredText(x+1+7+1+31, y+2, L"█", 0, 15);
-    //
-    printColoredText(x, y+3, L" ", 0, 15);
-    RGBPrint(x+1, y+3, L"▀▄▄▄▄▄█", black, white, false);
-    RGBPrint(x+1+7, y+3, L"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", black, pink, false);
-    printColoredText(x+1+7+31, y+3, L"▀", 0, 15);
 }
-void drawMainMenu_Options(int x, int y, bool check) {
-// ▄▀▀▀▀▀█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄
-//█ ▄█▄█▄ █  ▄▀▄ █▀▄ ▀█▀ ▀ ▄▀▄ █▄ █ ▄▀    █
-//█  ▀█▀  █  ▀▄▀ █▀   █  █ ▀▄▀ █ ▀█ ▄▀    █
-// ▀▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀
-
-    printColoredText(x, y, L" ", 0, 15);
-    RGBPrint(x + 1, y, L"▄▀▀▀▀▀█", black, white, false);
-    RGBPrint(x + 1 + 7, y, L"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", black, white_pink, false);
-    RGBPrint(x + 1 + 7 + 31, y, L"▄", black, white, false);
-    //
-    printColoredText(x, y + 1, L"█", 0, 15);
-    RGBPrint(x + 1, y + 1, L" ▄█▄█▄ ", pink, white, false);
-    printColoredText(x + 1 + 7, y + 1, L"█ ", 0, 15);
+void drawMainMenu_Options(int x, int y) {
+    drawMainMenuButton(x, y);
     RGBPrint(x + 1 + 7 + 1, y + 1, L"  ▄▀▄ █▀▄ ▀█▀ ▀ ▄▀▄ █▄ █ ▄▀    ", white, light_pink, false);
-    printColoredText(x + 1 + 7 + 1 + 31, y + 1, L"█", 0, 15);
-    //
-    printColoredText(x, y + 2, L"█", 0, 15);
-    RGBPrint(x + 1, y + 2, L"  ▀█▀  ", pink, white, false);
-    printColoredText(x + 1 + 7, y + 2, L"█", 0, 15);
     RGBPrint(x + 1 + 7 + 1, y + 2, L"  ▀▄▀ █▀   █  █ ▀▄▀ █ ▀█ ▄▀    ", white, light_pink, false);
-    printColoredText(x + 1 + 7 + 1 + 31, y + 2, L"█", 0, 15);
-    //
-    printColoredText(x, y + 3, L" ", 0, 15);
-    RGBPrint(x + 1, y + 3, L"▀▄▄▄▄▄█", black, white, false);
-    RGBPrint(x + 1 + 7, y + 3, L"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", black, pink, false);
-    printColoredText(x + 1 + 7 + 31, y + 3, L"▀", 0, 15);
 }
-void drawMainMenu_Authors(int x, int y, bool check) {
-// ▄▀▀▀▀▀█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄
-//█ ▄█▄█▄ █  ▄▀▄ █ █ ▀█▀ █ █ ▄▀▄ █▀▄ ▄▀   █ 
-//█  ▀█▀  █  █▀█ ▀▄▀  █  █▀█ ▀▄▀ █▀▄ ▄▀   █
-// ▀▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀
-
-
-    printColoredText(x, y, L" ", 0, 15);
-    RGBPrint(x + 1, y, L"▄▀▀▀▀▀█", black, white, false);
-    RGBPrint(x + 1 + 7, y, L"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", black, white_pink, false);
-    RGBPrint(x + 1 + 7 + 31, y, L"▄", black, white, false);
-    //
-    printColoredText(x, y + 1, L"█", 0, 15);
-    RGBPrint(x + 1, y + 1, L" ▄█▄█▄ ", pink, white, false);
-    printColoredText(x + 1 + 7, y + 1, L"█ ", 0, 15);
+void drawMainMenu_Authors(int x, int y) {
+    drawMainMenuButton(x, y);
     RGBPrint(x + 1 + 7 + 1, y + 1, L"  ▄▀▄ █ █ ▀█▀ █ █ ▄▀▄ █▀▄ ▄▀   ", white, light_pink, false);
-    printColoredText(x + 1 + 7 + 1 + 31, y + 1, L"█", 0, 15);
-    //
-    printColoredText(x, y + 2, L"█", 0, 15);
-    RGBPrint(x + 1, y + 2, L"  ▀█▀  ", pink, white, false);
-    printColoredText(x + 1 + 7, y + 2, L"█", 0, 15);
     RGBPrint(x + 1 + 7 + 1, y + 2, L"  █▀█ ▀▄▀  █  █▀█ ▀▄▀ █▀▄ ▄▀   ", white, light_pink, false);
-    printColoredText(x + 1 + 7 + 1 + 31, y + 2, L"█", 0, 15);
-    //
-    printColoredText(x, y + 3, L" ", 0, 15);
-    RGBPrint(x + 1, y + 3, L"▀▄▄▄▄▄█", black, white, false);
-    RGBPrint(x + 1 + 7, y + 3, L"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", black, pink, false);
-    printColoredText(x + 1 + 7 + 31, y + 3, L"▀", 0, 15);
 }
-void drawMainMenu_Out(int x, int y, bool check) {
+void drawMainMenu_Out(int x, int y) {
 // ▄▀▀▀▀▀█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄
 //█ ▄█▄█▄ █        ▄▀▄ █ █ ▀█▀            █
 //█  ▀█▀  █        ▀▄▀ ▀▄▀  █             █
 // ▀▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀
-
-
-    printColoredText(x, y, L" ", 0, 15);
-    RGBPrint(x + 1, y, L"▄▀▀▀▀▀█", black, white, false);
-    RGBPrint(x + 1 + 7, y, L"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", black, white_pink, false);
-    RGBPrint(x + 1 + 7 + 31, y, L"▄", black, white, false);
-    //
-    printColoredText(x, y + 1, L"█", 0, 15);
-    RGBPrint(x + 1, y + 1, L" ▄█▄█▄ ", pink, white, false);
-    printColoredText(x + 1 + 7, y + 1, L"█ ", 0, 15);
+    drawMainMenuButton(x, y);
     RGBPrint(x + 1 + 7 + 1, y + 1, L"        ▄▀▄ █ █ ▀█▀            ", white, light_pink, false);
-    printColoredText(x + 1 + 7 + 1 + 31, y + 1, L"█", 0, 15);
-    //
-    printColoredText(x, y + 2, L"█", 0, 15);
-    RGBPrint(x + 1, y + 2, L"  ▀█▀  ", pink, white, false);
-    printColoredText(x + 1 + 7, y + 2, L"█", 0, 15);
     RGBPrint(x + 1 + 7 + 1, y + 2, L"        ▀▄▀ ▀▄▀  █             ", white, light_pink, false);
-    printColoredText(x + 1 + 7 + 1 + 31, y + 2, L"█", 0, 15);
-    //
-    printColoredText(x, y + 3, L" ", 0, 15);
-    RGBPrint(x + 1, y + 3, L"▀▄▄▄▄▄█", black, white, false);
-    RGBPrint(x + 1 + 7, y + 3, L"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", black, pink, false);
-    printColoredText(x + 1 + 7 + 31, y + 3, L"▀", 0, 15);
 }
 void drawTriagle(int x, int y, bool show) {
     if (show) {
-        printColoredText(x, y, L"  ▄", 0, 15);
-        printColoredText(x, y + 1, L"▄██", 0, 15);
-        printColoredText(x, y + 2, L" ▀█", 0, 15);
+        RGBPrint(x, y, L"  ▄", black, white_pink, false);
+        RGBPrint(x, y + 1, L"▄██", black, white_pink, false);
+        RGBPrint(x, y + 2, L" ▀█", black, white_pink, false);
     }
     else {
-        printColoredText(x, y, L"   ", 0, 15);
-        printColoredText(x, y + 1, L"   ", 0, 15);
-        printColoredText(x, y + 2, L"   ", 0, 15);
+        RGBPrint(x, y, L"   ", black, white_pink, false);;
+        RGBPrint(x, y + 1, L"   ", black, white_pink, false);
+        RGBPrint(x, y + 2, L"   ", black, white_pink, false);
     }
 
 }
 void drawPanel(int x, int y, int lines) {//52 in length
-    RGBPrint(x, y, L" ▄", black, default_white, false);
+// ▄▀▀▀▄                                             ▄▀▀▀▄
+//█ ▄█▄ █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█ ▄█▄ █
+//▀▄ ▀ ▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄ ▀ ▄▀
+//  ▀█▀                                               ▀█▀
+//   █                                                 █
+// ▄▀▀▀▄                                             ▄▀▀▀▄
+//█ ▄█▄ █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█ ▄█▄ █
+//▀▄ ▀ ▄▀                                           ▀▄ ▀ ▄▀
+//  ▀▀▀                                               ▀▀▀
+    RGBPrint(x, y, L" ▄", black, white_pink, false);
     RGBPrint(x+2, y, L"▀▀▀", black, white, false);
-    RGBPrint(x +5, y, L"▄                                             ▄", black, default_white, false);
+    RGBPrint(x +5, y, L"▄                                             ▄", black, white_pink, false);
     RGBPrint(x + 52, y, L"▀▀▀", black, white, false);
-    RGBPrint(x + 55, y, L"▄", black, default_white, false);
+    RGBPrint(x + 55, y, L"▄", black, white_pink, false);
     //
-    RGBPrint(x, y+1, L"█", black, default_white, false);
+    RGBPrint(x, y+1, L"█", black, white_pink, false);
     RGBPrint(x+1, y + 1, L" ▄█▄ ", light_pink, white, false);
-    RGBPrint(x+1+5, y + 1, L"█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█", black, default_white, false);
+    RGBPrint(x+1+5, y + 1, L"█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█", black, white_pink, false);
     RGBPrint(x + 1 + 5+45, y + 1, L" ▄█▄ ", light_pink, white, false);
-    RGBPrint(x + 1 + 5 + 45+5, y + 1, L"█", black, default_white, false);
+    RGBPrint(x + 1 + 5 + 45+5, y + 1, L"█", black, white_pink, false);
     //
-    RGBPrint(x, y + 2,          L"▀", black, default_white, false);
+    RGBPrint(x, y + 2,          L"▀", black, white_pink, false);
     RGBPrint(x+1, y + 2,        L"▄ ▀ ▄", black, white, false);
     RGBPrint(x + 1+2, y + 2,    L"▀", light_pink, white, false);
 
@@ -404,39 +350,39 @@ void drawPanel(int x, int y, int lines) {//52 in length
     RGBPrint(x + 1 + 5+1, y + 2, L"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", white_pink, light_pink, false);
     RGBPrint(x + 1 + 5+1+43, y + 2, L"▀", black, light_pink, false);
     RGBPrint(x + 1+5+1+43+1, y + 2, L"▄ ▀ ▄▀", black, white, false);
-    RGBPrint(x + 1 + 5 + 1 + 43 + 1+5, y + 2, L"▀", black, default_white, false);
+    RGBPrint(x + 1 + 5 + 1 + 43 + 1+5, y + 2, L"▀", black, white_pink, false);
     RGBPrint(x + 1 + 5 + 1 + 43 + 1+2, y + 2, L"▀", light_pink, white, false);
     //
-    RGBPrint(x + 2, y + 3, L"▀█                                                 █▀", black, default_white, false);
+    RGBPrint(x + 2, y + 3, L"▀█                                                 █▀", black, white_pink, false);
     RGBPrint(x + 4, y + 3, L"▀                                               ▀", black, light_pink, false);
     //
     for (int i = 0; i < lines; i++) {
         RGBPrint(x+3, y + 4 + i, L"█                                                 █", black, light_pink, false);
     }
     //
-    RGBPrint(x, y + 4 + lines, L" ▄", black, default_white, false);
+    RGBPrint(x, y + 4 + lines, L" ▄", black, white_pink, false);
     RGBPrint(x + 2, y + 4 + lines, L"▀▀▀", black, white, false);
     RGBPrint(x + 5, y + 4 + lines, L"▄                                             ▄", black, light_pink, false);
     RGBPrint(x + 52, y + 4 + lines, L"▀▀▀", black, white, false);
-    RGBPrint(x + 55, y + 4 + lines, L"▄", black, default_white, false);
+    RGBPrint(x + 55, y + 4 + lines, L"▄", black, white_pink, false);
     //
-    RGBPrint(x, y + 4 + lines + 1, L"█", black, default_white, false);
+    RGBPrint(x, y + 4 + lines + 1, L"█", black, white_pink, false);
     RGBPrint(x + 1, y + 4 + lines + 1, L" ▄█▄ ", light_pink, white, false);
     RGBPrint(x + 1 + 5, y + 4 + lines + 1, L"█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█", black, pink, false);
     RGBPrint(x + 1 + 5 + 45, y + 4 + lines + 1, L" ▄█▄ ", light_pink, white, false);
-    RGBPrint(x + 1 + 5 + 45 + 5, y + 4 + lines + 1, L"█", black, default_white, false);
+    RGBPrint(x + 1 + 5 + 45 + 5, y + 4 + lines + 1, L"█", black, white_pink, false);
     //
-    RGBPrint(x,y+4+lines+1+1, L"▀▄ ▀ ▄▀                                           ▀▄ ▀ ▄▀", black, default_white, false);
+    RGBPrint(x,y+4+lines+1+1, L"▀▄ ▀ ▄▀                                           ▀▄ ▀ ▄▀", black, white_pink, false);
 
-    RGBPrint(x+3, y + 4 + lines + 1 + 1, L"▀", light_pink, default_white, false);
-    RGBPrint(x+53, y + 4 + lines + 1 + 1, L"▀", light_pink, default_white, false);
+    RGBPrint(x+3, y + 4 + lines + 1 + 1, L"▀", light_pink, white_pink, false);
+    RGBPrint(x+53, y + 4 + lines + 1 + 1, L"▀", light_pink, white_pink, false);
     //
-    RGBPrint(x + 2, y + 4 + lines + 1 + 1 + 1, L"▀▀▀                                               ▀▀▀", black, default_white, false);
+    RGBPrint(x + 2, y + 4 + lines + 1 + 1 + 1, L"▀▀▀                                               ▀▀▀", black, white_pink, false);
 }
 void removePanel(int x, int y, int lines) {
     for (int i = 0; i < lines + 8; i++) {
         RGBPrint(x, y + i, L"                                                         ", 
-            black, default_white, false);
+            black, white_pink, false);
     }
  }
 void drawSlider(int x, int y, int length, int value) {

@@ -33,10 +33,10 @@ void MainScreen(int currentSelect, bool playBGM, bool clear) {
 	if (playBGM) playSound(1, true);
 	if (clear) for (int i = 16; i < 42; i++) clearLine(i);
 	int previousSelect =0;
-	drawMainMenu_Play(10, 20, true);
-	drawMainMenu_Options(10, 25, true);
-	drawMainMenu_Authors(10, 30, true);
-	drawMainMenu_Out(10, 35, true);
+	drawMainMenu_Play(10, 20);
+	drawMainMenu_Options(10, 25);
+	drawMainMenu_Authors(10, 30);
+	drawMainMenu_Out(10, 35);
 	drawTriagle(55, 20 + currentSelect * 5, true);
 	int n, index = 0;
 	bool draw_tria = true;

@@ -23,7 +23,7 @@ void GotoXY(int x, int y) {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 void clearLine(int line) {
-	printColoredText(0, line, "                                                                                                                                                                             ", 15, 15);
+	RGBPrint(0, line, "                                                                                                                                                                             ", white_pink, white_pink);
 }
 void drawOptions(int x, int y, string options[], int size, int& currentSelect, int& previousSelect) {
 	for (int i = 0; i < size; i++) {

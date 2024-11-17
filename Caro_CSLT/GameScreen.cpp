@@ -207,23 +207,23 @@ void saveGameScreen(bool refresh) {
 	}
 	switch (currentSelect) {
 	case 1:
-		game.name = oldname;//NO BREAK HERE!!
+		game.name = oldname;
+		break;
 	case 2:
-		if (oldname == "") saveGame();
-		else {
+		
+		if (game.name != oldname)  {
 			try {
 				fs::rename("./Saves/" + oldname + ".txt", "./Saves/" + game.name + ".txt");
 			}
-			catch (const fs::filesystem_error& e) {
-				std::cerr << "Error: " << e.what() << std::endl;
+			catch (const fs::filesystem_error) {
+				saveGame();
 			}
 		}
-		drawGameBoard(55, 16, 61, 21, black, white_pink);
-		for (int i = 0; i < game.board_heigh; i++)
-			for (int j = 0; j < game.board_width; j++) RGBPrint(55 + 2 + j * 4, 16 + 2 * i + 1, (game.board[i][j] == 0 ? L" " : game.board[i][j] == 1 ? L"X" : L"O"), black, white_pink, false);
-		StartGame(0);
-		break;
 	}
+	drawGameBoard(55, 16, 61, 21, black, white_pink);
+	for (int i = 0; i < game.board_heigh; i++)
+		for (int j = 0; j < game.board_width; j++) RGBPrint(55 + 2 + j * 4, 16 + 2 * i + 1, (game.board[i][j] == 0 ? L" " : game.board[i][j] == 1 ? L"X" : L"O"), black, white_pink, false);
+	StartGame(0);
 }
 
 void fixKeyboard() {
@@ -386,8 +386,13 @@ void StartGame(bool drawBackground) {
 		fixKeyboard();
 	}
 	system("cls");
-	fill(white);
+	fill(white_pink);
 	drawLOGO((172 - 73) / 2, 5);
+	drawMainMenu_Play(10, 20);
+	drawMainMenu_Options(10, 25);
+	drawMainMenu_Authors(10, 30);
+	drawMainMenu_Out(10, 35);
+	drawTriagle(55, 20 + 0 * 5, true);
 	GameScreen(0);
 }
 void setupGame(string name,bool turn, short time, short ratio[2], short hits[2], vector<pair<short, short>> history, vector<vector<int>> board) {
@@ -582,7 +587,7 @@ void loadSaveGameEditor(string savename, bool refresh) {
 	}
 }
 void GameScreen(int state) {//0: game menu, 1:new game menu, 2: load game menu
-	if (state == 0) {
+	if (state == 0) {//new/load game options
 		drawPanel(100, 20, 5);
 
 		wstring options[3] = {L"NEW GAME", L"LOAD GAME", L"BACK TO MAIN MENU"};
@@ -625,7 +630,7 @@ void GameScreen(int state) {//0: game menu, 1:new game menu, 2: load game menu
 			break;
 		}
 	}
-	else if (state == 1) {
+	else if (state == 1) {//select mode
 		removePanel(100, 20, 5);
 		drawPanel(100, 20, 4);
 		wstring miniOptions[3] = { L"PLAYER VS PLAYER", L"PLAYER VS BOT", L"BACK TO PLAY GAME MENU" };
@@ -675,11 +680,16 @@ void GameScreen(int state) {//0: game menu, 1:new game menu, 2: load game menu
 			break;
 		}
 	}
-	else if (state == 2) {
+	else if (state == 2) {//load game screen
 		//lay thong tin tu folder
 		vector<string> saves_names = {};
 		int saves = loadAllSaves(saves_names);
-		int pages = int(ceil((double)saves / 5));
+		int currentpage=1, 
+			maxpages = int(ceil((double)saves / 5)),
+			index =0,
+			previousSelect=0,
+			maxindex = (saves - 5 * currentpage >= 0) ? 5 : saves;
+		if (maxpages == 0) maxpages++;
 		//ve
 		removePanel(100, 20, 5);
 		drawPanel(100, 20, 13);
@@ -689,63 +699,86 @@ void GameScreen(int state) {//0: game menu, 1:new game menu, 2: load game menu
 		for (int i = 0; i < 2*5; i++) {
 			if (i % 2 == 0) {
 				RGBPrint(108, 24 + i + 1, L"      ║                                    ", black, light_pink, false);
-				if (_i < saves_names.size()) {
-					RGBPrint(108+7+(14-(int)saves_names[_i].size()/2), 24 + i + 1, saves_names[_i], black, light_pink);
+				RGBPrint(0, 1, "saves:" + to_string(saves_names.size()), black, white_pink);
+				if (_i < saves_names.size() && _i <= maxindex - 1) {
+					RGBPrint(108 + 2, 24 + i + 1, string((_i + 1 < 10) ? "0" : "") + to_string(_i + 1), black, light_pink);
+					RGBPrint(108 + 7 + (14 - (int)saves_names[_i].size() / 2), 24 + i + 1, saves_names[_i], black, light_pink);
 					_i++;
-					RGBPrint(108 + 2, 24 + i + 1, string((_i < 10) ? "0" : "") + to_string(_i), black, light_pink);
 				}
 			}
 			else RGBPrint(108, 24 + i + 1, L"══════╬════════════════════════════════════", black, light_pink, false);
 		}
-
+		RGBPrint(108, 34, L"══════╩════════════════════════════════════", black, light_pink, false);
 		RGBPrint(108, 24 + 11, L"                                           ", black, light_pink, false);
 		RGBPrint(108 + 1, 24 + 11, L"<<", black, light_pink, false);
-		RGBPrint(108 + 18, 24 + 11, L"01/" + wstring((saves/5 < 10) ? L"0":L"") + to_wstring(pages), black, light_pink, false);
+		RGBPrint(108 + 18, 24 + 11, L"01/" + wstring((saves/5 < 10) ? L"0":L"") + to_wstring(maxpages), black, light_pink, false);
 		RGBPrint(108 + 38, 24 + 11, L">>", black, light_pink, false);
 
 		RGBPrint(108, 24 + 12, L"═══════════════════════════════════════════", black, light_pink, false);
-		RGBPrint(115, 24 + 13, "   BACK TO PLAY GAME MENU", black, light_pink);
+		RGBPrint(115, 24 + 13, "   BACK TO PLAY GAME MENU   ", black, light_pink);
 		//
-		int index=0, previousSelect = 0;
-		RGBPrint(108 + 2, 24 + 2*index + 1, string((index+1 < 10) ? "0" : "") + to_string(index+1), black, pink);
-		RGBPrint(108 + 7 + (14 - (int)saves_names[index].size() / 2), 24 + 2*index + 1, saves_names[index], black, pink);
+		if (saves_names.size() >= 1) {
+			RGBPrint(108 + 2, 24 + 2 * index + 1, string((index + 1 < 10) ? "0" : "") + to_string(index + 1), black, pink);
+			RGBPrint(108 + 7 + (14 - (int)saves_names[index].size() / 2), 24 + 2 * index + 1, saves_names[index], black, pink);
+		}
 		int n;
-		while (true) {
+		while (true) {//từ đây trở đi tôi đã mất não.
 			if (_kbhit()) {
 				n = _getch();
 				n = tolower(n);
 				if ((n == 13 || n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e' || n == 'x') && enableSFX) playSound(3, 0);
 				if (n == 13) break;
-				if (n == 'w' || n == 'a' || n == 's' || n == 'd') {
+				if (n == 'w'  || n == 's' ) {
 					previousSelect = index;
-					if (n == 'w' || n == 'a') index = (index - 1 < 0) ? 5 : index - 1;
-					else index = (index + 1 >= 6) ? 0 : index + 1;
-					if (previousSelect < 5) {
-						RGBPrint(108 + 2, 24 + 2 * previousSelect + 1, string((previousSelect + 1 < 10) ? "0" : "") + to_string(previousSelect + 1), black, light_pink);
-						RGBPrint(108 + 7 + (14 - (int)saves_names[previousSelect].size() / 2), 24 + 2 * previousSelect + 1, saves_names[previousSelect], black, light_pink);
+					if (n == 'w' ) index = (index <= 0) ? maxindex : index - 1;
+					else index = (index >= maxindex) ? 0 : index + 1;
+					int d = 5 * (currentpage - 1);
+					if (previousSelect < maxindex) {
+						RGBPrint(108 + 2, 24 + 2 * previousSelect + 1, string((previousSelect + 1 + d < 10) ? "0" : "") + to_string(previousSelect + d + 1), black, light_pink);
+						RGBPrint(108 + 7 + (14 - (int)saves_names[previousSelect + d].size() / 2), 24 + 2 * previousSelect + 1, saves_names[previousSelect + d], black, light_pink);
+					} 
+					else RGBPrint(115, 24 + 13, "   BACK TO PLAY GAME MENU   ", black, light_pink);
+					if (index < maxindex) {
+						RGBPrint(108 + 2, 24 + 2 * index +  1, string((index + d +1 < 10) ? "0" : "") + to_string(index + d + 1), black, pink);
+						RGBPrint(108 + 7 + (14 - (int)saves_names[index + d].size() / 2), 24 + 2 * index + 1, saves_names[index + d], black, pink);
 					}
-					else {
+					else RGBPrint(115, 24 + 13, ">> BACK TO PLAY GAME MENU <<", black, light_pink);
+				}
+				if ((n == 'a' || n == 'd') && index < maxindex) {
+					if (n == 'a') currentpage = (currentpage == 1) ? maxpages : currentpage - 1;
+					else currentpage = (currentpage == maxpages) ? 1 : currentpage + 1;
+					index = 0;
+					previousSelect = 0;
+					maxindex = (saves - 5 * currentpage >= 0) ? 5 : saves-5*(currentpage-1);
+					_i = 5*(currentpage-1);
 
-						RGBPrint(115, 24 + 13, "   BACK TO PLAY GAME MENU", black, light_pink);
+					for (int i = 0; i < 2 * 5; i++) {
+						if (i % 2 == 0) {
+							RGBPrint(108, 24 + i + 1, L"      ║                                    ", black, light_pink, false);
+							if (_i < saves_names.size()) {
+								if (_i <= maxindex + 5 * (currentpage - 1)) {
+									RGBPrint(108 + 7 + (14 - (int)saves_names[_i].size() / 2), 24 + i + 1, saves_names[_i], black, light_pink);
+									RGBPrint(108 + 2, 24 + i + 1, string((_i + 1 < 10) ? "0" : "") + to_string(_i + 1), black, light_pink);
+									_i++;
+								}
+							}
+						}
+						else RGBPrint(108, 24 + i + 1, L"══════╬════════════════════════════════════", black, light_pink, false);
 					}
-					if (index < 5) {
-						RGBPrint(108 + 2, 24 + 2 * index + 1, string((index + 1 < 10) ? "0" : "") + to_string(index + 1), black, pink);
-						RGBPrint(108 + 7 + (14 - (int)saves_names[index].size() / 2), 24 + 2 * index + 1, saves_names[index], black, pink);
-					}
-					else {
-						RGBPrint(115, 24 + 13, ">> BACK TO PLAY GAME MENU <<", black, light_pink);
-					}
+					RGBPrint(108 + 18, 24 + 11, wstring((currentpage < 10) ? L"0" : L"") + to_wstring(currentpage) + L"/" + wstring((saves / 5 < 10) ? L"0" : L"") + to_wstring(maxpages), black, light_pink, false);
+
+					_i = 5 * (currentpage - 1);
+					RGBPrint(108 + 7 + (14 - (int)saves_names[_i].size() / 2), 24 + 1, saves_names[_i], black, pink);
+					RGBPrint(108 + 2, 24 +  1, string((_i + 1 < 10) ? "0" : "") + to_string(_i + 1), black, pink);
 				}
 			}
 		}
-		switch (index) {
-		case 5:
+		if (index < maxindex) {
+			loadSaveGameEditor(saves_names[index +5 * (currentpage - 1) ], true);
+		}
+		else {
 			removePanel(100, 20, 13);
 			GameScreen(0);
-			break;
-		case 0:case 1: case 2: case 3: case 4:
-			loadSaveGameEditor(saves_names[index], true);//missed update
-			break;
 		}
 	}
 }

@@ -31,7 +31,7 @@ void startIntroScreen() {
 		}
 		count++;
 		GotoXY(74, 21);
-		printColoredText(74, 21, animatedText("PRESS ANY KEY TO START!", count), 3, 15);
+		RGBPrint(74, 21, animatedText("PRESS ANY KEY TO START!", count), black, white_pink);
 		if (_kbhit()) {
 			int _t = _getch();
 			if (enableSFX) playSound(3, 0);
