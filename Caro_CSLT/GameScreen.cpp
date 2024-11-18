@@ -43,22 +43,8 @@ bool rightDiagonalCheck(int value, int i, int j) {
 bool checkWin(int value, int& xpos, int& ypos) {//0=None,1=X,2=O
 	for (int i = 0; i < game.board_heigh; i++) {
 		for (int j = 0; j < game.board_width; j++) {
-			if (rowCheck(value, i, j)) {
-				xpos = j;
-				ypos = i;
-				return 1;
-			}
-			if (colCheck(value, i, j)) {
-				xpos = j;
-				ypos = i;
-				return 1;
-			}
-			if (leftDiagonalCheck(value, i, j)) {
-				xpos = j;
-				ypos = i;
-				return 1;
-			}
-			if (rightDiagonalCheck(value, i, j)) {
+			if (rowCheck(value, i, j) || colCheck(value, i, j) || 
+				leftDiagonalCheck(value, i, j) || rightDiagonalCheck(value, i, j)) {
 				xpos = j;
 				ypos = i;
 				return 1;
