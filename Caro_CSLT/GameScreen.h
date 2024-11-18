@@ -42,5 +42,9 @@ int loadAllSaves(vector<string>&);
 string gameEditor_name(int, int, RGB, RGB, RGB);
 void gameEditor_remove(string);
 void loadSaveGameEditor(string, bool);
+
+void newGameOptionsScreen();
+void selectModeScreen();
+void loadGameScreen();
 void GameScreen(int);
 #endif
