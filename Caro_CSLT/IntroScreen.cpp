@@ -31,8 +31,6 @@ void startIntroScreen() {
 			index = 0;
 		}
 		count++;
-		GotoXY(74, 21);
-
 		RGBPrint(74, 21, animatedText(message, count), black, white_pink, true);
 		if (_kbhit()) {
 			int _t = _getch();
