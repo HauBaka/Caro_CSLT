@@ -142,7 +142,6 @@ void saveGameScreen(bool refresh) {
 	RGBPrint(71, 24, L"✍  ", black, light_pink, false);
 	RGBPrint(74, 24, getwstring(language, L"save_name")+L":", black, light_pink, true);
 	RGBPrint(76+(int) getwstring(language, L"save_name").size(), 24, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(game.name), black, white_pink, false);
-
 	RGBPrint(90, 26, getwstring(language, L"save_save"), black, white_pink, true);
 	RGBPrint(75, 26, getwstring(language, L"save_cancel"), black, white_pink, true);
 	bool isEditing = false;
@@ -197,7 +196,6 @@ void saveGameScreen(bool refresh) {
 		game.name = oldname;
 		break;
 	case 2:
-		
 		if (game.name != oldname)  {
 			try {
 				fs::rename("./Saves/" + oldname + ".txt", "./Saves/" + game.name + ".txt");
@@ -211,6 +209,23 @@ void saveGameScreen(bool refresh) {
 	for (int i = 0; i < game.board_heigh; i++)
 		for (int j = 0; j < game.board_width; j++) RGBPrint(55 + 2 + j * 4, 16 + 2 * i + 1, (game.board[i][j] == 0 ? L" " : game.board[i][j] == 1 ? L"X" : L"O"), black, white_pink, false);
 	StartGame(0);
+}
+int loadAllSaves(vector<string>& saves) {
+	int dem = 0;
+	vector<pair<string, long>> _saves = {};
+	for (const auto& entry : fs::directory_iterator("./Saves")) {
+		long s = (long)std::chrono::duration_cast<std::chrono::milliseconds>(fs::last_write_time(entry).time_since_epoch()).count();
+		_saves.push_back({ entry.path().filename().string(), s });
+		auto ftime = fs::last_write_time(entry);
+		dem += 1;
+	}
+	for (int i = 0; i < _saves.size(); i++) {
+		for (int j = i + 1; j < _saves.size(); j++) {
+			if (_saves[i].second < _saves[j].second) swap(_saves[i], _saves[j]);
+		}
+	}
+	for (int i = 0; i < _saves.size(); i++) saves.push_back(_saves[i].first.substr(0, _saves[i].first.size() - 4));
+	return dem;
 }
 
 void fixKeyboard() {
@@ -233,19 +248,29 @@ void fixKeyboard() {
 }
 void updateScreen() {
 	RGBPrint(16, 12, getwstring(language, L"ingame_ratio"), black, white_pink, true);
-	RGBPrint(22, 13, wstring(L"[X]: ") + ((game.ratio[0] < 10) ? L"0" : L"") + to_wstring(game.ratio[0]) + wstring(L" | [O]: ") + ((game.ratio[1] < 0) ? wstring(L"0") : wstring(L"")) + to_wstring(game.ratio[1]), black, white_pink, false);
+	RGBPrint(22, 13, 
+		wstring(L"[X]: ") + ((game.ratio[0] < 10) ? L"0" : L"") + to_wstring(game.ratio[0]) + 
+		wstring(L" | [O]: ") + ((game.ratio[1] < 0) ? wstring(L"0") : wstring(L"")) + to_wstring(game.ratio[1])
+		, black, white_pink, false);
 	
-	RGBPrint(16, 15,getwstring(language, L"ingame_time") + L": " + wstring((game.time < 10) ? L"0" : L"") + to_wstring(game.time) + L"s", black, white_pink, true);
+	RGBPrint(16, 15,
+		getwstring(language, L"ingame_time") + L": " + wstring((game.time < 10) ? L"0" : L"") + to_wstring(game.time) + L"s", 
+		black, white_pink, true);
 	
 	RGBPrint(16, 17,getwstring(language, L"ingame_hits")+ L":", black, white_pink, true);
-	RGBPrint(16 + (int)getwstring(language, L"ingame_hits").size(), 17, wstring(L"[X]: " + wstring((game.hits[0] < 10) ? L"0" : L"")) + to_wstring(game.hits[0]) + wstring(L" | [O]: ") + wstring((game.hits[1] < 10) ? L"0" : L"") + to_wstring(game.hits[1]), black, white_pink, false);
+	RGBPrint(16 + (int)getwstring(language, L"ingame_hits").size(), 17,
+		wstring(L"[X]: " + wstring((game.hits[0] < 10) ? L"0" : L"")) + to_wstring(game.hits[0]) + 
+		wstring(L" | [O]: ") + wstring((game.hits[1] < 10) ? L"0" : L"") + to_wstring(game.hits[1]), 
+		black, white_pink, false);
 	bool c = !game.turn;
 	for (int i = 0; i < game.history.size(); i++) {
 		if (i == 5) break;
 		string text = (c) ? "[X]" : "[O]";
 		c = !c;
 		RGBPrint(20, 25 + 2 * i, text, black, white_pink);
-		RGBPrint(30, 25 + 2 * i, char(game.history[i].first) +string((game.history[i].second < 10) ? "0":"") + to_string(game.history[i].second), black, white_pink);
+		RGBPrint(30, 25 + 2 * i, 
+			char(game.history[i].first) +string((game.history[i].second < 10) ? "0":"") + to_string(game.history[i].second)
+			, black, white_pink);
 	}
 }
 void drawTheScreen() {
@@ -304,10 +329,7 @@ void StartGame(bool drawBackground) {
 					int x, y;//???????????????????????
 					if (game.turn) check = checkWin(1, x, y);
 					else  check = checkWin(2, x, y);
-					if (game.time <= 0 && check==false) {
-						check = true;
-						game.turn = !game.turn;
-					}
+
 					if (check) {
 						if (game.turn) {
 							RGBPrint(80, 15, "X WONNNNNNNNNN", {255,0,0}, white_pink);
@@ -329,15 +351,14 @@ void StartGame(bool drawBackground) {
 							game.turn = !game.turn;
 							drawTurn(game.turn, 69, 6, light_pink, pink, white_pink);
 						}
-						else {
-							//time out!
-						}
 					}
 				}
 			}
 			else if (c == 'w' or c == 'a' or c == 's' or c == 'd') {
 				if (enableSFX) playSound(3, 0);
-				RGBPrint(x + 2 + loc_x * 4, y + 2 * loc_y + 1, (game.board[loc_y][loc_x] == 0 ? L" " : game.board[loc_y][loc_x] == 1 ? L"X":L"O"), black, white_pink, false);
+				RGBPrint(x + 2 + loc_x * 4, y + 2 * loc_y + 1, 
+					(game.board[loc_y][loc_x] == 0 ? L" " : game.board[loc_y][loc_x] == 1 ? L"X":L"O"), 
+					black, white_pink, false);
 				switch (c) {
 				case 'w':
 					loc_y = (loc_y == 0) ? loc_y : loc_y - 1;
@@ -360,13 +381,23 @@ void StartGame(bool drawBackground) {
 					drawInGameKeyboard(123 + 13, 10 + 6, 's', key_s, black, white_pink);
 					break;
 				}
-				RGBPrint(x + 2 + loc_x * 4, y + 2 * loc_y + 1, (game.board[loc_y][loc_x] == 0 ? L" " : (game.board[loc_y][loc_x] == 1 ? L"X":L"O")), black, light_pink, false);
+				RGBPrint(x + 2 + loc_x * 4, y + 2 * loc_y + 1, 
+					(game.board[loc_y][loc_x] == 0 ? L" " : (game.board[loc_y][loc_x] == 1 ? L"X":L"O")), 
+					black, light_pink, false);
 			}
 		};
 		Sleep(50);
 		count += 50;
 		if (count >= 1000) {
 			game.time -= 1;
+			if (game.time < 0) {
+				game.time = 0;
+				check = true;
+				game.turn = !game.turn;
+				if (game.turn)  RGBPrint(80, 15, "X WONNNNNNNNNN", { 255,0,0 }, white_pink);
+				else RGBPrint(80, 15, "O WONNNNNNNNNN", { 255,0,0 }, white_pink);
+		
+			}
 			count = 0;
 		}
 		updateScreen();
@@ -392,23 +423,7 @@ void setupGame(string name,bool turn, short time, short ratio[2], short hits[2],
 	game.board = board;
 	game.board_heigh = 10; game.board_width = 15;
 }
-int loadAllSaves(vector<string> &saves) {
-	int dem = 0;
-	vector<pair<string, long>> _saves = {};
-	for (const auto& entry : fs::directory_iterator("./Saves")) {
-		long s =(long) std::chrono::duration_cast<std::chrono::milliseconds>(fs::last_write_time(entry).time_since_epoch()).count();
-		_saves.push_back({ entry.path().filename().string(), s });
-		auto ftime = fs::last_write_time(entry);
-		dem += 1;
-	}
-	for (int i = 0; i < _saves.size(); i++) {
-		for (int j = i + 1; j < _saves.size(); j++) {
-			if (_saves[i].second < _saves[j].second) swap(_saves[i], _saves[j]);
-		}
-	}
-	for (int i = 0; i < _saves.size(); i++) saves.push_back(_saves[i].first.substr(0,_saves[i].first.size()-4));
-	return dem;
-}
+
 string gameEditor_name(int x, int y, RGB text_color, RGB background_color, RGB selected_color) {//default: x=112, y=27
 	ShowConsoleCursor(true);
 	string newname = game.name;
