@@ -390,7 +390,7 @@ void StartGame(bool drawBackground) {
 		count += 50;
 		if (count >= 1000) {
 			game.time -= 1;
-			if (game.time < 0) {
+			if (game.time <= 0) {
 				game.time = 0;
 				check = true;
 				game.turn = !game.turn;
