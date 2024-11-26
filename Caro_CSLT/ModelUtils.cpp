@@ -623,3 +623,5 @@ void drawSavingGamePanel(int x, int y, RGB border_color, RGB background_color, R
     RGBPrint(x + 3, y + 5, L"▄", dot_color, background_color, false);
     RGBPrint(x + 29, y + 5, L"▄", dot_color, background_color, false);
 }
+
+
