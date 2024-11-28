@@ -104,7 +104,6 @@ bool checkWin(int value, vector<pair<int, int>>& winningCells, string& reason) {
 
 
 void flashWinningCells(const vector<pair<int, int>>& cells, char symbol, const string& reason) {
-	// Định nghĩa màu sắc
 	RGB black = { 0, 0, 0 };              
 	RGB light_pink = { 255, 182, 193 };   
 	RGB white = { 255, 255, 255 };        
@@ -134,14 +133,6 @@ void flashWinningCells(const vector<pair<int, int>>& cells, char symbol, const s
 		RGBPrint(0, game.board_heigh + 2, "Ly do thang: " + reason, black, light_pink); 
 	}
 }
-
-
-
-
-
-
-
-
 
 bool fileExists(string filename) {
 	FILE* file;
