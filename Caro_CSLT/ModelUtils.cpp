@@ -24,6 +24,7 @@ void RGBPrint(int x, int y, string text, RGB textColor, RGB bgColor) {
     cout << "\x1b[38;2;" << textColor.R << ";" << textColor.G << ";" << textColor.B << "m";//text color
     cout << "\x1b[48;2;" << bgColor.R << ";" << bgColor.G << ";" << bgColor.B << "m";//bg color
     cout << text;
+    cout << "\x1b[0m";
 }
 void printColoredText(int x, int y, wstring text, int textColor, int bgColor) {	//in text tại vị trí x,y với màu textColor
     int OldMode = _setmode(_fileno(stdout), _O_WTEXT);							//bgColor nền

@@ -6,108 +6,138 @@
 #include"ModelUtils.h"
 GAME game;
 bool key_w = false, key_a = false, key_s = false, key_d = false;
-bool rowCheck(int value, int i, int j) {
-	int count = 0;
+bool rowCheck(int value, int i, int j, int& count) {
+	count = 0; // Đếm số ô liên tiếp
 	while (i < game.board_heigh && j < game.board_width) {
-		if (game.board[i][j] == value) count++;
-		else return count >= 5;
-		j++;
+		if (game.board[i][j] == value)
+			count++;
+		else
+			break;
+		j++; // Duyệt sang ô bên phải
 	}
 	return count >= 5;
 }
-bool colCheck(int value, int i, int j) {
-	int count = 0;
+
+bool colCheck(int value, int i, int j, int& count) {
+	count = 0; // Đếm số ô liên tiếp
 	while (i < game.board_heigh) {
-		if (game.board[i][j] == value) count++;
-		else return count >= 5;
-		i++;
+		if (game.board[i][j] == value)
+			count++;
+		else
+			break;
+		i++; // Duyệt xuống ô bên dưới
 	}
 	return count >= 5;
 }
-bool leftDiagonalCheck(int value, int i, int j) {
-	int count = 0;
+
+bool leftDiagonalCheck(int value, int i, int j, int& count) {
+	count = 0; // Đếm số ô liên tiếp
 	while (i < game.board_heigh && j < game.board_width) {
-		if (game.board[i][j] == value) count++;
-		else return count >= 5;
-		i++;
+		if (game.board[i][j] == value)
+			count++;
+		else
+			break;
+		i++; // Duyệt xuống theo đường chéo trái
 		j++;
 	}
 	return count >= 5;
 }
-bool rightDiagonalCheck(int value, int i, int j) {
-	int count = 0;
+
+bool rightDiagonalCheck(int value, int i, int j, int& count) {
+	count = 0; // Đếm số ô liên tiếp
 	while (i < game.board_heigh && j >= 0) {
-		if (game.board[i][j] == value) count++;
-		else return count >= 5;
-		i++;
+		if (game.board[i][j] == value)
+			count++;
+		else
+			break;
+		i++; // Duyệt xuống theo đường chéo phải
 		j--;
 	}
 	return count >= 5;
 }
+
 bool checkWin(int value, vector<pair<int, int>>& winningCells, string& reason) {
-	winningCells.clear(); 
-	reason.clear();       
+	winningCells.clear(); // Xóa danh sách các ô thắng trước đó
+	reason.clear();       // Xóa lý do thắng trước đó
 
 	for (int i = 0; i < game.board_heigh; i++) {
 		for (int j = 0; j < game.board_width; j++) {
 			if (game.board[i][j] == value) {
-				int rCount = rowCheck(value, i, j);
-				int cCount = colCheck(value, i, j);
-				int ldCount = leftDiagonalCheck(value, i, j);
-				int rdCount = rightDiagonalCheck(value, i, j);
+				int count;
 
-				// Lưu tọa độ các ô thắng và lý do chiến thắng
-				if (rCount >= 5) {
-					for (int k = 0; k < rCount; k++) {
+				if (rowCheck(value, i, j, count)) {
+					for (int k = 0; k < count; k++) {
 						winningCells.push_back({ i, j + k });
 					}
-					reason = "trên hàng";
-				}
-				if (cCount >= 5) {
-					for (int k = 0; k < cCount; k++) {
-						winningCells.push_back({ i + k, j });
-					}
-					reason = "trên cột";
-				}
-				if (ldCount >= 5) {
-					for (int k = 0; k < ldCount; k++) {
-						winningCells.push_back({ i + k, j + k });
-					}
-					reason = "trên đường chéo trái";
-				}
-				if (rdCount >= 5) {
-					for (int k = 0; k < rdCount; k++) {
-						winningCells.push_back({ i + k, j - k });
-					}
-					reason = "trên đường chéo phải";
+					reason = "row!";
+					return true;
 				}
 
-				// Nếu tìm thấy lý do chiến thắng
-				if (!reason.empty()) {
-					return true; // Có người thắng
+				if (colCheck(value, i, j, count)) {
+					for (int k = 0; k < count; k++) {
+						winningCells.push_back({ i + k, j });
+					}
+					reason = "col!";
+					return true;
+				}
+
+				if (leftDiagonalCheck(value, i, j, count)) {
+					for (int k = 0; k < count; k++) {
+						winningCells.push_back({ i + k, j + k });
+					}
+					reason = "leftDiagonal!";
+					return true;
+				}
+
+				if (rightDiagonalCheck(value, i, j, count)) {
+					for (int k = 0; k < count; k++) {
+						winningCells.push_back({ i + k, j - k });
+					}
+					reason = "rightDiagonal!";
+					return true;
 				}
 			}
 		}
 	}
-	return false; // Không có người thắng
+	return false; 
 }
 
-//void flashWinningCells(const vector<pair<int, int>>& cells, char symbol, const string& reason) {
-//	for (const auto& cell : cells) {
-//		int x = cell.first; // Hoành độ của ô
-//		int y = cell.second; // Tung độ của ô
-//		for (int i = 0; i < 3; ++i) {
-//			Sleep(200); // Chờ 200ms
-//			RGBPrint(x, y, string(1, symbol), black, light_pink, false); // In ô với màu sáng
-//			Sleep(200);
-//			RGBPrint(x, y, string(1, symbol), black, white_pink, false); // Đổi về màu bình thường
-//		}
-//	}
-//
-//	// Hiển thị lý do chiến thắng
-//	RGBPrint(69, 12, reason, black, light_pink, true);
-//}
-//
+
+void flashWinningCells(const vector<pair<int, int>>& cells, char symbol, const string& reason) {
+	// Định nghĩa màu sắc
+	RGB black = { 0, 0, 0 };              
+	RGB light_pink = { 255, 182, 193 };   
+	RGB white = { 255, 255, 255 };        
+
+	// kiem tra lai neu cac o hop le
+	if (cells.size() >= 5) {
+		DWORD startTime = GetTickCount(); // lay thoi gian bat dau
+		DWORD endTime = startTime + 5000; // ket thuc sau 5s
+
+		while (GetTickCount() < endTime) { // lap lai cho den khi 5s troi qua
+			//hien thi cac o chien thang
+			for (const auto& cell : cells) {
+				int x = cell.second;  
+				int y = cell.first;  
+				RGBPrint(x, y, string(1, symbol), black, light_pink); 
+			}
+			Sleep(500); 
+
+			for (const auto& cell : cells) {
+				int x = cell.second;  
+				int y = cell.first;   
+				RGBPrint(x, y, string(1, symbol), black, white); 
+			}
+			Sleep(500); 
+		}
+
+		RGBPrint(0, game.board_heigh + 2, "Ly do thang: " + reason, black, light_pink); 
+	}
+}
+
+
+
+
 
 
 
@@ -356,17 +386,17 @@ void drawTheScreen() {
 }
 
 void StartGame(bool drawBackground) {
-	int loc_x = 7, loc_y = 5; // vi tri
-	int x = 55, y = 16;       // toa do bat dau
-	int count = 0;           
-	bool check = false;       
+	int loc_x = 7, loc_y = 5; // vi tri con tro trong ban co
+	int x = 55, y = 16; // toa do bat dau
+	int count = 0;
+	bool check = false;
 	vector<pair<int, int>> winningCells;
 	string reason;
 
 	if (drawBackground) {
 		system("cls");
 		drawTheScreen();
-		//in lai
+
 		for (int i = 0; i < game.board_heigh; i++) {
 			for (int j = 0; j < game.board_width; j++) {
 				RGBPrint(x + 2 + j * 4, y + 2 * i + 1,
@@ -377,12 +407,14 @@ void StartGame(bool drawBackground) {
 		drawTurn(game.turn, 69, 6, light_pink, pink, white_pink);
 	}
 
-	// 
+	// in con tro tai o da chon
 	auto printCursor = [&]() {
 		RGBPrint(x + 2 + loc_x * 4, y + 2 * loc_y + 1,
 			(game.board[loc_y][loc_x] == 0 ? L" " : game.board[loc_y][loc_x] == 1 ? L"X" : L"O"),
-			black, light_pink, false);
+			black, light_pink, false); //ve lai con tro o vi tri moi
 		};
+
+	// ve lai con tro ban dau
 	printCursor();
 
 	while (true) {
@@ -390,30 +422,28 @@ void StartGame(bool drawBackground) {
 			int n = _getch();
 			char c = tolower(n);
 
-			if (c == 'q') { // out game
+			if (c == 'q') { 
 				if (enableSFX) playSound(3, 0);
 				break;
 			}
-			if (c == 'l') { // save game
+			if (c == 'l') { 
 				saveGameScreen(true);
 				break;
 			}
 			if (n == 13) { 
 				if (game.board[loc_y][loc_x] == 0) {
-					game.history.insert(game.history.begin(), { 65 + loc_y, loc_x + 1 });
 					game.board[loc_y][loc_x] = game.turn ? 1 : 2;
 
-				
 					check = checkWin(game.turn ? 1 : 2, winningCells, reason);
 					if (check) {
-						//flashWinningCells(winningCells, game.turn ? 'X' : 'O', reason);
+						flashWinningCells(winningCells, game.turn ? 'X' : 'O', reason);
 						if (game.turn) game.ratio[0]++;
 						else game.ratio[1]++;
 						break;
 					}
 
 					game.turn = !game.turn;
-					game.time = 15; 
+					game.time = 15;
 					drawTurn(game.turn, 69, 6, light_pink, pink, white_pink);
 				}
 			}
@@ -448,6 +478,7 @@ void StartGame(bool drawBackground) {
 				drawTurn(game.turn, 69, 6, light_pink, pink, white_pink);
 			}
 		}
+
 		updateScreen();
 		fixKeyboard();
 	}
@@ -462,6 +493,11 @@ void StartGame(bool drawBackground) {
 	drawTriagle(55, 20, true);
 	GameScreen(0);
 }
+
+
+
+
+
 
 void setupGame(string name,bool turn, short time, short ratio[2], short hits[2], vector<pair<short, short>> history, vector<vector<int>> board) {
 	game.name = name;
