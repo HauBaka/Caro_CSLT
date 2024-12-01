@@ -478,6 +478,8 @@ void drawTheScreen() {
 	drawInGameKeyboard(123 + 3, 10 + 5, 'a', key_a, black, white_pink);
 	drawInGameKeyboard(123 + 13, 10 + 6, 's', key_s, black, white_pink);
 	drawInGameKeyboard(123 + 24, 10 + 5, 'd', key_d, black, white_pink);
+	//keybinds
+	drawInGamePanel_1(120, 25, black, white_pink, white, white_pink);
 	//
 	drawGameBoard(55, 16, 61, 21, black, white_pink);
 	updateScreen();
@@ -540,7 +542,10 @@ void StartGame(bool drawBackground) {
 		if (_kbhit()) {
 			int n = _getch();
 			char c = tolower(n);
-
+			if (c == 'l') {
+				saveGameScreen(true);
+				break;
+			}
 			if (c == 'q') {
 				if (enableSFX) playSound(3, 0);
 				break;
