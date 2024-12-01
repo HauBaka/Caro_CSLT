@@ -40,6 +40,14 @@ void MainScreen(int currentSelect, bool playBGM, bool clear) {
 	drawMainMenu_Authors(10, 30);
 	drawMainMenu_Out(10, 35);
 	drawTriagle(55, 20 + currentSelect * 5, true);
+	//ve gi do vui vui
+	drawPineTree(65, 30, white_pink, 1);
+	drawPineTree(75, 33, white_pink, 1);
+	drawPineTree(129,6, white_pink, 1);
+	drawSnowFlake(5, 5, white_pink);
+	drawSnowFlake(65, 25, white_pink);
+	drawSnowFlake(95, 35, white_pink);
+	drawSnowFlake(130, 15, white_pink);
 	int n, index = 0;
 	bool draw_tria = true;
 	while (true) {

@@ -1,6 +1,7 @@
 ﻿#include "ModelUtils.h"
 #include "terminalUtils.h"
-RGB pink = { 255,89,199 }, white_pink = { 255,217,254 }, light_pink = { 255,129,216 }, black = { 0,0,0 }, white = { 255,255,255 }, default_white = { 242,242,242 };
+//RGB pink = { 255,89,199 }, white_pink = { 255,217,254 }, light_pink = { 255,129,216 }, black = { 0,0,0 }, white = { 255,255,255 }, default_white = { 242,242,242 };
+RGB pink = { 132,179,241 }, white_pink = { 224,237,250 }, light_pink = { 174,211,248 }, black = { 0,0,0 }, white = { 255,255,255 }, default_white = { 242,242,242 };
 void RGBPrint(int x, int y, wstring text, RGB textColor, RGB bgColor, bool fromFile) {
     GotoXY(x, y);
     int OldMode;
@@ -128,7 +129,7 @@ void BetterDraw(int x, int y, wstring text, int bgcolor) {
 }
 
 void drawLOGO(int x, int y) {
-    RGBPrint(x, y,     L" ██████╗ █████╗ ██████╗  ██████╗ ✖⚫   ██████╗  █████╗ ███╗   ███╗███████╗", black, white_pink, false);
+    RGBPrint(x, y,     L" ██████╗ █████╗ ██████╗  ██████╗      ██████╗  █████╗ ███╗   ███╗███████╗", black, white_pink, false);
     RGBPrint(x, y + 1, L"██╔════╝██╔══██╗██╔══██╗██╔═══██╗    ██╔════╝ ██╔══██╗████╗ ████║██╔════╝", black, white_pink, false);
     RGBPrint(x, y + 2, L"██║     ███████║██████╔╝██║   ██║    ██║  ███╗███████║██╔████╔██║█████╗  ", black, white_pink, false);
     RGBPrint(x, y + 3, L"██║     ██╔══██║██╔══██╗██║   ██║    ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  ", black, white_pink, false);
@@ -603,7 +604,7 @@ void drawInGameKeyboard(int x, int y, char key, bool status, RGB on_color, RGB o
         break;
     }
 }
-void drawSavingGamePanel(int x, int y, RGB border_color, RGB background_color, RGB dot_color, RGB outside_color) {
+void drawMiniPopUp(int x, int y, RGB border_color, RGB background_color, RGB dot_color, RGB outside_color) {
     //line 1
     RGBPrint(x, y, L" ▄", border_color, outside_color, false);
     RGBPrint(x + 2, y, L"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", border_color, background_color, false);
@@ -624,5 +625,100 @@ void drawSavingGamePanel(int x, int y, RGB border_color, RGB background_color, R
     RGBPrint(x + 3, y + 5, L"▄", dot_color, background_color, false);
     RGBPrint(x + 29, y + 5, L"▄", dot_color, background_color, false);
 }
+void drawDrawText(int x, int y, RGB background_color) {
+    RGB colors[16] = {
+        {199,66,79}, 
+        {224,107,81}, 
+        {242,165,97}, 
+        {242,165,97}, 
+        {177,212,128}, 
+        {128,184,120}, 
+        {128,184,120}, 
+        {137,217,217}, 
+        {137,217,217}, 
+        {92,139,168}, 
+        {78,102,121}, 
+        {70,73,105}, 
+        {68,53,93}, 
+        {61,0,61}, 
+        {98,23,72}, 
+        {148,44,75}
+    };
+    for (int i = 0; i < 16*3; i++) {
+        RGBPrint(x, y,     L"·▄▄▄▄  ▄▄▄   ▄▄▄· ▄▄▌ ▐ ▄▌▄▄ ", colors[i%16], background_color, false);
+        RGBPrint(x, y + 1, L"██▪ ██ ▀▄ █·▐█ ▀█ ██· █▌▐███▌", colors[i % 16], background_color, false);
+        RGBPrint(x, y + 2, L"▐█· ▐█▌▐▀▀▄ ▄█▀▀█ ██▪▐█▐▐▌▐█·", colors[i % 16], background_color, false);
+        RGBPrint(x, y + 3, L"██. ██ ▐█•█▌▐█ ▪▐▌▐█▌██▐█▌.▀ ", colors[i % 16], background_color, false);
+        RGBPrint(x, y + 4, L"▀▀▀▀▀• .▀  ▀ ▀  ▀  ▀▀▀▀ ▀▪ ▀ ", colors[i % 16], background_color, false);
+        Sleep(100);//0.1s mỗi màu
+    }
+}
+void drawPauseText(int x, int y, RGB background_color) {
+    int i = 0;
+    RGB colors[16] = {
+        {199,66,79},
+        {224,107,81},
+        {242,165,97},
+        {242,165,97},
+        {177,212,128},
+        {128,184,120},
+        {128,184,120},
+        {137,217,217},
+        {137,217,217},
+        {92,139,168},
+        {78,102,121},
+        {70,73,105},
+        {68,53,93},
+        {61,0,61},
+        {98,23,72},
+        {148,44,75}
+    };
+    while (true) {
+        i++;
+        //vẽ
+        RGBPrint(x, y,     L" ▄▄▄· ▄▄▄· ▄• ▄▌.▄▄ · ▄▄▄ .·▄▄▄▄  ", colors[i % 16], background_color, false);
+        RGBPrint(x, y + 1, L"▐█ ▄█▐█ ▀█ █▪██▌▐█ ▀. ▀▄.▀·██▪ ██ ", colors[i % 16], background_color, false);
+        RGBPrint(x, y + 2, L" ██▀·▄█▀▀█ █▌▐█▌▄▀▀▀█▄▐▀▀▪▄▐█· ▐█▌", colors[i % 16], background_color, false);
+        RGBPrint(x, y + 3, L"▐█▪·•▐█ ▪▐▌▐█▄█▌▐█▄▪▐█▐█▄▄▌██. ██ ", colors[i % 16], background_color, false);
+        RGBPrint(x, y + 4, L".▀    ▀  ▀  ▀▀▀  ▀▀▀▀  ▀▀▀ ▀▀▀▀▀• ", colors[i % 16], background_color, false);
+        Sleep(200);//0.1s mỗi màu
+        //xử lí
+        if (_kbhit()) {
+            int n = tolower(_getch());
+            if (n == 'p') break;
+        }
+    }
+}
 
+void drawPineTree(int x, int y, RGB background_color, int size) {
+    if (size == 1) {
+        //  ▄█▄
+        // ▄▄█▄▄
+        // ▄▄█▄▄
+        //▀▀▀█▀▀▀
+        //   █
+        RGB leaves_color = { 102,138,153 }, tree_body = { 101,17,33 };
+        RGBPrint(x, y, L"  ▄█▄", leaves_color, background_color, false);
+        //
+        RGBPrint(x, y + 1, L" ▄▄█▄▄", leaves_color, background_color, false);
+        RGBPrint(x + 3, y + 1, L"▀", tree_body, leaves_color, false);
+        //
+        RGBPrint(x, y + 2, L" ▄▄█▄▄", leaves_color, background_color, false);
+        RGBPrint(x + 3, y + 2, L"▀", tree_body, leaves_color, false);
+        //
+        RGBPrint(x, y + 3, L"▀▀▀█▀▀▀", leaves_color, background_color, false);
+        RGBPrint(x + 3, y + 3, L"▀", leaves_color, tree_body, false);
+        //
+        RGBPrint(x, y + 4, L"   █", tree_body, background_color, false);
+    }
+    else if (size == 2) {
 
+    }
+}
+void drawSnowFlake(int x, int y, RGB background_color) {
+    RGBPrint(x, y,   L"    ▄", default_white, background_color, false);
+    RGBPrint(x, y+1, L" ▀▄ ▀ ▄▀", default_white, background_color, false);
+    RGBPrint(x, y+2, L"▄▄ ▀ ▀ ▄▄", default_white, background_color, false);
+    RGBPrint(x, y+3, L"  ▄▀ ▀▄", default_white, background_color, false);
+    RGBPrint(x, y+4, L" ▀  █  ▀", default_white, background_color, false);
+}

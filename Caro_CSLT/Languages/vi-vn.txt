@@ -6,12 +6,20 @@ play_loadgame: [NẠP GAME]
 play_back: QUAY LẠI TRANG TRƯỚC
 play_pvp: Người chơi vs Người chơi
 play_pve: Người chơi vs Máy
+ingame_player: Người chơi
 ingame_name: Bản lưu
 ingame_turn: Lượt
 ingame_ratio: TỈ SỐ
 ingame_time: THỜI GIAN
 ingame_hits: LƯỢT ĐÁNH
 ingame_timeleft: Thời gian còn lại
+draw_msg: Người chơi %p muốn xin hòa
+draw_accept: Đồng ý
+draw_deny: Không
+pause_msg: Người chơi %p muốn tạm dừng
+pause_accept: Đồng ý
+pause_deny: Không
+pause_continue: Nhấn 'p' để quay lại
 save_cancel: [HỦY]
 save_save: [LƯU]
 save_id: Mã

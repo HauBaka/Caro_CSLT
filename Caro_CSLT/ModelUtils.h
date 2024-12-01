@@ -51,5 +51,10 @@ void drawInGamePanel_4(int, int, RGB, RGB, RGB, RGB);
 void drawInGameKeyboard(int, int, char, bool, RGB, RGB);
 void drawKeyCap(int, int, bool, RGB, RGB);
 void drawInGameKeyboard(int, int, char, bool, RGB, RGB);
-void drawSavingGamePanel(int, int, RGB, RGB, RGB, RGB);
+void drawMiniPopUp(int, int, RGB, RGB, RGB, RGB);
+void drawDrawText(int, int, RGB);
+void drawPauseText(int, int, RGB);
+
+void drawPineTree(int, int, RGB, int);
+void drawSnowFlake(int, int, RGB);
 #endif

@@ -6,12 +6,19 @@ play_loadgame: [LOAD GAME]
 play_back: BLACK TO PLAY GAME MENU
 play_pvp: Player vs Player
 play_pve: Player vs BOT
+ingame_player: Player
 ingame_name: NAME
 ingame_turn: Turn
 ingame_ratio: RATIO
 ingame_time: TIME
 ingame_hits: HITS
 ingame_timeleft: Time left
+draw_msg: Player %p wants to draw
+draw_accept: Yes
+draw_deny: No
+pause_msg: Player %p wants to pause game
+pause_accept: Yes
+pause_deny: No
 save_cancel: [CANCEL]
 save_save: [SAVE]
 save_id: ID
