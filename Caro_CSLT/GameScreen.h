@@ -14,6 +14,7 @@ namespace fs = std::experimental::filesystem;
 struct GAME {
 	string name;
 	bool turn;//0:O, 1:X
+	bool gamemode;//0:pvp, 1: pve
 	short time;
 	short ratio[2];//ti so
 	short hits[2];//so luot danh
@@ -37,7 +38,7 @@ void updateScreen();
 void drawTheScreen();
 
 void StartGame(bool);
-void setupGame(string, bool, short, short[2], short[2], vector<pair<short, short>>, vector<vector<int>>);
+void setupGame(string, bool, bool, short, short[2], short[2], vector<pair<short, short>>, vector<vector<int>>);
 int loadAllSaves(vector<string>&);
 string gameEditor_name(int, int, RGB, RGB, RGB);
 void gameEditor_remove(string);

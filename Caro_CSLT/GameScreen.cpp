@@ -155,9 +155,10 @@ bool loadGame(string filename) {
 		game = {};
 		game.name = filename;
 		game.board_heigh = 10; game.board_width = 15;
-		//load time & turn
+		//load time, turn, gamemode
 		game.time = getInt(savef, L"time-left");
 		game.turn = getInt(savef, L"turn");
+		game.gamemode = getInt(savef, L"gamemode") == 1 ? 1 :  0;
 		//load ratio
 		text = getwstring(savef, L"ratio");
 		for (int i = 0; i < text.size(); i++) if (text[i] == ' ') {
@@ -201,6 +202,7 @@ bool saveGame() {
 	fopen_s(&savef, ("./Saves/" + game.name + ".txt").c_str(), "w");
 
 	fprintf_s(savef, ("time-left: " + to_string(game.time) + "\n").c_str());
+	fprintf_s(savef, ("gamemode: " + to_string(game.gamemode ? 1 : 0) + "\n").c_str());
 	fprintf_s(savef, (game.turn == 1) ? "turn: 1\n" : "turn: 0\n");
 	fprintf_s(savef, ("ratio: " + to_string(game.ratio[0]) + " " + to_string(game.ratio[1]) + "\n").c_str());
 	fprintf_s(savef, ("hits: " + to_string(game.hits[0]) + " " + to_string(game.hits[1]) + "\n").c_str());
@@ -480,13 +482,43 @@ void drawTheScreen() {
 	drawGameBoard(55, 16, 61, 21, black, white_pink);
 	updateScreen();
 }
+//PVE
+int getRandom(int a, int b) {
+	return a + std::rand() % (b - a + 1);
+}
+bool botHitRandom(int &loc_x, int &loc_y) {
+	bool check = false;
 
+	Sleep(getRandom(400, 3000));
+	RGBPrint(57 + loc_x * 4, 17 + 2 * loc_y,
+		L"X",
+		black, white_pink, false);
+	while (!check) {
+		loc_y = getRandom(0, 9), loc_x = getRandom(0,14);
+		if (game.board[loc_y][loc_x] == 0) {
+			game.board[loc_y][loc_x] = 2;
+			game.history.insert(game.history.begin(), { 65 + loc_y, loc_x + 1 });
+			check = true;
+
+		}
+	}
+	RGBPrint(57 + loc_x * 4, 17 + 2 * loc_y ,
+		  L"O" ,
+		black, light_pink, false);
+	if (checkWin()) {
+		if (game.turn) game.ratio[0]++;
+		else game.ratio[1]++;
+		return true;
+	}
+	game.turn = !game.turn;
+	game.time = 15;
+	drawTurn(game.turn, 69, 6, light_pink, pink, white_pink);
+	return false;
+}
 void StartGame(bool drawBackground) {
 	int loc_x = 7, loc_y = 5; // vi tri con tro trong ban co
 	int x = 55, y = 16; // toa do bat dau
 	int count = 0;
-	//bool check = false;
-	string reason;
 	//vẽ lại nền
 	if (drawBackground) {
 		system("cls");
@@ -527,10 +559,17 @@ void StartGame(bool drawBackground) {
 						else game.ratio[1]++;
 						break;
 					}
-
 					game.turn = !game.turn;
 					game.time = 15;
 					drawTurn(game.turn, 69, 6, light_pink, pink, white_pink);
+
+					RGBPrint(x + 2 + loc_x * 4, y + 2 * loc_y + 1,
+						(game.board[loc_y][loc_x] == 0 ? L" " : game.board[loc_y][loc_x] == 1 ? L"X" : L"O"),
+						black, light_pink, false);
+					if (game.gamemode == 1) {
+						if (botHitRandom(loc_x, loc_y)) break;
+					}
+
 				}
 			}
 			//di chuyển
@@ -597,9 +636,10 @@ void StartGame(bool drawBackground) {
 	GameScreen(0);
 }
 
-void setupGame(string name, bool turn, short time, short ratio[2], short hits[2], vector<pair<short, short>> history, vector<vector<int>> board) {
+void setupGame(string name, bool turn,bool gamemode, short time, short ratio[2], short hits[2], vector<pair<short, short>> history, vector<vector<int>> board) {
 	game.name = name;
 	game.turn = turn;
+	game.gamemode = gamemode;
 	game.time = time;
 	game.ratio[0] = ratio[0]; game.ratio[1] = ratio[1];
 	game.hits[0] = hits[0]; game.hits[1] = hits[1];
@@ -864,14 +904,14 @@ void selectModeScreen() {
 	case 0: {//start new game (PVP)
 		short a[2] = { 0 };
 		vector<vector<int>> board = vector<vector<int>>(10, vector<int>(15));
-		setupGame("", 1, 15, a, a, {}, board);
+		setupGame("", 1, 0, 15, a, a, {}, board);
 		StartGame(1);
 		break;
 	}
 	case 1: {//start new game (PVE)
 		short a[2] = { 0 };
 		vector<vector<int>> board = vector<vector<int>>(10, vector<int>(15));
-		setupGame("", 1, 15, a, a, {}, board);
+		setupGame("", 1, 1, 15, a, a, {}, board);
 		StartGame(1);
 		break;
 	}
