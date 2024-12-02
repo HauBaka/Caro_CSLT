@@ -57,4 +57,7 @@ void drawPauseText(int, int, RGB);
 
 void drawPineTree(int, int, RGB, int);
 void drawSnowFlake(int, int, RGB);
+void drawGift(int, int, RGB);
+void drawCandy(int, int, RGB);
+void drawReindeer(int, int, RGB);
 #endif

@@ -48,6 +48,9 @@ void MainScreen(int currentSelect, bool playBGM, bool clear) {
 	drawSnowFlake(65, 25, white_pink);
 	drawSnowFlake(95, 35, white_pink);
 	drawSnowFlake(130, 15, white_pink);
+	drawGift(20, 9, white_pink);
+	drawCandy(90, 15, white_pink);
+	drawReindeer(10, 5, white_pink);
 	int n, index = 0;
 	bool draw_tria = true;
 	while (true) {

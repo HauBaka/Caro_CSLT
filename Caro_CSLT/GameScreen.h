@@ -9,7 +9,6 @@
 #include "FileConfiguration.h"
 #include <wchar.h>
 using namespace std; 
-
 namespace fs = std::experimental::filesystem;
 struct GAME {
 	string name;

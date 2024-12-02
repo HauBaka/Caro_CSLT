@@ -722,3 +722,134 @@ void drawSnowFlake(int x, int y, RGB background_color) {
     RGBPrint(x, y+3, L"  ▄▀ ▀▄", default_white, background_color, false);
     RGBPrint(x, y+4, L" ▀  █  ▀", default_white, background_color, false);
 }
+void drawGift(int x, int y, RGB background_color) {
+//      ▄▄
+//    ▄▀▀▀▀▄▀▀▄
+//     ▀█▄ █ ▄▄▀
+//█▀▀▀▀█▀▀▀▀▀▀▀▀█▀▀█
+//█▄▄▄▄█▄▄▄▄▄▄▄▄█▄▄█
+//▀█ ▄ ▀█ ▀▄   █▀ █
+// █▄ ▀▄█▀▄ ▀▄ █▄ █
+// █ ▀▄ █▄ ▀▄ ▀█  █
+// █   ▀█ ▀▄ ▀▄█▀ █ 
+ //▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+    RGB dark_red = {102,15,43},
+        red = {214,56,64},
+        border = {78,76,114},
+        body_dot = {182,205,216};
+    //header
+    RGBPrint(x, y, L"      ▄▄", dark_red, background_color, false);
+    //
+
+    RGBPrint(x, y+1, L"    ▄", dark_red, background_color, false);
+    RGBPrint(x+5, y+1, L"▀", dark_red, red, false);
+    RGBPrint(x+6, y+1, L"▀▀", red, white, false);
+    RGBPrint(x+8, y+1, L"▀▀▄▀▀", dark_red, red, false);
+    RGBPrint(x+10, y+1, L"▄", dark_red, background_color, false);
+    RGBPrint(x+13, y+1, L"▄", dark_red, background_color, false);
+    //
+    RGBPrint(x, y + 2, L"     ▀▄▄ █ ▄▄▀▀", dark_red, background_color, false);
+    RGBPrint(x+7, y + 2, L"▄▄ █ ▄▄", dark_red, red, false);
+    RGBPrint(x+9, y + 2, L"█", red, red, false);
+    //body
+    RGBPrint(x, y + 3, L"█▀▀▀▀█▀▀▀▀▀▀▀▀█▀▀█", border, default_white, false);
+    RGBPrint(x, y + 4, L"█▄▄▄▄█▄▄▄▄▄▄▄▄█▄▄█", border, default_white, false);
+    RGBPrint(x, y + 5, L"▀█ ▄ ▀█ ▀▄   █▀ █", border, background_color, false);
+    RGBPrint(x, y + 6, L" █▄ ▀▄█▀▄ ▀▄ █▄ █", border, background_color, false);
+    RGBPrint(x, y + 7, L" █ ▀▄ █▄ ▀▄ ▀█  █", border, background_color, false);
+    RGBPrint(x, y + 8, L" █   ▀█ ▀▄ ▀▄█▀ █", border, background_color, false);
+    RGBPrint(x, y + 9, L" ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", border, background_color, false);
+    //body details
+    //red lines
+
+    RGBPrint(x+5, y + 3, L"█", red, background_color, false);
+    RGBPrint(x+14, y + 3, L"█", red, background_color, false);
+
+    RGBPrint(x+5, y + 4, L"█", red, background_color, false);
+    RGBPrint(x+14, y + 4, L"█", red, background_color, false);
+    for (int i = 0; i < 4; i++) {
+        RGBPrint(x + 6, y + 5+i, L"█", red, background_color, false);
+        RGBPrint(x + 13, y + 5+i, L"█", red, background_color, false);
+    }
+    //dots
+    wstring texts[4] = {
+        L" ▄ ▀",
+        L"▄ ▀▄",
+        L" ▀▄ ",
+        L"   ▀"
+    }, texts_2[4] = {
+            L" ▀▄   ",
+            L"▀▄ ▀▄ ",
+            L"▄ ▀▄ ▀",
+            L" ▀▄ ▀▄"
+    }, texts_3[4] = {
+            L"▀ ",
+            L"▄ ",
+            L"  ",
+            L"▀ "
+    };
+    for (int i = 0; i < 4; i++) {
+        RGBPrint(x + 2, y + 5+i, texts[i], body_dot, default_white, false);
+        RGBPrint(x + 7, y + 5+i, texts_2[i], body_dot, default_white, false);
+        RGBPrint(x + 14, y + 5+i, texts_3[i], body_dot, default_white, false);
+    }
+}
+void drawCandy(int x, int y, RGB background_color) {
+//  ▄▀▀▀▀▀▄
+//▄▀  ▄▄▄ █▀▄
+//█▀██   █ ▄█
+//▀▄▄▀   ██▀█
+//       █ ▄█
+//       ██▀█
+//       █ ▄█
+//       ██▀█
+//       █ ▄█
+//       ██▀█
+//       ▀▄▄▀
+    wstring border[] = {
+        L"  ▄▀▀▀▀▀▄  ",
+        L"▄▀  ▄▄▄  ▀▄",
+        L"█  █   █  █",
+        L"▀▄▄▀   █  █",
+        L"       █  █",
+        L"       █  █",
+        L"       █  █",
+        L"       █  █",
+        L"       █  █",
+        L"       █  █",
+        L"       ▀▄▄▀"
+    };
+    for (int i = 0; i < 11; i++) RGBPrint(x, y + i, border[i], black, background_color, false);
+
+}
+
+void drawReindeer(int x, int y, RGB background_color) {
+    RGB dark_brown = { 80,56,32 },
+        brown = { 173, 117, 68 },
+        light_brown = { 200,161,120 },
+        red = { 185,44,34 },
+        yellow = { 230,198,75 };
+    RGBPrint(x, y, L"    █▄", dark_brown, background_color, false);
+    //
+    RGBPrint(x+5, y+1, L"▄██", brown, dark_brown, false);
+    RGBPrint(x+8, y+1, L"▄", brown, background_color, false);
+    //
+    RGBPrint(x + 4, y+2, L"▀██▄██▀", brown, black, false);
+    RGBPrint(x + 4, y+2, L"▀", brown, background_color, false);
+    RGBPrint(x + 10, y+2, L"▀", dark_brown, background_color, false);
+    //
+    RGBPrint(x+5, y + 3, L"▀▀▀", brown, red, false);
+    RGBPrint(x+8, y + 3, L"▀", brown, background_color, false);
+    //
+    RGBPrint(x, y + 4, L" ▄█▀████▀", brown, background_color, false);
+    RGBPrint(x+8, y + 4, L"▀", yellow, background_color, false);
+    RGBPrint(x+3, y + 4, L"▀", brown, light_brown, false);
+    //
+
+    RGBPrint(x, y + 5, L"▀█▄█▀▀██", brown, background_color, false);
+    RGBPrint(x+2, y + 5, L"▄", brown, light_brown, false);
+    //
+    RGBPrint(x+1, y + 6, L"▀▀", brown, dark_brown, false);
+    RGBPrint(x+6, y + 6, L"▀▀", brown, dark_brown, false);
+
+}
