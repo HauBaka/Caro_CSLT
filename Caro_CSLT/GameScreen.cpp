@@ -10,8 +10,8 @@ bool key_w = false, key_a = false, key_s = false, key_d = false;
 bool rowCheck(int i, int j, int& count) {
 	count = 0; 
 	int value = game.turn ? 1 : 2;
-	while (i < game.board_heigh && j < game.board_width) {
-		if (game.board[i][j] == value) {
+	while (i < BOARD_SIZE_HEIGHT && j < BOARD_SIZE_WIDTH) {
+		if (game.point[i][j].c == value) {
 			count++;
 			j++;
 		}
@@ -22,8 +22,8 @@ bool rowCheck(int i, int j, int& count) {
 bool colCheck(int i, int j, int& count) {
 	count = 0;
 	int value = game.turn ? 1 : 2;
-	while (i < game.board_heigh) {
-		if (game.board[i][j] == value) {
+	while (i < BOARD_SIZE_HEIGHT) {
+		if (game.point[i][j].c == value) {
 			count++;
 			i++;
 		}
@@ -34,8 +34,8 @@ bool colCheck(int i, int j, int& count) {
 bool leftDiagonalCheck(int i, int j, int& count) {
 	count = 0;
 	int value = game.turn ? 1 : 2;
-	while (i < game.board_heigh && j < game.board_width) {
-		if (game.board[i][j] == value) {
+	while (i < BOARD_SIZE_HEIGHT && j < BOARD_SIZE_WIDTH) {
+		if (game.point[i][j].c == value) {
 			count++;
 			i++;
 			j++;
@@ -47,8 +47,8 @@ bool leftDiagonalCheck(int i, int j, int& count) {
 bool rightDiagonalCheck(int i, int j, int& count) {
 	count = 0;
 	int value = game.turn ? 1 : 2;
-	while (i < game.board_heigh && j >= 0) {
-		if (game.board[i][j] == value) {
+	while (i < BOARD_SIZE_HEIGHT && j >= 0) {
+		if (game.point[i][j].c == value) {
 			count++;
 			i++;
 			j--;
@@ -59,7 +59,8 @@ bool rightDiagonalCheck(int i, int j, int& count) {
 }
 //Xử lí thắng/thua/hòa
 void drawWinEffect(bool isWin, int winType, int row, int col, int streak) {
-	int time = 4,
+	int i,
+		time = 4,
 		timer = 0,
 		_col = col,
 		_row = row,
@@ -82,6 +83,21 @@ void drawWinEffect(bool isWin, int winType, int row, int col, int streak) {
 	{98,23,72},
 	{148,44,75}
 	};
+	wstring win_header[5] = {
+			L"▐▄• ▄     ▄▄▌ ▐ ▄▌       ▐ ▄ ",
+			L" █▌█▌▪    ██· █▌▐█▪     •█▌▐█",
+			L" ·██·     ██▪▐█▐▐▌ ▄█▀▄ ▐█▐▐▌",
+			L"▪▐█·█▌    ▐█▌██▐█▌▐█▌.▐▌██▐█▌",
+			L"•▀▀ ▀▀     ▀▀▀▀ ▀▪ ▀█▄▀▪▀▀ █▪"
+	};
+	if (!game.turn) {
+		win_header[0] = L"          ▄▄▌ ▐ ▄▌       ▐ ▄ ";
+		win_header[1] = L"▪         ██· █▌▐█▪     •█▌▐█";
+		win_header[2] = L" ▄█▀▄     ██▪▐█▐▐▌ ▄█▀▄ ▐█▐▐▌";
+		win_header[3] = L"▐█▌.▐▌    ▐█▌██▐█▌▐█▌.▐▌██▐█▌";
+		win_header[4] = L" ▀█▄▀▪     ▀▀▀▀ ▀▪ ▀█▄▀▪▀▀ █▪";
+	};
+	drawInGamePanel_1(64, 5, black, white_pink, white, white_pink);
 	if (isWin) {
 		if (winType == 5) {//time out
 			return;
@@ -90,9 +106,10 @@ void drawWinEffect(bool isWin, int winType, int row, int col, int streak) {
 			_col = col; _row = row; 
 			color++;
 			if (color >= 20) color = 0;
-			for (int i = 0; i < streak; i++) {
-				if (color <=15 || color % 2 != 0) RGBPrint(57 + _col * 4, 17 + _row * 2, (game.board[_row][_col] == 1 ? "X" : "O"), colors[(color+i)  % 16], white_pink);
-				else RGBPrint(57 + _col * 4, 17 + _row * 2, " ", white_pink, white_pink);
+			for (i = 0; i < streak; i++) {
+				RGBPrint(71, 8 + i % 5, win_header[i % 5], colors[(color + i) % 16], white_pink, false);
+				if (color <=15 || color % 2 != 0) RGBPrint(game.point[_row][_col].x, game.point[_row][_col].y, (game.point[_row][_col].c == 1 ? "X" : "O"), colors[(color + i) % 16], white_pink);
+				else RGBPrint(game.point[_row][_col].x, game.point[_row][_col].y, " ", white_pink, white_pink);
 				switch (winType) 
 				{
 				case 1:
@@ -117,18 +134,89 @@ void drawWinEffect(bool isWin, int winType, int row, int col, int streak) {
 			if (timer >= time*10) break;
 		}
 	}
+	drawContinueOption();
 }
+void drawContinueOption() {
+	int i, color =0;
+	bool playAgain = false;
+	RGB colors[16] = {
+	{199,66,79},
+	{224,107,81},
+	{242,165,97},
+	{242,165,97},
+	{177,212,128},
+	{128,184,120},
+	{128,184,120},
+	{137,217,217},
+	{137,217,217},
+	{92,139,168},
+	{78,102,121},
+	{70,73,105},
+	{68,53,93},
+	{61,0,61},
+	{98,23,72},
+	{148,44,75}
+	};
+	wstring header[5] = {
+	   L" ▄▄▄·  ▄▄ •  ▄▄▄· ▪   ▐ ▄ ",
+	   L"▐█ ▀█ ▐█ ▀ ▪▐█ ▀█ ██ •█▌▐█",
+	   L"▄█▀▀█ ▄█ ▀█▄▄█▀▀█ ▐█·▐█▐▐▌",
+	   L"▐█ ▪▐▌▐█▄▪▐█▐█ ▪▐▌▐█▌██▐█▌",
+	   L" ▀  ▀ ·▀▀▀▀  ▀  ▀ ▀▀▀▀▀ █▪"
+	};
+	drawInGamePanel_5(64, 20, black, white_pink, white_pink, white_pink);
+	RGBPrint(73, 29, L"Play again?", black, white_pink, false);
+	RGBPrint(78, 31, L">> NO <<", black, light_pink, false);
+	RGBPrint(78, 32, L"   YES  ", black, white_pink, false);
+	while (true) {
+		color++;
+		for (i = 0; i < 5; i++) RGBPrint(73, 22 + i % 5, header[i%5], colors[color % 16], white_pink, false);
+		if (_kbhit()) {
+			int n = tolower(_getch());
+			if (n == 'w' || n == 'a' || n == 's' || n == 'd') {
+				playAgain = !playAgain;
+				if (playAgain) {
+					RGBPrint(78, 31, L"   NO   ", black, white_pink, false);
+					RGBPrint(78, 32, L">> YES <<", black, light_pink, false);
+				}
+				else {
+					RGBPrint(78, 31, L">> NO <<", black, light_pink, false);
+					RGBPrint(78, 32, L"   YES   ", black, white_pink, false);
+				}
+			}
+			if (n == 13) {
+				break;
 
+			}
+		}
+		Sleep(100);
+	}
+	if (playAgain) {
+		short a[2] = { 0 };
+		clearBoard();
+		setupGame(game.name, game.turn, game.gamemode, 15, game.ratio, a, {});
+		drawGameBoard(55, 16, 61, 21, black, white_pink);
+		updateFullBoard();
+		updateScreen();
+		removePanel(54, 5, 3);
+		drawInGamePanel_3(69, 6, black, white_pink, white, white_pink);
+		drawTurn(game.turn, 69, 6, light_pink, pink, white_pink);
+		StartGame(false);
+	}
+}
 bool checkWin() {
 	int count = 0, winType = 0, streak = 0;
-	for (int i = 0; i < game.board_heigh; i++) {
-		for (int j = 0; j < game.board_width; j++) {
+	for (int i = 0; i < BOARD_SIZE_HEIGHT; i++) {
+		for (int j = 0; j < BOARD_SIZE_WIDTH; j++) {
 			count = 0;
 			if (rowCheck(i, j, count)) { winType = 1; streak = count; }
 			if (colCheck(i, j, count)) { winType = 2; streak = count; }
 			if (leftDiagonalCheck(i, j, count)) { winType = 3; streak = count; }
 			if (rightDiagonalCheck(i, j, count)) { winType = 4; streak = count; }
 			if (winType != 0) {
+				if (game.turn) game.ratio[0]++;
+				else game.ratio[1]++;
+				updateScreen();
 				drawWinEffect(true, winType, i, j, streak);
 				return true;
 			}
@@ -154,7 +242,6 @@ bool loadGame(string filename) {
 		wstring text;
 		game = {};
 		game.name = filename;
-		game.board_heigh = 10; game.board_width = 15;
 		//load time, turn, gamemode
 		game.time = getInt(savef, L"time-left");
 		game.turn = getInt(savef, L"turn");
@@ -183,11 +270,10 @@ bool loadGame(string filename) {
 			game.history[i].second = stoi(text.substr(2));
 		};
 		//load board
-		game.board = vector<vector<int>>(game.board_heigh, vector<int>(game.board_width));
-		for (int i = 0; i < game.board_heigh; i++) {
+		for (int i = 0; i < BOARD_SIZE_HEIGHT; i++) {
 			text = getwstring(savef, (wstring(L"board-line-") + ((i < 9) ? L"0" : L"") + to_wstring(i + 1)));
-			for (int j = 0; j < game.board_width; j++) {
-				game.board[i][j] = stoi(text.substr(2 * j, 1));
+			for (int j = 0; j < BOARD_SIZE_WIDTH; j++) {
+				game.point[i][j].c = stoi(text.substr(2 * j, 1));
 			}
 		}
 		fclose(savef);
@@ -212,10 +298,10 @@ bool saveGame() {
 			(to_string(game.history[i].first) + to_string(game.history[i].second) + "\n").c_str() :
 			((string)"No data\n").c_str());
 	}
-	for (int i = 0; i < game.board_heigh; i++) {
+	for (int i = 0; i < BOARD_SIZE_HEIGHT; i++) {
 		fprintf(savef, (string("board-line-") + ((i < 9) ? "0" : "") + to_string(i + 1) + ": ").c_str());
-		for (int j = 0; j < game.board_width; j++) {
-			fprintf_s(savef, (to_string(game.board[i][j]) + " ").c_str());
+		for (int j = 0; j < BOARD_SIZE_WIDTH; j++) {
+			fprintf_s(savef, (to_string(game.point[i][j].c) + " ").c_str());
 		}
 		fprintf_s(savef, "\n");
 	}
@@ -272,7 +358,10 @@ void saveGameScreen(bool refresh) {
 			}
 			if (n == 13) {
 				if (currentSelect != 0) break;
-				game.name = gameEditor_name(71, 24, black, white_pink, light_pink);
+				game.name = gameEditor_name(74, 24, black, white_pink, light_pink);
+				RGBPrint(71, 24, L"✍  ", black, light_pink, false);
+				RGBPrint(74, 24, getwstring(language, L"save_name") + L":", black, light_pink, true);
+				RGBPrint(75 + (int)getwstring(language, L"save_name").size(), 24, +L" ", black, white_pink, true);
 			}
 		}
 	}
@@ -291,8 +380,8 @@ void saveGameScreen(bool refresh) {
 		}
 	}
 	drawGameBoard(55, 16, 61, 21, black, white_pink);
-	for (int i = 0; i < game.board_heigh; i++)
-		for (int j = 0; j < game.board_width; j++) RGBPrint(55 + 2 + j * 4, 16 + 2 * i + 1, (game.board[i][j] == 0 ? L" " : game.board[i][j] == 1 ? L"X" : L"O"), black, white_pink, false);
+	for (int i = 0; i < BOARD_SIZE_HEIGHT; i++)
+		for (int j = 0; j < BOARD_SIZE_WIDTH; j++) RGBPrint(55 + 2 + j * 4, 16 + 2 * i + 1, (game.point[i][j].c == 0 ? L" " : game.point[i][j].c  == 1 ? L"X" : L"O"), black, white_pink, false);
 	StartGame(0);
 }
 int loadAllSaves(vector<string>& saves) {
@@ -449,8 +538,8 @@ void updateScreen() {
 
 	RGBPrint(16, 17, getwstring(language, L"ingame_hits") + L":", black, white_pink, true);
 	RGBPrint(16 + (int)getwstring(language, L"ingame_hits").size(), 17,
-		wstring(L"[X]: " + wstring((game.hits[0] < 10) ? L"0" : L"")) + to_wstring(game.hits[0]) +
-		wstring(L" | [O]: ") + wstring((game.hits[1] < 10) ? L"0" : L"") + to_wstring(game.hits[1]),
+		wstring(L"[X]: " + wstring((game.hits[0] < 10) ? L"0" : L"")) + to_wstring(game.hits[1]) +
+		wstring(L" | [O]: ") + wstring((game.hits[1] < 10) ? L"0" : L"") + to_wstring(game.hits[0]),
 		black, white_pink, false);
 	bool c = !game.turn;
 	for (int i = 0; i < game.history.size(); i++) {
@@ -461,6 +550,15 @@ void updateScreen() {
 		RGBPrint(30, 25 + 2 * i,
 			char(game.history[i].first) + string((game.history[i].second < 10) ? "0" : "") + to_string(game.history[i].second)
 			, black, white_pink);
+	}
+}
+void updateFullBoard() {
+	for (int i = 0; i < BOARD_SIZE_HEIGHT; i++) {
+		for (int j = 0; j < BOARD_SIZE_WIDTH; j++) {
+			RGBPrint(game.point[i][j].x, game.point[i][j].y,
+				(game.point[i][j].c  == 0 ? L" " : game.point[i][j].c  == 1 ? L"X" : L"O"),
+				black, white_pink, false);
+		}
 	}
 }
 void drawTheScreen() {
@@ -490,21 +588,19 @@ int getRandom(int a, int b) {
 }
 bool botHitRandom(int &loc_x, int &loc_y) {
 	bool check = false;
-
 	Sleep(getRandom(400, 3000));
-	RGBPrint(57 + loc_x * 4, 17 + 2 * loc_y,
+	RGBPrint(game.point[loc_y][loc_x].x, game.point[loc_y][loc_x].y,
 		L"X",
 		black, white_pink, false);
 	while (!check) {
 		loc_y = getRandom(0, 9), loc_x = getRandom(0,14);
-		if (game.board[loc_y][loc_x] == 0) {
-			game.board[loc_y][loc_x] = 2;
+		if (game.point[loc_y][loc_x].c == 0) {
+			game.point[loc_y][loc_x].c = 2;
 			game.history.insert(game.history.begin(), { 65 + loc_y, loc_x + 1 });
 			check = true;
-
 		}
 	}
-	RGBPrint(57 + loc_x * 4, 17 + 2 * loc_y ,
+	RGBPrint(game.point[loc_y][loc_x].x, game.point[loc_y][loc_x].y,
 		  L"O" ,
 		black, light_pink, false);
 	if (checkWin()) {
@@ -512,6 +608,7 @@ bool botHitRandom(int &loc_x, int &loc_y) {
 		else game.ratio[1]++;
 		return true;
 	}
+	game.hits[0]++;
 	game.turn = !game.turn;
 	game.time = 15;
 	drawTurn(game.turn, 69, 6, light_pink, pink, white_pink);
@@ -525,17 +622,11 @@ void StartGame(bool drawBackground) {
 	if (drawBackground) {
 		system("cls");
 		drawTheScreen();
-		for (int i = 0; i < game.board_heigh; i++) {
-			for (int j = 0; j < game.board_width; j++) {
-				RGBPrint(x + 2 + j * 4, y + 2 * i + 1,
-					(game.board[i][j] == 0 ? L" " : game.board[i][j] == 1 ? L"X" : L"O"),
-					black, white_pink, false);
-			}
-		}
+		updateFullBoard();
 		drawTurn(game.turn, 69, 6, light_pink, pink, white_pink);
 	}
-	RGBPrint(x + 2 + loc_x * 4, y + 2 * loc_y + 1,
-		(game.board[loc_y][loc_x] == 0 ? L" " : game.board[loc_y][loc_x] == 1 ? L"X" : L"O"),
+	RGBPrint(game.point[loc_y][loc_x].x, game.point[loc_y][loc_x].y,
+		(game.point[loc_y][loc_x].c == 0 ? L" " : game.point[loc_y][loc_x].c == 1 ? L"X" : L"O"),
 		black, light_pink, false);
 	//xử lí
 	while (true) {
@@ -556,20 +647,18 @@ void StartGame(bool drawBackground) {
 				drawInGamePanel_3(69, 6, black, white_pink, white, white_pink);
 			}
 			if (n == 13) {
-				if (game.board[loc_y][loc_x] == 0) {
-					game.board[loc_y][loc_x] = game.turn ? 1 : 2;
+				if (game.point[loc_y][loc_x].c == 0) {
+					game.point[loc_y][loc_x].c = game.turn ? 1 : 2;
 					game.history.insert(game.history.begin(), { 65 + loc_y, loc_x + 1 });
-					if (checkWin()) {
-						if (game.turn) game.ratio[0]++;
-						else game.ratio[1]++;
-						break;
-					}
+					if (game.turn) game.hits[1]++;
+					else game.hits[0]++;
+					if (checkWin()) break;
 					game.turn = !game.turn;
 					game.time = 15;
 					drawTurn(game.turn, 69, 6, light_pink, pink, white_pink);
 
-					RGBPrint(x + 2 + loc_x * 4, y + 2 * loc_y + 1,
-						(game.board[loc_y][loc_x] == 0 ? L" " : game.board[loc_y][loc_x] == 1 ? L"X" : L"O"),
+					RGBPrint(game.point[loc_y][loc_x].x, game.point[loc_y][loc_x].y,
+						(game.point[loc_y][loc_x].c == 0 ? L" " : game.point[loc_y][loc_x].c == 1 ? L"X" : L"O"),
 						black, light_pink, false);
 					if (game.gamemode == 1) {
 						if (botHitRandom(loc_x, loc_y)) break;
@@ -581,8 +670,8 @@ void StartGame(bool drawBackground) {
 			else if (c == 'w' || c == 'a' || c == 's' || c == 'd') {
 				if (enableSFX) playSound(3, 0);
 
-				RGBPrint(x + 2 + loc_x * 4, y + 2 * loc_y + 1,
-					(game.board[loc_y][loc_x] == 0 ? L" " : game.board[loc_y][loc_x] == 1 ? L"X" : L"O"),
+				RGBPrint(game.point[loc_y][loc_x].x, game.point[loc_y][loc_x].y,
+					(game.point[loc_y][loc_x].c == 0 ? L" " : game.point[loc_y][loc_x].c == 1 ? L"X" : L"O"),
 					black, white_pink, false);
 				switch (c) {
 				case 'w':
@@ -596,18 +685,18 @@ void StartGame(bool drawBackground) {
 					drawInGameKeyboard(123 + 3, 10 + 5, 'a', key_a, black, white_pink);
 					break;
 				case 'd':
-					loc_x = (loc_x == game.board_width - 1) ? loc_x : loc_x + 1;
+					loc_x = (loc_x == BOARD_SIZE_WIDTH - 1) ? loc_x : loc_x + 1;
 					key_d = !key_d;
 					drawInGameKeyboard(123 + 24, 10 + 5, 'd', key_d, black, white_pink);
 					break;
 				case 's':
-					loc_y = (loc_y == game.board_heigh - 1) ? loc_y : loc_y + 1;
+					loc_y = (loc_y == BOARD_SIZE_HEIGHT - 1) ? loc_y : loc_y + 1;
 					key_s = !key_s;
 					drawInGameKeyboard(123 + 13, 10 + 6, 's', key_s, black, white_pink);
 					break;
 				}
-				RGBPrint(x + 2 + loc_x * 4, y + 2 * loc_y + 1,
-					(game.board[loc_y][loc_x] == 0 ? L" " : game.board[loc_y][loc_x] == 1 ? L"X" : L"O"),
+				RGBPrint(game.point[loc_y][loc_x].x, game.point[loc_y][loc_x].y,
+					(game.point[loc_y][loc_x].c == 0 ? L" " : game.point[loc_y][loc_x].c == 1 ? L"X" : L"O"),
 					black, light_pink, false);
 			}
 		}
@@ -633,15 +722,39 @@ void StartGame(bool drawBackground) {
 	system("cls");
 	fill(white_pink);
 	drawLOGO((172 - 73) / 2, 5);
-	drawMainMenu_Play(10, 20);
-	drawMainMenu_Options(10, 25);
-	drawMainMenu_Authors(10, 30);
-	drawMainMenu_Out(10, 35);
-	drawTriagle(55, 20, true);
+	drawMainMenu_Play(35, 20);
+	drawMainMenu_Options(35, 25);
+	drawMainMenu_Authors(35, 30);
+	drawMainMenu_Out(35, 35);
+	drawTriagle(30, 20 + 0 * 5, true);
+	//ve gi do vui vui
+	drawPineTree(15, 30, white_pink, 1);
+	drawPineTree(75, 13, white_pink, 1);
+	drawPineTree(129, 6, white_pink, 1);
+
+	drawSnowFlake(5, 12, white_pink);
+	drawSnowFlake(65, 0, white_pink);
+	drawSnowFlake(105, 13, white_pink);
+	drawSnowFlake(150, 35, white_pink);
+
+	drawGift(151, 18, white_pink);
+	drawCandy(160, 4, white_pink);
+	drawReindeer(43, 13, white_pink);
 	GameScreen(0);
 }
-
-void setupGame(string name, bool turn,bool gamemode, short time, short ratio[2], short hits[2], vector<pair<short, short>> history, vector<vector<int>> board) {
+//Game SETUP
+void setupBoard() {
+	for (int i = 0; i < BOARD_SIZE_HEIGHT; i++) for (int j = 0; j < BOARD_SIZE_WIDTH; j++) {
+		game.point[i][j].x = 57 + j * 4;
+		game.point[i][j].y = 17 + 2 * i;
+	}
+}
+void clearBoard() {
+	for (int i = 0; i < BOARD_SIZE_HEIGHT; i++) for (int j = 0; j < BOARD_SIZE_WIDTH; j++) {
+		game.point[i][j].c = 0;
+	}
+}
+void setupGame(string name, bool turn,bool gamemode, short time, short ratio[2], short hits[2], vector<pair<short, short>> history) {
 	game.name = name;
 	game.turn = turn;
 	game.gamemode = gamemode;
@@ -649,8 +762,7 @@ void setupGame(string name, bool turn,bool gamemode, short time, short ratio[2],
 	game.ratio[0] = ratio[0]; game.ratio[1] = ratio[1];
 	game.hits[0] = hits[0]; game.hits[1] = hits[1];
 	game.history = history;
-	game.board = board;
-	game.board_heigh = 10; game.board_width = 15;
+	setupBoard();
 }
 
 string gameEditor_name(int x, int y, RGB text_color, RGB background_color, RGB selected_color) {//default: x=112, y=27
@@ -664,18 +776,18 @@ string gameEditor_name(int x, int y, RGB text_color, RGB background_color, RGB s
 			if ((n >= 'A' && n <= 'Z') || (n >= 'a' && n <= 'z') || (n >= '0' && n <= '9') || n == '_') {//write
 				if (newname.size() < 12) {
 					newname.push_back(n);
-					RGBPrint(x, y, L"                             ", text_color, background_color, false);
-					RGBPrint(x, y, L"✍  ", text_color, selected_color, false);
-					RGBPrint(x + 3, y, getwstring(language, L"save_name") + L":", text_color, selected_color, true);
-					RGBPrint(x + 2 + (int)getwstring(language, L"save_name").size(), y, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(newname) + L" ", text_color, background_color, false);
+					RGBPrint(x, y, L"            ", text_color, background_color, false);
+					RGBPrint(x-3, y, L"✍  ", text_color, selected_color, false);
+					RGBPrint(x + 0, y, getwstring(language, L"save_name") + L":", text_color, selected_color, true);
+					RGBPrint(x +2 + (int)getwstring(language, L"save_name").size(), y, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(newname) + L" ", text_color, background_color, false);
 				}
 			}
 			if (n == 8) {//delete
 				if (newname.size() > 0) {
 					newname.pop_back();
-					RGBPrint(x, y, L"                             ", text_color, background_color, false);
-					RGBPrint(x, y, L"✍  ", text_color, selected_color, false);
-					RGBPrint(x + 3, y, getwstring(language, L"save_name") + L":", text_color, selected_color, true);
+					RGBPrint(x, y, L"            ", text_color, background_color, false);
+					RGBPrint(x-3, y, L"✍  ", text_color, selected_color, false);
+					RGBPrint(x + 0, y, getwstring(language, L"save_name") + L":", text_color, selected_color, true);
 					RGBPrint(x + 2 + (int)getwstring(language, L"save_name").size(), y, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(newname) + L" ", text_color, background_color, false);
 				}
 			}
@@ -683,7 +795,7 @@ string gameEditor_name(int x, int y, RGB text_color, RGB background_color, RGB s
 				RGBPrint(x + 8, y - 1, getwstring(language, L"save_exists"), { 255,0,0 }, background_color, true);
 			}
 			else {
-				RGBPrint(x + 8, y - 1, L"             ", { 255,0,0 }, background_color, false);
+				RGBPrint(x + 8, y - 1, L"            ", { 255,0,0 }, background_color, false);
 				if (n == 13 || n == 27) {
 					if (n == 13) {
 						if (newname.size() == 0) {
@@ -744,20 +856,21 @@ void gameEditor_remove(string savename) {
 }
 void loadSaveGameEditor(string savename, bool refresh) {
 	loadGame(savename);
+	int x = 100, y = 25;
 	if (refresh) {
-		removePanel(100, 20, 13);
-		drawPanel(100, 20, 11);
-		RGBPrint(120, 23, getwstring(language, L"save_editor"), black, light_pink, true);
+		removePanel(90, 18, 13);
+		drawPanel(90, 18, 11);
+		RGBPrint(113, 21, getwstring(language, L"save_editor"), black, light_pink, true);
 	}
-	RGBPrint(123, 25, getwstring(language, L"save_load"), black, pink, true);
-	RGBPrint(112, 27, L"✍  ", black, light_pink, false);
-	RGBPrint(115, 27, getwstring(language, L"ingame_name") + L": " + wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(savename), black, light_pink, true);
-	RGBPrint(115, 28, getwstring(language, L"ingame_turn") + wstring(L": ") + wstring((game.turn) ? L"[X]" : L"[O]"), black, light_pink, true);
-	RGBPrint(115, 29, getwstring(language, L"ingame_timeleft") + wstring(L": ") + wstring((game.time < 10) ? L"0" : L"") + to_wstring(game.time) + L"s", black, light_pink, true);
-	RGBPrint(115, 30, getwstring(language, L"ingame_ratio") + wstring(L": ") + wstring(L"[X]: ") + ((game.ratio[0] < 10) ? L"0" : L"") + to_wstring(game.ratio[0]) + wstring(L" | [O]: ") + wstring((game.ratio[1] < 0) ? L"0" : L"") + to_wstring(game.ratio[1]), black, light_pink, true);
-	RGBPrint(115, 31, getwstring(language, L"ingame_hits") + wstring(L": [X]: ") + wstring((game.hits[0] < 10) ? L"0" : L"") + to_wstring(game.hits[0]) + wstring(L" | [O]: ") + wstring((game.hits[1] < 10) ? L"0" : L"") + to_wstring(game.hits[1]), black, light_pink, true);
-	RGBPrint(123, 33, getwstring(language, L"save_remove"), black, light_pink, true);
-	RGBPrint(123, 35, getwstring(language, L"save_back"), black, light_pink, true);
+	RGBPrint(x+1, y-2, getwstring(language, L"save_load"), black, pink, true);
+	RGBPrint(x-3, y, L"✍  ", black, light_pink, false);
+	RGBPrint(x, y, getwstring(language, L"ingame_name") + L": " + wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(savename), black, light_pink, true);
+	RGBPrint(x, y+1, getwstring(language, L"ingame_turn") + wstring(L": ") + wstring((game.turn) ? L"[X]" : L"[O]"), black, light_pink, true);
+	RGBPrint(x, y+2, getwstring(language, L"ingame_timeleft") + wstring(L": ") + wstring((game.time < 10) ? L"0" : L"") + to_wstring(game.time) + L"s", black, light_pink, true);
+	RGBPrint(x, y+3, getwstring(language, L"ingame_ratio") + wstring(L": ") + wstring(L"[X]: ") + ((game.ratio[0] < 10) ? L"0" : L"") + to_wstring(game.ratio[0]) + wstring(L" | [O]: ") + wstring((game.ratio[1] < 0) ? L"0" : L"") + to_wstring(game.ratio[1]), black, light_pink, true);
+	RGBPrint(x, y+4, getwstring(language, L"ingame_hits") + wstring(L": [X]: ") + wstring((game.hits[0] < 10) ? L"0" : L"") + to_wstring(game.hits[0]) + wstring(L" | [O]: ") + wstring((game.hits[1] < 10) ? L"0" : L"") + to_wstring(game.hits[1]), black, light_pink, true);
+	RGBPrint(x+8, y+6, getwstring(language, L"save_remove"), black, light_pink, true);
+	RGBPrint(x+8, y+8, getwstring(language, L"save_back"), black, light_pink, true);
 	int n, currentSelect = 0, previousSelect = 0;
 	while (true) {
 		if (_kbhit()) {
@@ -775,32 +888,32 @@ void loadSaveGameEditor(string savename, bool refresh) {
 			if (currentSelect != previousSelect) {
 				switch (previousSelect) {
 				case 0:
-					RGBPrint(123, 25, getwstring(language, L"save_load"), black, light_pink, true);
+					RGBPrint(x+1, y-2, getwstring(language, L"save_load"), black, light_pink, true);
 					break;
 				case 1:
-					RGBPrint(112, 27, L"✍  ", black, light_pink, false);
-					RGBPrint(115, 27, getwstring(language, L"ingame_name") + L":", black, light_pink, true);
+					RGBPrint(x-3, y, L"✍  ", black, light_pink, false);
+					RGBPrint(x, y, getwstring(language, L"ingame_name") + L":", black, light_pink, true);
 					break;
 				case 2:
-					RGBPrint(123, 33, getwstring(language, L"save_remove"), black, light_pink, true);
+					RGBPrint(x+8, y+6, getwstring(language, L"save_remove"), black, light_pink, true);
 					break;
 				case 3:
-					RGBPrint(123, 35, getwstring(language, L"save_back"), black, light_pink, true);
+					RGBPrint(x+8, y+8, getwstring(language, L"save_back"), black, light_pink, true);
 					break;
 				}
 				switch (currentSelect) {
 				case 0:
-					RGBPrint(123, 25, getwstring(language, L"save_load"), black, pink, true);
+					RGBPrint(x+1, y-2, getwstring(language, L"save_load"), black, pink, true);
 					break;
 				case 1:
-					RGBPrint(112, 27, L"✍  ", black, pink, false);
-					RGBPrint(115, 27, getwstring(language, L"ingame_name") + L":", black, pink, true);
+					RGBPrint(x-3, y, L"✍  ", black, pink, false);
+					RGBPrint(x, y, getwstring(language, L"ingame_name") + L":", black, pink, true);
 					break;
 				case 2:
-					RGBPrint(123, 33, getwstring(language, L"save_remove"), black, pink, true);
+					RGBPrint(x+8, y+6, getwstring(language, L"save_remove"), black, pink, true);
 					break;
 				case 3:
-					RGBPrint(123, 35, getwstring(language, L"save_back"), black, pink, true);
+					RGBPrint(x+8, y+8, getwstring(language, L"save_back"), black, pink, true);
 					break;
 				}
 			}
@@ -813,7 +926,7 @@ void loadSaveGameEditor(string savename, bool refresh) {
 		break;
 	case 1: {
 		string oldname = game.name;
-		game.name = gameEditor_name(112, 27, black, light_pink, pink);
+		game.name = gameEditor_name(x, y, black, light_pink, pink);
 		try {
 			fs::rename("./Saves/" + oldname + ".txt", "./Saves/" + game.name + ".txt");
 		}
@@ -823,7 +936,6 @@ void loadSaveGameEditor(string savename, bool refresh) {
 		loadSaveGameEditor(game.name, false);
 		break;
 	}
-
 	case 2:
 		gameEditor_remove(savename);
 		break;
@@ -834,14 +946,14 @@ void loadSaveGameEditor(string savename, bool refresh) {
 }
 
 void newGameOptionsScreen() {
-	drawPanel(100, 20, 5);
+	drawPanel(90, 18, 5);
 
 	wstring options[3] = { getwstring(language, L"play_newgame"), getwstring(language, L"play_loadgame"), getwstring(language, L"back_to_main") };
 	int currentSelect = 0, previousSelect = 0;
 	int n, size = sizeof(options) / sizeof(wstring);
 	for (int i = 0; i < size; i++) {
-		if (i == 0) RGBPrint(126 - ((int)options[i].length()) / 2, 23 + 2 * i, L">> " + options[i] + L" <<", white, light_pink, true);
-		else RGBPrint(126 - ((int)options[i].length()) / 2, 23 + 2 * i, L"   " + options[i] + L"   ", white, light_pink, true);
+		if (i == 0) RGBPrint(115 - ((int)options[i].length()) / 2, 21 + 2 * i, L">> " + options[i] + L" <<", white, light_pink, true);
+		else RGBPrint(115 - ((int)options[i].length()) / 2, 21 + 2 * i, L"   " + options[i] + L"   ", white, light_pink, true);
 	}
 	while (true) {
 		if (_kbhit()) {
@@ -858,8 +970,8 @@ void newGameOptionsScreen() {
 				currentSelect++;
 				currentSelect = (currentSelect > size - 1) ? 0 : currentSelect;
 			}
-			RGBPrint(126 - ((int)options[previousSelect].length()) / 2, 23 + 2 * previousSelect, L"   " + options[previousSelect] + L"   ", white, light_pink, true);
-			RGBPrint(126 - ((int)options[currentSelect].length()) / 2, 23 + 2 * currentSelect, L">> " + options[currentSelect] + L" <<", white, light_pink, true);
+			RGBPrint(115 - ((int)options[previousSelect].length()) / 2, 21 + 2 * previousSelect, L"   " + options[previousSelect] + L"   ", white, light_pink, true);
+			RGBPrint(115 - ((int)options[currentSelect].length()) / 2, 21 + 2 * currentSelect, L">> " + options[currentSelect] + L" <<", white, light_pink, true);
 		}
 	}
 	switch (currentSelect) {
@@ -871,20 +983,20 @@ void newGameOptionsScreen() {
 		GameScreen(2);
 		break;
 	case 2://back
-		removePanel(100, 20, 5);
+		removePanel(90, 18, 5);
 		MainScreen(0, 0, false);
 		break;
 	}
 }
 void selectModeScreen() {
-	removePanel(100, 20, 5);
-	drawPanel(100, 20, 4);
+	removePanel(90, 18, 5);
+	drawPanel(90, 18, 4);
 	wstring miniOptions[3] = { getwstring(language, L"play_pvp"),getwstring(language, L"play_pve"), getwstring(language, L"play_back") };
 	int miniCurrentSelect = 0, miniPreviousSelect = 0;
 	int n, size = sizeof(miniOptions) / sizeof(wstring);
 	for (int i = 0; i < size; i++) {
-		if (i == 0) RGBPrint(126 - ((int)miniOptions[i].length()) / 2, 23 + 2 * i, L">> " + miniOptions[i] + L" <<", white, light_pink, true);
-		else RGBPrint(126 - ((int)miniOptions[i].length()) / 2, 23 + 2 * i, L"   " + miniOptions[i] + L"   ", white, light_pink, true);
+		if (i == 0) RGBPrint(115 - ((int)miniOptions[i].length()) / 2, 21 + 2 * i, L">> " + miniOptions[i] + L" <<", white, light_pink, true);
+		else RGBPrint(115 - ((int)miniOptions[i].length()) / 2, 21 + 2 * i, L"   " + miniOptions[i] + L"   ", white, light_pink, true);
 	}
 	while (true) {
 		if (_kbhit()) {
@@ -901,27 +1013,27 @@ void selectModeScreen() {
 				miniCurrentSelect++;
 				miniCurrentSelect = (miniCurrentSelect > size - 1) ? 0 : miniCurrentSelect;
 			}
-			RGBPrint(126 - ((int)miniOptions[miniPreviousSelect].length()) / 2, 23 + 2 * miniPreviousSelect, L"   " + miniOptions[miniPreviousSelect] + L"   ", white, light_pink, true);
-			RGBPrint(126 - ((int)miniOptions[miniCurrentSelect].length()) / 2, 23 + 2 * miniCurrentSelect, L">> " + miniOptions[miniCurrentSelect] + L" <<", white, light_pink, true);
+			RGBPrint(115 - ((int)miniOptions[miniPreviousSelect].length()) / 2, 21 + 2 * miniPreviousSelect, L"   " + miniOptions[miniPreviousSelect] + L"   ", white, light_pink, true);
+			RGBPrint(115 - ((int)miniOptions[miniCurrentSelect].length()) / 2, 21 + 2 * miniCurrentSelect, L">> " + miniOptions[miniCurrentSelect] + L" <<", white, light_pink, true);
 		}
 	}
 	switch (miniCurrentSelect) {
 	case 0: {//start new game (PVP)
 		short a[2] = { 0 };
-		vector<vector<int>> board = vector<vector<int>>(10, vector<int>(15));
-		setupGame("", 1, 0, 15, a, a, {}, board);
+		clearBoard();
+		setupGame("", 1, 0, 15, a, a, {});
 		StartGame(1);
 		break;
 	}
 	case 1: {//start new game (PVE)
 		short a[2] = { 0 };
-		vector<vector<int>> board = vector<vector<int>>(10, vector<int>(15));
-		setupGame("", 1, 1, 15, a, a, {}, board);
+		clearBoard();
+		setupGame("", 1, 1, 15, a, a, {});
 		StartGame(1);
 		break;
 	}
 	case 2:
-		removePanel(100, 20, 4);
+		removePanel(90, 18, 4);
 		GameScreen(0);
 		break;
 	}
@@ -934,38 +1046,40 @@ void loadGameScreen() {
 		maxpages = int(ceil((double)saves / 5)),
 		index = 0,
 		previousSelect = 0,
-		maxindex = (saves - 5 * currentpage >= 0) ? 5 : saves;
+		maxindex = (saves - 5 * currentpage >= 0) ? 5 : saves,
+		x = 98,
+		y = 22;
 	if (maxpages == 0) maxpages++;
 	//ve
 	wstring text_name = getwstring(language, L"save_name");
-	removePanel(100, 20, 5);
-	drawPanel(100, 20, 13);
-	RGBPrint(108, 23, L"      ║                                    ", black, light_pink, false);
-	RGBPrint(108, 24, L"══════╬════════════════════════════════════", black, light_pink, false);
+	removePanel(90, 18, 5);
+	drawPanel(90, 18, 13);
+	RGBPrint(x, y-1, L"      ║                                    ", black, light_pink, false);
+	RGBPrint(x, y, L"══════╬════════════════════════════════════", black, light_pink, false);
 	int _i = 0;
 	for (int i = 0; i < 2 * 5; i++) {
 		if (i % 2 == 0) {
-			RGBPrint(108, 24 + i + 1, L"      ║                                    ", black, light_pink, false);
+			RGBPrint(x, y + i + 1, L"      ║                                    ", black, light_pink, false);
 			if (_i < saves_names.size() && _i <= maxindex - 1) {
-				RGBPrint(108 + 2, 24 + i + 1, string((_i + 1 < 10) ? "0" : "") + to_string(_i + 1), black, light_pink);
-				RGBPrint(108 + 7 + (14 - (int)saves_names[_i].size() / 2), 24 + i + 1, saves_names[_i], black, light_pink);
+				RGBPrint(x + 2, y + i + 1, string((_i + 1 < 10) ? "0" : "") + to_string(_i + 1), black, light_pink);
+				RGBPrint(x + 7 + (14 - (int)saves_names[_i].size() / 2), y + i + 1, saves_names[_i], black, light_pink);
 				_i++;
 			}
 		}
-		else RGBPrint(108, 24 + i + 1, L"══════╬════════════════════════════════════", black, light_pink, false);
+		else RGBPrint(x, y + i + 1, L"══════╬════════════════════════════════════", black, light_pink, false);
 	}
-	RGBPrint(108, 34, L"══════╩════════════════════════════════════", black, light_pink, false);
-	RGBPrint(108, 24 + 11, L"                                           ", black, light_pink, false);
-	RGBPrint(108 + 1, 24 + 11, L"<<", black, light_pink, false);
-	RGBPrint(108 + 18, 24 + 11, L"01/" + wstring((saves / 5 < 10) ? L"0" : L"") + to_wstring(maxpages), black, light_pink, false);
-	RGBPrint(108 + 38, 24 + 11, L">>", black, light_pink, false);
+	RGBPrint(x, y+10, L"══════╩════════════════════════════════════", black, light_pink, false);
+	RGBPrint(x, y + 11, L"                                           ", black, light_pink, false);
+	RGBPrint(x + 1, y + 11, L"<<", black, light_pink, false);
+	RGBPrint(x + 18, y + 11, L"01/" + wstring((saves / 5 < 10) ? L"0" : L"") + to_wstring(maxpages), black, light_pink, false);
+	RGBPrint(x + 38, y + 11, L">>", black, light_pink, false);
 
-	RGBPrint(108, 24 + 12, L"═══════════════════════════════════════════", black, light_pink, false);
-	RGBPrint(115, 24 + 13, L"   " + getwstring(language, L"play_back") + L"   ", black, light_pink, true);
+	RGBPrint(x, y + 12, L"═══════════════════════════════════════════", black, light_pink, false);
+	RGBPrint(x+7, y + 13, L"   " + getwstring(language, L"play_back") + L"   ", black, light_pink, true);
 	//
 	if (saves_names.size() >= 1) {
-		RGBPrint(108 + 2, 24 + 2 * index + 1, string((index + 1 < 10) ? "0" : "") + to_string(index + 1), black, pink);
-		RGBPrint(108 + 7 + (14 - (int)saves_names[index].size() / 2), 24 + 2 * index + 1, saves_names[index], black, pink);
+		RGBPrint(x + 2, y + 2 * index + 1, string((index + 1 < 10) ? "0" : "") + to_string(index + 1), black, pink);
+		RGBPrint(x + 7 + (14 - (int)saves_names[index].size() / 2), y + 2 * index + 1, saves_names[index], black, pink);
 	}
 	int n;
 	while (true) {//từ đây trở đi tôi đã mất não.
@@ -980,16 +1094,16 @@ void loadGameScreen() {
 				else index = (index >= maxindex) ? 0 : index + 1;
 				int d = 5 * (currentpage - 1);
 				if (previousSelect < maxindex) {
-					RGBPrint(108 + 2, 24 + 2 * previousSelect + 1, string((previousSelect + 1 + d < 10) ? "0" : "") + to_string(previousSelect + d + 1), black, light_pink);
-					RGBPrint(108 + 7 + (14 - (int)saves_names[previousSelect + d].size() / 2), 24 + 2 * previousSelect + 1, saves_names[previousSelect + d], black, light_pink);
+					RGBPrint(x + 2, 24 + 2 * previousSelect + 1, string((previousSelect + 1 + d < 10) ? "0" : "") + to_string(previousSelect + d + 1), black, light_pink);
+					RGBPrint(x + 7 + (14 - (int)saves_names[previousSelect + d].size() / 2), y + 2 * previousSelect + 1, saves_names[previousSelect + d], black, light_pink);
 				}
-				else RGBPrint(115, 24 + 13, L"   " + getwstring(language, L"play_back") + L"   ", black, light_pink, true);
+				else RGBPrint(x+7, y + 13, L"   " + getwstring(language, L"play_back") + L"   ", black, light_pink, true);
 
 				if (index < maxindex) {
-					RGBPrint(108 + 2, 24 + 2 * index + 1, string((index + d + 1 < 10) ? "0" : "") + to_string(index + d + 1), black, pink);
-					RGBPrint(108 + 7 + (14 - (int)saves_names[index + d].size() / 2), 24 + 2 * index + 1, saves_names[index + d], black, pink);
+					RGBPrint(x + 2, y + 2 * index + 1, string((index + d + 1 < 10) ? "0" : "") + to_string(index + d + 1), black, pink);
+					RGBPrint(x + 7 + (14 - (int)saves_names[index + d].size() / 2), y + 2 * index + 1, saves_names[index + d], black, pink);
 				}
-				else RGBPrint(115, 24 + 13, L">> " + getwstring(language, L"play_back") + L" <<", black, light_pink, true);
+				else RGBPrint(x+7, y + 13, L">> " + getwstring(language, L"play_back") + L" <<", black, light_pink, true);
 			}
 			if ((n == 'a' || n == 'd') && index < maxindex) {
 				if (n == 'a') currentpage = (currentpage == 1) ? maxpages : currentpage - 1;
@@ -1001,22 +1115,22 @@ void loadGameScreen() {
 
 				for (int i = 0; i < 2 * 5; i++) {
 					if (i % 2 == 0) {
-						RGBPrint(108, 24 + i + 1, L"      ║                                    ", black, light_pink, false);
+						RGBPrint(x, y + i + 1, L"      ║                                    ", black, light_pink, false);
 						if (_i < saves_names.size()) {
 							if (_i <= maxindex + 5 * (currentpage - 1)) {
-								RGBPrint(108 + 7 + (14 - (int)saves_names[_i].size() / 2), 24 + i + 1, saves_names[_i], black, light_pink);
-								RGBPrint(108 + 2, 24 + i + 1, string((_i + 1 < 10) ? "0" : "") + to_string(_i + 1), black, light_pink);
+								RGBPrint(x + 7 + (14 - (int)saves_names[_i].size() / 2), y + i + 1, saves_names[_i], black, light_pink);
+								RGBPrint(x + 2, y + i + 1, string((_i + 1 < 10) ? "0" : "") + to_string(_i + 1), black, light_pink);
 								_i++;
 							}
 						}
 					}
-					else RGBPrint(108, 24 + i + 1, L"══════╬════════════════════════════════════", black, light_pink, false);
+					else RGBPrint(x, y + i + 1, L"══════╬════════════════════════════════════", black, light_pink, false);
 				}
-				RGBPrint(108 + 18, 24 + 11, wstring((currentpage < 10) ? L"0" : L"") + to_wstring(currentpage) + L"/" + wstring((saves / 5 < 10) ? L"0" : L"") + to_wstring(maxpages), black, light_pink, false);
+				RGBPrint(x + 18, y + 11, wstring((currentpage < 10) ? L"0" : L"") + to_wstring(currentpage) + L"/" + wstring((saves / 5 < 10) ? L"0" : L"") + to_wstring(maxpages), black, light_pink, false);
 
 				_i = 5 * (currentpage - 1);
-				RGBPrint(108 + 7 + (14 - (int)saves_names[_i].size() / 2), 24 + 1, saves_names[_i], black, pink);
-				RGBPrint(108 + 2, 24 + 1, string((_i + 1 < 10) ? "0" : "") + to_string(_i + 1), black, pink);
+				RGBPrint(x + 7 + (14 - (int)saves_names[_i].size() / 2), y + 1, saves_names[_i], black, pink);
+				RGBPrint(x + 2, y + 1, string((_i + 1 < 10) ? "0" : "") + to_string(_i + 1), black, pink);
 			}
 		}
 	}
@@ -1024,7 +1138,7 @@ void loadGameScreen() {
 		loadSaveGameEditor(saves_names[index + 5 * (currentpage - 1)], true);
 	}
 	else {
-		removePanel(100, 20, 13);
+		removePanel(90, 18, 13);
 		GameScreen(0);
 	}
 }

@@ -48,6 +48,7 @@ void drawInGamePanel_1(int, int, RGB, RGB, RGB, RGB);
 void drawInGamePanel_2(int, int, RGB, RGB, RGB, RGB);
 void drawInGamePanel_3(int, int, RGB, RGB, RGB, RGB);
 void drawInGamePanel_4(int, int, RGB, RGB, RGB, RGB);
+void drawInGamePanel_5(int, int, RGB, RGB, RGB, RGB);
 void drawInGameKeyboard(int, int, char, bool, RGB, RGB);
 void drawKeyCap(int, int, bool, RGB, RGB);
 void drawInGameKeyboard(int, int, char, bool, RGB, RGB);

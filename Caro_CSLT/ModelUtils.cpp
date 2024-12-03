@@ -317,9 +317,9 @@ void drawMainMenu_Out(int x, int y) {
 }
 void drawTriagle(int x, int y, bool show) {
     if (show) {
-        RGBPrint(x, y, L"  ▄", black, white_pink, false);
-        RGBPrint(x, y + 1, L"▄██", black, white_pink, false);
-        RGBPrint(x, y + 2, L" ▀█", black, white_pink, false);
+        RGBPrint(x, y,     L"▄  ", black, white_pink, false);
+        RGBPrint(x, y + 1, L"██▄", black, white_pink, false);
+        RGBPrint(x, y + 2, L"█▀ ", black, white_pink, false);
     }
     else {
         RGBPrint(x, y, L"   ", black, white_pink, false);;
@@ -491,6 +491,25 @@ void drawInGamePanel_1(int x, int y, RGB border_color,RGB background_color, RGB 
     RGBPrint(x + 39, y + 1, L"▄", dot_color, background_color, false);
     RGBPrint(x + 3, y + 8, L"▄", dot_color, background_color, false);
     RGBPrint(x + 39, y + 8, L"▄", dot_color, background_color, false);
+}
+void drawInGamePanel_5(int x, int y, RGB border_color, RGB background_color, RGB dot_color, RGB outside_color) {
+    //line 1
+    RGBPrint(x, y, L" ▄", border_color, outside_color, false);
+    RGBPrint(x + 2, y, L"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", border_color, background_color, false);
+    RGBPrint(x + 2 + 39, y, L"▄ ", border_color, outside_color, false);
+    //line n
+    for (int i = 0; i < 12; i++) RGBPrint(x, y + i + 1, L"█                                         █", border_color, background_color, false);
+    //line n+1
+    RGBPrint(x, y + 12, L" ▀▄                                     ▄▀ ", border_color, outside_color, false);
+    RGBPrint(x + 2, y + 12, L"▄                                     ▄", border_color, background_color, false);
+    //last line
+    RGBPrint(x, y + 13, L"   ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀   ", border_color, outside_color, false);
+    RGBPrint(x + 3, y + 13, L"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", border_color, { 220,220,220 }, false);
+    //draw dot
+    RGBPrint(x + 3, y + 1, L"▄", dot_color, background_color, false);
+    RGBPrint(x + 39, y + 1, L"▄", dot_color, background_color, false);
+    RGBPrint(x + 3, y + 11, L"▄", dot_color, background_color, false);
+    RGBPrint(x + 39, y + 11, L"▄", dot_color, background_color, false);
 }
 void drawInGamePanel_2(int x, int y, RGB border_color, RGB background_color, RGB dot_color, RGB outside_color) {
     //line 1

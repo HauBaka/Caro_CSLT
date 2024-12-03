@@ -73,6 +73,6 @@ void SetUpWindow() {
 	SetConsoleTitleA("GROUP 6 | 24CTT3 | HCMUS");
 	SetConsoleOutputCP(CP_UTF8);
 	
-	fopen_s(&language, "./Languages/vi-vn.txt", "r");
+	fopen_s(&language, "./Languages/en-us.txt", "r");
 	loadConfiguration(language);
 }
