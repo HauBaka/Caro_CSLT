@@ -33,7 +33,6 @@ bool loadConfiguration(FILE* file) {
 	}
 	if (index != -1) yaml_loaded.erase(yaml_loaded.begin() + index);
 	yaml_loaded.push_back(yaml);
-	fclose(file);
 	return 1;
 }
 FileConfiguration getYAML(FILE* file) {

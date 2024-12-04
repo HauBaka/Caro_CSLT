@@ -137,6 +137,48 @@ void drawWinEffect(bool isWin, int winType, int row, int col, int streak) {
 	}
 	drawContinueOption();
 }
+void drawDrawEffect() {
+	int i,
+		time = 4,
+		timer = 0,
+		color = 0;
+	RGB colors[16] = {
+	{199,66,79},
+	{224,107,81},
+	{242,165,97},
+	{242,165,97},
+	{177,212,128},
+	{128,184,120},
+	{128,184,120},
+	{137,217,217},
+	{137,217,217},
+	{92,139,168},
+	{78,102,121},
+	{70,73,105},
+	{68,53,93},
+	{61,0,61},
+	{98,23,72},
+	{148,44,75}
+	};
+	wstring textBanner[] = {
+		L"·▄▄▄▄  ▄▄▄   ▄▄▄· ▄▄▌ ▐ ▄▌",
+		L"██▪ ██ ▀▄ █·▐█ ▀█ ██· █▌▐█",
+		L"▐█· ▐█▌▐▀▀▄ ▄█▀▀█ ██▪▐█▐▐▌",
+		L"██. ██ ▐█•█▌▐█ ▪▐▌▐█▌██▐█▌",
+		L"▀▀▀▀▀• .▀  ▀ ▀  ▀  ▀▀▀▀ ▀▪"
+
+	};
+	drawInGamePanel_1(64, 5, black, white_pink, white, white_pink);
+	while (true) {
+		color++;
+		for (i = 0; i < 5; i++) RGBPrint(72, 8 + i % 5, textBanner[i], colors[(color+i) % 16], white_pink, false);
+		if (color <= 15) Sleep(100);
+		else Sleep(200);
+		timer += 1;
+		if (timer >= time * 10) break;
+	}
+	drawContinueOption();
+}
 void drawContinueOption() {
 	int i, color =0;
 	bool playAgain = false;
@@ -203,12 +245,17 @@ void drawContinueOption() {
 		drawTurn(game.turn, 69, 6, light_pink, pink, white_pink);
 		StartGame(false);
 	}
+	else {
+		drawGameBoard(55, 16, 61, 21, black, white_pink);
+		saveGameScreen(true);
+	}
 }
 bool checkWin() {
-	int count = 0, winType = 0, streak = 0;
+	int count = 0, winType = 0, streak = 0, boardSum = 0;
 	for (int i = 0; i < BOARD_SIZE_HEIGHT; i++) {
 		for (int j = 0; j < BOARD_SIZE_WIDTH; j++) {
 			count = 0;
+			if (game.point[i][j].c != 0) boardSum++;
 			if (rowCheck(i, j, count)) { winType = 1; streak = count; }
 			if (colCheck(i, j, count)) { winType = 2; streak = count; }
 			if (leftDiagonalCheck(i, j, count)) { winType = 3; streak = count; }
@@ -221,6 +268,10 @@ bool checkWin() {
 				return true;
 			}
 		}
+	}
+	if (boardSum == BOARD_SIZE_HEIGHT * BOARD_SIZE_WIDTH) {
+		drawDrawEffect();
+		return true;
 	}
 	return false;
 }
