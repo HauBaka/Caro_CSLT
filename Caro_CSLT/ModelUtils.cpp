@@ -129,12 +129,17 @@ void BetterDraw(int x, int y, wstring text, int bgcolor) {
 }
 
 void drawLOGO(int x, int y) {
-    RGBPrint(x, y,     L" ██████╗ █████╗ ██████╗  ██████╗      ██████╗  █████╗ ███╗   ███╗███████╗", black, white_pink, false);
-    RGBPrint(x, y + 1, L"██╔════╝██╔══██╗██╔══██╗██╔═══██╗    ██╔════╝ ██╔══██╗████╗ ████║██╔════╝", black, white_pink, false);
-    RGBPrint(x, y + 2, L"██║     ███████║██████╔╝██║   ██║    ██║  ███╗███████║██╔████╔██║█████╗  ", black, white_pink, false);
-    RGBPrint(x, y + 3, L"██║     ██╔══██║██╔══██╗██║   ██║    ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  ", black, white_pink, false);
-    RGBPrint(x, y + 4, L"╚██████╗██║  ██║██║  ██║╚██████╔╝    ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗", black, white_pink, false);
-    RGBPrint(x, y + 5, L" ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝      ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝", black, white_pink, false);
+    const wstring logo[] = {
+        L" ██████╗ █████╗ ██████╗  ██████╗      ██████╗  █████╗ ███╗   ███╗███████╗",
+        L"██╔════╝██╔══██╗██╔══██╗██╔═══██╗    ██╔════╝ ██╔══██╗████╗ ████║██╔════╝",
+        L"██║     ███████║██████╔╝██║   ██║    ██║  ███╗███████║██╔████╔██║█████╗  ",
+        L"██║     ██╔══██║██╔══██╗██║   ██║    ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  ",
+        L"╚██████╗██║  ██║██║  ██║╚██████╔╝    ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗",
+        L" ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝      ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝"
+    };
+    for (size_t i = 0; i < sizeof(logo) / sizeof(logo[0]); ++i) {
+        RGBPrint(x, y + i, logo[i], black, white_pink, false);
+    }
 }
 void veMay(int x, int y) {
     printColoredText(x - 1, y + 3, L" ", 3, 15);
@@ -239,6 +244,7 @@ void drawGameBoard(int x, int y, int length, int width, RGB border_color, RGB ba
             }
         }
     }
+    updateFullBoard();
 }
 
 void drawStartButton(int x, int y) {

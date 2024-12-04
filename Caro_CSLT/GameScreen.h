@@ -1,4 +1,4 @@
-#ifndef _GAMESCREEN_H_
+﻿#ifndef _GAMESCREEN_H_
 #define _GAMESCREEN_H_
 #include "terminalUtils.h"
 #include "ModelUtils.h"
@@ -8,6 +8,7 @@
 #include <experimental/filesystem>
 #include "FileConfiguration.h"
 #include <wchar.h>
+
 #define BOARD_SIZE_WIDTH 15
 #define BOARD_SIZE_HEIGHT 10
 using namespace std; 
@@ -25,27 +26,46 @@ struct GAME {
 	//vector<vector<int>> board;//X:1,O:2
 	_POINT point[BOARD_SIZE_HEIGHT][BOARD_SIZE_WIDTH];
 };
-bool rowCheck(int , int , int& );
-bool colCheck(int , int , int&);
+
+extern bool key_w, key_a, key_s, key_d;
+
+bool rowCheck(int, int, int&);
+bool colCheck(int, int, int&);
 bool leftDiagonalCheck(int, int, int&);
 bool rightDiagonalCheck(int, int, int&);
-bool checkWin();
+
+void drawWinEffect(bool, int, int, int, int);
 void drawContinueOption();
+bool checkWin();
+
 bool fileExists(string);
-bool loadGame(string);
 bool saveGame();
+bool loadGame(string);
 void saveGameScreen(bool);
+int loadAllSaves(vector<string>&);
+
+bool DrawOption();
+bool PauseOption();
 
 void fixKeyboard();
-void updateFullBoard();
 void updateScreen();
+void updateFullBoard();
 void drawTheScreen();
+void reRenderCursor(bool);
 
+int getRandom(int, int);
+bool botHitRandom();
+
+bool boardTick();
+bool inputProcessing(char);
+void movementProcessing(char);
+bool timeProcessing(int&);
+void resetPosOnBoard();
+void resetBoard();
 void StartGame(bool);
-void setupBoard();
-void clearBoard();
-void setupGame(string,int, int, bool, bool, short, short[2], short[2], vector<pair<short, short>>);
-int loadAllSaves(vector<string>&);
+
+void setupGame(string, int, int, bool, bool, short, short[2], short[2], vector<pair<short, short>>);
+
 string gameEditor_name(int, int, RGB, RGB, RGB);
 void gameEditor_remove(string);
 void loadSaveGameEditor(string, bool);

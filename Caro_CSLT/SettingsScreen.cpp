@@ -35,13 +35,13 @@ void drawBackOption(bool isCurrent) {
 	else RGBPrint(x, 34, L"   "+ text, white, light_pink, true);
 }
 void SettingsScreen() {
+	int current = 0, previous = 0;
 	drawPanel(90, 18, 12);
 	drawVolume(true);
 	drawSFX(false);
 	drawBGM(false);
 	drawLanguage(false);
 	drawBackOption(false);
-	int current = 0, previous = 0;
 	while (true) {
 		if (_kbhit()) {
 			int n = tolower(_getch());

@@ -9,11 +9,10 @@ void ContributorsScreen() {
 						 {L"Vòng Sau Hậu	", L"24120307"},
 						 {L"Nguyễn Minh Hoàng	", L"24120314"},
 						 {L"Đặng Thái Hòa	", L"24120312"} };
-	int x = 101;
+	int x = 101, _d =0, n;
 	RGBPrint(x, 22, L"                 ║                 ", black, light_pink, false);
 	RGBPrint(x +(17-(int)text_name.size())/2, 22, text_name, black, light_pink, true);
 	RGBPrint(x + 18 + (17 - (int)text_id.size()) / 2, 22, text_id, black, light_pink, true);
-	int _d = 0;
 	for (int i = 0; i < 10; i++) {
 		if (i % 2 == 0) RGBPrint(x, 23 + i, L"═════════════════╬═════════════════", black, light_pink, false);
 		else {
@@ -27,7 +26,7 @@ void ContributorsScreen() {
 	RGBPrint(x+6, 34, L">> "+ text_back + L" <<", black, light_pink, true);
 	while (true) {
 		if (_kbhit()) {
-			int n = tolower(_getch());
+			n = tolower(_getch());
 			if (n==13) break;
 		}
 	}
