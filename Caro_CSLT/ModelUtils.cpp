@@ -400,10 +400,10 @@ void drawSlider(int x, int y, int length, int value) {
         RGBPrint(x + i, y - 1, L"▄", black, light_pink, false);
         RGBPrint(x + i, y + 1, L"▀", black, light_pink, false);
         if (i <= value) {
-            RGBPrint(x + i, y, L"█", { 250, 177, 247 }, {250, 177, 247}, false);
+            RGBPrint(x + i, y, L"█", { 85, 148, 230 }, { 85, 148, 230 }, false);
         }
         else {
-            RGBPrint(x + i, y, L"▄", {250,227,250}, white_pink, false);
+            RGBPrint(x + i, y, L"▄", pink, white_pink, false);
         }
     }
 

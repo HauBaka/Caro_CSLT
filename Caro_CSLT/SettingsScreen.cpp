@@ -23,9 +23,10 @@ void drawBGM(bool isCurrent) {
 	else drawCheckBox(108 + 12, 29, white_pink);
 }
 void drawLanguage(bool isCurrent) {
-	wstring text = getwstring(language, L"settings_language");
-	if (isCurrent) RGBPrint(100, 32, L">> " + text + L":", white, light_pink, true);
-	else RGBPrint(100, 32, L"   " + text + L":", white, light_pink, true);
+	wstring text = getwstring(language, L"settings_language"),
+		language_name = getwstring(language, L"name");
+	if (isCurrent) RGBPrint(100, 32, L">> " + text + L": " + language_name, white, light_pink, true);
+	else RGBPrint(100, 32, L"   " + text + L": " + language_name, white, light_pink, true);
 }
 void drawBackOption(bool isCurrent) {
 	wstring text = getwstring(language, L"back_to_main");
@@ -44,7 +45,7 @@ void SettingsScreen() {
 	while (true) {
 		if (_kbhit()) {
 			int n = tolower(_getch());
-			if ((n == 'a' || n == 'd') && current <=2) {
+			if ((n == 'a' || n == 'd') && current <=3) {
 				if (current == 0) {
 					setVolume(getVolume() + (n == 'd' ? 50 : -50));
 					drawVolume(true);
@@ -61,9 +62,9 @@ void SettingsScreen() {
 				}
 				else if (current == 3) {
 					fclose(language);
-					fopen_s(&language, "./Languages/en-us.txt", "r");
+					fopen_s(&language, "./Languages/vi-vn.txt", "r");
 					loadConfiguration(language);
-					RGBPrint(0, 0, L"Language: " + getwstring(language, L"name"), black, white_pink, false);
+					drawLanguage(true);
 				}
 			}
 			if ((n == 13 || n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);

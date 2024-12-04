@@ -20,6 +20,7 @@ struct GAME {
 	short time;
 	short ratio[2];//ti so
 	short hits[2];//so luot danh, 0:O, 1:X
+	int _X, _Y;
 	vector<pair<short, short>> history;//lich su danh
 	//vector<vector<int>> board;//X:1,O:2
 	_POINT point[BOARD_SIZE_HEIGHT][BOARD_SIZE_WIDTH];
@@ -43,7 +44,7 @@ void drawTheScreen();
 void StartGame(bool);
 void setupBoard();
 void clearBoard();
-void setupGame(string, bool, bool, short, short[2], short[2], vector<pair<short, short>>);
+void setupGame(string,int, int, bool, bool, short, short[2], short[2], vector<pair<short, short>>);
 int loadAllSaves(vector<string>&);
 string gameEditor_name(int, int, RGB, RGB, RGB);
 void gameEditor_remove(string);
