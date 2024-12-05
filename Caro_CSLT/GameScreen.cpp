@@ -1228,3 +1228,4 @@ void GameScreen(int state) {//0: game menu, 1:new game menu, 2: load game menu
 		loadGameScreen();
 	}
 }
+

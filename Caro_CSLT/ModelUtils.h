@@ -55,10 +55,10 @@ void drawInGameKeyboard(int, int, char, bool, RGB, RGB);
 void drawMiniPopUp(int, int, RGB, RGB, RGB, RGB);
 void drawDrawText(int, int, RGB);
 void drawPauseText(int, int, RGB);
-
 void drawPineTree(int, int, RGB, int);
 void drawSnowFlake(int, int, RGB);
 void drawGift(int, int, RGB);
 void drawCandy(int, int, RGB);
 void drawReindeer(int, int, RGB);
+void drawPineTree2(int, int, RGB);
 #endif
