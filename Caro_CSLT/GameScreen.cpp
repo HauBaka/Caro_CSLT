@@ -55,7 +55,7 @@ bool rightDiagonalCheck(int i, int j, int& count) {
 //Xử lí thắng/thua/hòa
 void drawWinEffect(bool isWin, int winType, int row, int col, int streak) {
 	int i,
-		time = 4,
+		time = 8,
 		timer = 0,
 		_col = col,
 		_row = row,
@@ -93,6 +93,10 @@ void drawWinEffect(bool isWin, int winType, int row, int col, int streak) {
 		win_header[4] = L" ▀█▄▀▪     ▀▀▀▀ ▀▪ ▀█▄▀▪▀▀ █▪";
 	};
 	drawInGamePanel_1(64, 5, black, white_pink, white, white_pink);
+	if (enableBGM) {
+		stopSound(7);
+		playSound(5, false);
+	}
 	if (isWin) {
 
 		while (true) {
@@ -211,12 +215,17 @@ void drawContinueOption() {
 	RGBPrint(73, 29, L"Play again?", black, white_pink, false);
 	RGBPrint(78, 31, L">> NO <<", black, light_pink, false);
 	RGBPrint(78, 32, L"   YES  ", black, white_pink, false);
+	if (enableBGM) {
+		stopSound(7);
+		playSound(8, 1);
+	}
 	while (true) {
 		color++;
 		for (i = 0; i < 5; i++) RGBPrint(73, 22 + i % 5, header[i%5], colors[color % 16], white_pink, false);
 		if (_kbhit()) {
 			int n = tolower(_getch());
 			if (n == 'w' || n == 'a' || n == 's' || n == 'd') {
+				playSound(3, 0);
 				playAgain = !playAgain;
 				if (playAgain) {
 					RGBPrint(78, 31, L"   NO   ", black, white_pink, false);
@@ -228,12 +237,14 @@ void drawContinueOption() {
 				}
 			}
 			if (n == 13) {
+				playSound(9, 0);
 				break;
 
 			}
 		}
 		Sleep(100);
 	}
+	if (enableBGM) stopSound(8);
 	if (playAgain) {
 		short a[2] = { 0 };
 		resetBoard();
@@ -248,6 +259,29 @@ void drawContinueOption() {
 	else {
 		drawGameBoard(55, 16, 61, 21, black, white_pink);
 		saveGameScreen(true);
+		//cái qq j đay?
+		system("cls");
+		fill(white_pink);
+		drawLOGO((172 - 73) / 2, 5);
+		drawMainMenu_Play(35, 20);
+		drawMainMenu_Options(35, 25);
+		drawMainMenu_Authors(35, 30);
+		drawMainMenu_Out(35, 35);
+		drawTriagle(30, 20 + 0 * 5, true);
+		//ve gi do vui vui
+		drawPineTree(15, 30, white_pink, 1);
+		drawPineTree(75, 13, white_pink, 1);
+		drawPineTree(129, 6, white_pink, 1);
+
+		drawSnowFlake(5, 12, white_pink);
+		drawSnowFlake(65, 0, white_pink);
+		drawSnowFlake(105, 13, white_pink);
+		drawSnowFlake(150, 35, white_pink);
+
+		drawGift(151, 18, white_pink);
+		drawCandy(160, 4, white_pink);
+		drawReindeer(43, 13, white_pink);
+		GameScreen(0);
 	}
 }
 bool checkWin() {
@@ -434,8 +468,9 @@ void saveGameScreen(bool refresh) {
 			}
 		}
 	}
-	drawGameBoard(55, 16, 61, 21, black, white_pink);
-	StartGame(0);
+	if (enableSFX) playSound(9, 0);
+	//drawGameBoard(55, 16, 61, 21, black, white_pink);
+	//StartGame(0);
 }
 int loadAllSaves(vector<string>& saves) {
 	int dem = 0;
@@ -474,11 +509,15 @@ bool DrawOption() {
 	RGBPrint(75, 26, text_drawacp, black, white_pink, true);
 	RGBPrint(75, 27, L">> " + text_drawdeny + L" <<", black, white_pink, true);
 	//Xử lí
+	if (enableBGM) {
+		stopSound(7);
+		playSound(8, 1);
+	}
 	while (true) {
 		if (_kbhit()) {
 			int n = tolower(_getch());
 			if (n == 'w' || n == 'a' || n == 's' || n == 'd') {
-				//play sound here!!!
+				playSound(3, 0);
 				draw = !draw;
 				if (draw) {
 					RGBPrint(75, 26, L">> " + text_drawacp + L" <<", black, white_pink, true);
@@ -490,13 +529,14 @@ bool DrawOption() {
 				}
 			}
 			if (n == 13) {
-				//play sound here!!!!!!
+				playSound(9, 0);
 				break;
 			}
 		}
 	}
+	
 	if (draw) {
-		drawDrawText(69, 13, white_pink);
+		drawDrawEffect();
 	}
 	else {
 		drawGameBoard(55, 16, 61, 21, black, white_pink);
@@ -524,11 +564,15 @@ bool PauseOption() {
 	RGBPrint(75, 26, L"   " + text_pauseacp + L"   ", black, white_pink, true);
 	RGBPrint(75, 27, L">> " + text_pausedeny + L" <<", black, white_pink, true);
 	//Xử lí
+	if (enableBGM) {
+		stopSound(7);
+		playSound(8, 1);
+	}
 	while (true) {
 		if (_kbhit()) {
 			int n = tolower(_getch());
 			if (n == 'w' || n == 'a' || n == 's' || n == 'd') {
-				//play sound here!!!
+				playSound(3, 0);
 				pause = !pause;
 				if (pause) {
 					RGBPrint(75, 26, L">> " + text_pauseacp + L" <<", black, white_pink, true);
@@ -540,11 +584,12 @@ bool PauseOption() {
 				}
 			}
 			if (n == 13) {
-				//play sound here!!!!!!
+				playSound(9, 0);
 				break;
 			}
 		}
 	}
+
 	drawGameBoard(55, 16, 61, 21, black, white_pink);
 	if (pause) {
 		wstring text_continueMsg = getwstring(language, L"pause_continue");
@@ -671,6 +716,7 @@ bool botHitRandom() {
 //Xừ lí trò chơi
 bool boardTick() {
 	if (game.point[game._Y][game._X].c == 0) {
+		playSound(11, 0);
 		//đánh dấu lên bảng & thêm vào lịch xử
 		game.point[game._Y][game._X].c = game.turn ? 1 : 2;
 		game.history.insert(game.history.begin(), { 65 + game._X, game._Y + 1 });
@@ -699,17 +745,34 @@ bool boardTick() {
 bool inputProcessing(char c) {
 	if (c == 'l') {
 		saveGameScreen(true);
+		drawGameBoard(55, 16, 61, 21, black, white_pink);
+		StartGame(0);
 		return true;
 	}
 	if (c == 'q') {
 		if (enableSFX) playSound(3, 0);
 		return true;
 	}
-	if (c == 'o' && DrawOption()) return true;
+	if (c == 'o') {
+		if (DrawOption()) {
+			removePanel(54, 5, 3);
+			drawInGamePanel_3(69, 6, black, white_pink, white, white_pink);
+		}
+		if (enableBGM) {
+			stopSound(8);
+			playSound(7, 1);
+		}
+		updateFullBoard();
+		reRenderCursor(true);
+	}
 	if (c == 'p') {
 		if (PauseOption()) {
 			removePanel(54, 5, 3);
 			drawInGamePanel_3(69, 6, black, white_pink, white, white_pink);
+		}
+		if (enableBGM) {
+			stopSound(8);
+			playSound(7, 1);
 		}
 		updateFullBoard();
 		reRenderCursor(true);
@@ -721,7 +784,7 @@ bool inputProcessing(char c) {
 	return false;
 }
 void movementProcessing(char c) {
-	if (enableSFX) playSound(3, 0);
+	if (enableSFX) playSound(10, 0);
 
 	reRenderCursor(false); //ẩn con trỏ cũ
 	switch (c) {
@@ -779,6 +842,10 @@ void resetBoard() {
 }
 void StartGame(bool drawBackground) {
 	int count = 0;
+	if (enableBGM) {
+		stopSound(4);
+		playSound(7, 1);
+	}
 	//vẽ lại nền
 	resetPosOnBoard();
 	if (drawBackground) {
@@ -822,6 +889,10 @@ void StartGame(bool drawBackground) {
 	drawGift(151, 18, white_pink);
 	drawCandy(160, 4, white_pink);
 	drawReindeer(43, 13, white_pink);
+	if (enableBGM) {
+		stopSound(7);
+		playSound(4, 1);
+	}
 	GameScreen(0);
 }
 //Game SETUP
@@ -992,10 +1063,11 @@ void loadSaveGameEditor(string savename, bool refresh) {
 				}
 			}
 		}
-	}
+	}	
 	switch (currentSelect) {
 	case 0:
 		loadGame(savename);
+		if (enableSFX) playSound(6, 0);
 		StartGame(1);
 		break;
 	case 1: {
@@ -1014,6 +1086,7 @@ void loadSaveGameEditor(string savename, bool refresh) {
 		gameEditor_remove(savename);
 		break;
 	case 3:
+		if (enableSFX) playSound(9, 0);
 		GameScreen(2);
 		break;
 	}
@@ -1034,7 +1107,10 @@ void newGameOptionsScreen() {
 			n = _getch();
 			n = tolower(n);
 			if ((n == 13 || n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);
-			if (n == 13) break;
+			if (n == 13) {
+				if (enableSFX) playSound(9, 0);
+				break;
+			}
 			prevSel = curSel;
 			if (n == 'w' or n == 'a') {//go up
 				curSel--;
@@ -1078,7 +1154,10 @@ void selectModeScreen() {
 			n = _getch();
 			n = tolower(n);
 			if ((n == 13 || n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);
-			if (n == 13) break;
+			if (n == 13) {
+				if (enableSFX) playSound(9, 0);
+				break;
+			}
 			prevSel = curSel;
 			if (n == 'w' or n == 'a') {//go up
 				curSel--;
@@ -1213,6 +1292,7 @@ void loadGameScreen() {
 		loadSaveGameEditor(saves_names[index + 5 * (currentpage - 1)], true);
 	}
 	else {
+		if (enableSFX) playSound(9, 0);
 		removePanel(90, 18, 13);
 		GameScreen(0);
 	}

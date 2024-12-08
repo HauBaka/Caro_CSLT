@@ -14,8 +14,11 @@ void drawQuitOptions() {
 	while (true) {
 		if (_kbhit()) {
 			int n = tolower(_getch());
-			if ((n == 13 || n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);
-			if (n == 13) break;
+			if (( n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);
+			if (n == 13) {
+				if (enableSFX) playSound(9, 0);
+				break;
+			}
 			if (n == 'w' || n == 'a' || n == 's' || n == 'd') {
 				isConfirm = !isConfirm;
 				if (isConfirm) {
@@ -39,7 +42,7 @@ void MainScreen(int curSel, bool playBGM, bool clear) {
 	int prevSel = 0;
 	int n, index = 0;
 	bool draw_tria = true;
-	if (playBGM) playSound(1, true);
+	if (playBGM) playSound(4, true);
 	if (clear) for (int i = 16; i < 42; i++) clearLine(i);
 	drawMainMenu_Play(35, 20);
 	drawMainMenu_Options(35, 25);
@@ -63,9 +66,10 @@ void MainScreen(int curSel, bool playBGM, bool clear) {
 		if (_kbhit()) {
 			n = _getch();
 			n = tolower(n);
-			if ((n == 13 || n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);
+			if (( n == 'w' || n == 'a' || n == 's' || n == 'd' ) && enableSFX) playSound(3, 0);
 			if (n == 13)
 			{
+				if (enableSFX) playSound(9, 0);
 				drawTriagle(30, 20 + curSel * 5, true);
 				break;
 			}

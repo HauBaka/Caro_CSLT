@@ -5,7 +5,7 @@
 #include <string>
 #pragma comment(lib, "Winmm.lib")
 using namespace std;
-#define NUMSONGS 8
+#define NUMSONGS 12
 extern bool audio_loaded[];
 extern short volume;
 wstring getSongbyNum(short);

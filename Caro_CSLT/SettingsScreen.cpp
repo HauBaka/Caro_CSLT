@@ -67,7 +67,7 @@ void SettingsScreen() {
 					drawLanguage(true);
 				}
 			}
-			if ((n == 13 || n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);
+			if ((n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);
 			if (n == 's' or n == 'w') {
 				if (n == 's') {
 					previous = current;
@@ -114,6 +114,7 @@ void SettingsScreen() {
 			}
 			if (n == 13 && (current == 4 or current == 3)) {
 				if (enableBGM == false) stopSound(1);
+				if (enableSFX) playSound(9, 0);
 				removePanel(90, 18, 12);
 				MainScreen(1, 0, false);
 			}

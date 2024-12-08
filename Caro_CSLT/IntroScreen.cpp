@@ -34,7 +34,7 @@ void startIntroScreen() {
 		RGBPrint(74, 21, animatedText(message, count), black, white_pink, true);
 		if (_kbhit()) {
 			int _t = _getch();
-			if (enableSFX) playSound(3, 0);
+			if (enableSFX) playSound(9, 0);
 			break;
 		}
 		Sleep(200);

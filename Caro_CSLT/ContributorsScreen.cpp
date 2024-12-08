@@ -27,7 +27,10 @@ void ContributorsScreen() {
 	while (true) {
 		if (_kbhit()) {
 			n = tolower(_getch());
-			if (n==13) break;
+			if (n == 13) {
+				if (enableSFX) playSound(9, 0);
+				break;
+			}
 		}
 	}
 	removePanel(90, 18, 13);

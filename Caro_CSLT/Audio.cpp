@@ -9,11 +9,27 @@ short volume = 400;
 wstring getSongbyNum(short song) {
 	switch (song) {
 	case 1:
-		return L"./Sounds/bg1.mp3";
+		return L"./Sounds/intro.mp3";
 	case 2:
-		return L"./Sounds/bg2.mp3";
+		return L"./Sounds/intro.mp3";
 	case 3:
 		return L"./Sounds/pop.mp3";
+	case 4:
+		return L"./Sounds/bgmusic.mp3";
+	case 5:
+		return L"./Sounds/win.mp3";
+	case 6:
+		return L"./Sounds/loadsave.mp3";
+	case 7:
+		return L"./Sounds/ingame.mp3";
+	case 8:
+		return L"./Sounds/paused.mp3";
+	case 9:
+		return L"./Sounds/select.mp3";
+	case 10:
+		return L"./Sounds/move.mp3";
+	case 11:
+		return L"./Sounds/hit.mp3";
 	default:
 		return L"";
 	}
