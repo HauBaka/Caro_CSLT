@@ -22,6 +22,22 @@ void GotoXY(int x, int y) {
 	coord.Y = y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
+int sizeOfText(wstring text) {
+	int count = 0;
+	bool c = false;
+	for (const wchar_t& ch : text) {
+		if (ch <= 127) {
+			count++;
+			c = false;
+			continue;
+		}
+		if (!c) {
+			count++;
+			c = true;
+		}
+	}
+	return count;
+}
 void clearLine(int line) {
 	RGBPrint(0, line, "                                                                                                                                                                             ", white_pink, white_pink);
 }

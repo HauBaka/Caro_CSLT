@@ -1,25 +1,24 @@
-_t: A
 name: English
 press_any_key_to_start: PRESS ANY KEY TO START YA
 play: Play
 play_newgame: NEW GAME
-play_loadgame: [LOAD GAME]
-play_back: BLACK TO PLAY GAME MENU
+play_loadgame: LOAD GAME
+play_back: [BLACK TO PLAY GAME MENU]
 play_pvp: Player vs Player
 play_pve: Player vs BOT
 ingame_player: Player
-ingame_name: NAME
+ingame_name: Name
 ingame_turn: Turn
-ingame_ratio: RATIO
-ingame_time: TIME
-ingame_hits: HITS
+ingame_ratio: Ratio
+ingame_time: Time left
+ingame_hits: Hits
 ingame_timeleft: Time left
 draw_msg: Player %p wants to draw
-draw_accept: Yes
-draw_deny: No
+draw_accept: [Yes]
+draw_deny: [No]
 pause_msg: Player %p wants to pause game
-pause_accept: Yes
-pause_deny: No
+pause_accept: [Yes]
+pause_deny: [No]
 save_cancel: [CANCEL]
 save_save: [SAVE]
 save_id: ID
@@ -31,7 +30,7 @@ save_remove_countdown: REMOVE IN %ds (Press any key to cancel)
 save_back: [BACK]
 save_exists: File Exists!
 save_invalidName: Invalid Name!
-back_to_main: BACK TO MAIN MENU
+back_to_main: [BACK TO MAIN MENU]
 settings_volume: Volume
 settings_sfx: Sound Effects
 settings_bgm: Music
@@ -40,5 +39,5 @@ coming_soon: Coming Soon
 authors_name: Name
 authors_id: ID
 quit_message: Want to quit?
-quit_confirm: Yes
-quit_cancel: No
+quit_confirm: [Yes]
+quit_cancel: [No]

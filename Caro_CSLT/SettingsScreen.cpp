@@ -30,7 +30,7 @@ void drawLanguage(bool isCurrent) {
 }
 void drawBackOption(bool isCurrent) {
 	wstring text = getwstring(language, L"back_to_main");
-	int x = 128 - (int(sizeof(text)) + 3) / 2;
+	int x = 116 - sizeOfText(text)/2;
 	if (isCurrent) RGBPrint(x, 34, L">> "+ text, white, light_pink, true);
 	else RGBPrint(x, 34, L"   "+ text, white, light_pink, true);
 }

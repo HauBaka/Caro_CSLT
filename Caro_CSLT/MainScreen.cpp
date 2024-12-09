@@ -1,13 +1,12 @@
 ﻿#include "MainScreen.h"
 void drawQuitOptions() {
 	wstring message = getwstring(language, L"quit_message") , confirm = getwstring(language, L"quit_confirm"), cancel = getwstring(language, L"quit_cancel");
-	int width = (int(confirm.length() + cancel.length()) + 3) / 2,
-		x1 = 120 - width - int(confirm.length() / 2),
-		x2 = 123 - width + int(cancel.length() / 2);
+	int width = sizeOfText(confirm) + sizeOfText(cancel) + 8,
+		x1 = 118 - width/2 - sizeOfText(confirm) / 2,
+		x2 = 118 + 4 + sizeOfText(cancel) / 2;
 	bool isConfirm = true;
-
 	drawPanel(90, 18, 4);
-	RGBPrint(118-int(message.length()/2), 22, message, white, light_pink, true);
+	RGBPrint(118-int(sizeOfText(message)/2), 22, message, white, light_pink, true);
 	RGBPrint(x1, 24, L"\033[4m" + confirm + L"\033[0m", white, light_pink, true);
 	RGBPrint(x2, 24, cancel , white, light_pink, true);
 

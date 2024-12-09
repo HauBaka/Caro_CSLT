@@ -14,4 +14,5 @@ void ShowConsoleCursor(bool);
 void GotoXY(int, int);
 void clearLine(int);
 void SetUpWindow();
+int sizeOfText(wstring);
 #endif

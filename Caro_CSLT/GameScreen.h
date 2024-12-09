@@ -68,7 +68,7 @@ void setupGame(string, int, int, bool, bool, short, short[2], short[2], vector<p
 
 string gameEditor_name(int, int, RGB, RGB, RGB);
 void gameEditor_remove(string);
-void loadSaveGameEditor(string, bool);
+void loadSaveGameEditor(string, bool, int);
 
 void newGameOptionsScreen();
 void selectModeScreen();
