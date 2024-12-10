@@ -1,0 +1,27 @@
+time-left: 13
+gamemode: 0
+Board_X: 8
+Board_Y: 9
+turn: 0
+ratio: 0 0
+hits: 1 2
+history-1: 728
+history-2: 727
+history-3: 726
+history-4: No data
+history-5: No data
+board-line-01: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+board-line-02: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+board-line-03: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+board-line-04: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+board-line-05: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+board-line-06: 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 
+board-line-07: 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 
+board-line-08: 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 
+board-line-09: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+board-line-10: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+board-line-11: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+board-line-12: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+board-line-13: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+board-line-14: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+board-line-15: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 

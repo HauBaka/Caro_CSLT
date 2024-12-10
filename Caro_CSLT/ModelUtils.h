@@ -45,6 +45,7 @@ void fill(RGB);
 
 void drawInGameHeader(int, int);
 void drawInGamePanel_1(int, int, RGB, RGB, RGB, RGB);
+void drawInGamePanel_1A(int, int, RGB, RGB, RGB, RGB);
 void drawInGamePanel_2(int, int, RGB, RGB, RGB, RGB);
 void drawInGamePanel_3(int, int, RGB, RGB, RGB, RGB);
 void drawInGamePanel_4(int, int, RGB, RGB, RGB, RGB);

@@ -92,7 +92,7 @@ void drawWinEffect(bool isWin, int winType, int row, int col, int streak) {
 		win_header[3] = L"▐█▌.▐▌    ▐█▌██▐█▌▐█▌.▐▌██▐█▌";
 		win_header[4] = L" ▀█▄▀▪     ▀▀▀▀ ▀▪ ▀█▄▀▪▀▀ █▪";
 	};
-	drawInGamePanel_1(64, 5, black, white_pink, white, white_pink);
+	drawInGamePanel_1A(120, 4, black, white_pink, white, white_pink);
 	if (enableBGM) {
 		stopSound(7);
 		playSound(5, false);
@@ -105,9 +105,9 @@ void drawWinEffect(bool isWin, int winType, int row, int col, int streak) {
 			if (color >= 20) color = 0;
 			streak = (streak > 5) ? streak : 5;
 			for (i = 0; i < streak; i++) {
-				RGBPrint(71, 8 + i % 5, win_header[i % 5], colors[(color + i) % 16], white_pink, false);
+				RGBPrint(128,  6 + i % 5, win_header[i % 5], colors[(color + i) % 16], white_pink, false);
 				if (winType == 5) {//time out
-					RGBPrint(game.point[5][7].x, game.point[5][7].y, "TIME OUT!!", colors[(color + i) % 16], white_pink);
+					RGBPrint(game.point[7][5].x, game.point[7][7].y, "TIME OUT!!", colors[(color + i) % 16], white_pink);
 				}
 				else {
 					if (color <= 15 || color % 2 != 0) RGBPrint(game.point[_row][_col].x, game.point[_row][_col].y, (game.point[_row][_col].c == 1 ? "X" : "O"), colors[(color + i) % 16], white_pink);
@@ -131,7 +131,6 @@ void drawWinEffect(bool isWin, int winType, int row, int col, int streak) {
 						break;
 					}
 				}
-
 			}
 			if (color <= 15) Sleep(100);
 			else Sleep(200);
@@ -139,7 +138,7 @@ void drawWinEffect(bool isWin, int winType, int row, int col, int streak) {
 			if (timer >= time*10) break;
 		}
 	}
-	drawContinueOption();
+	drawContinueOption(false);
 }
 void drawDrawEffect() {
 	int i,
@@ -170,20 +169,18 @@ void drawDrawEffect() {
 		L"▐█· ▐█▌▐▀▀▄ ▄█▀▀█ ██▪▐█▐▐▌",
 		L"██. ██ ▐█•█▌▐█ ▪▐▌▐█▌██▐█▌",
 		L"▀▀▀▀▀• .▀  ▀ ▀  ▀  ▀▀▀▀ ▀▪"
-
 	};
-	drawInGamePanel_1(64, 5, black, white_pink, white, white_pink);
+	drawInGamePanel_1A(120, 4, black, white_pink, white, white_pink);
 	while (true) {
 		color++;
-		for (i = 0; i < 5; i++) RGBPrint(72, 8 + i % 5, textBanner[i], colors[(color+i) % 16], white_pink, false);
+		for (i = 0; i < 5; i++) RGBPrint(128, 6 + i % 5, textBanner[i], colors[(color+i) % 16], white_pink, false);
 		if (color <= 15) Sleep(100);
 		else Sleep(200);
 		timer += 1;
 		if (timer >= time * 10) break;
 	}
-	drawContinueOption();
 }
-void drawContinueOption() {
+void drawContinueOption(bool saveOption) {
 	int i, color =0;
 	bool playAgain = false;
 	RGB colors[16] = {
@@ -211,29 +208,29 @@ void drawContinueOption() {
 	   L"▐█ ▪▐▌▐█▄▪▐█▐█ ▪▐▌▐█▌██▐█▌",
 	   L" ▀  ▀ ·▀▀▀▀  ▀  ▀ ▀▀▀▀▀ █▪"
 	};
-	drawInGamePanel_5(64, 20, black, white_pink, white_pink, white_pink);
-	RGBPrint(73, 29, L"Play again?", black, white_pink, false);
-	RGBPrint(78, 31, L">> NO <<", black, light_pink, false);
-	RGBPrint(78, 32, L"   YES  ", black, white_pink, false);
+	drawInGamePanel_5(64, 14, black, white_pink, white_pink, white_pink);
+	RGBPrint(73, 23, L"Play again?", black, white_pink, false);
+	RGBPrint(78, 25, L">> NO <<", black, light_pink, false);
+	RGBPrint(78, 26, L"   YES  ", black, white_pink, false);
 	if (enableBGM) {
 		stopSound(7);
 		playSound(8, 1);
 	}
 	while (true) {
 		color++;
-		for (i = 0; i < 5; i++) RGBPrint(73, 22 + i % 5, header[i%5], colors[color % 16], white_pink, false);
+		for (i = 0; i < 5; i++) RGBPrint(73, 16 + i % 5, header[i%5], colors[color % 16], white_pink, false);
 		if (_kbhit()) {
 			int n = tolower(_getch());
 			if (n == 'w' || n == 'a' || n == 's' || n == 'd') {
 				playSound(3, 0);
 				playAgain = !playAgain;
 				if (playAgain) {
-					RGBPrint(78, 31, L"   NO   ", black, white_pink, false);
-					RGBPrint(78, 32, L">> YES <<", black, light_pink, false);
+					RGBPrint(78, 25, L"   NO   ", black, white_pink, false);
+					RGBPrint(78, 26, L">> YES <<", black, light_pink, false);
 				}
 				else {
-					RGBPrint(78, 31, L">> NO <<", black, light_pink, false);
-					RGBPrint(78, 32, L"   YES   ", black, white_pink, false);
+					RGBPrint(78, 25, L">> NO <<", black, light_pink, false);
+					RGBPrint(78, 26, L"   YES   ", black, white_pink, false);
 				}
 			}
 			if (n == 13) {
@@ -249,16 +246,16 @@ void drawContinueOption() {
 		short a[2] = { 0 };
 		resetBoard();
 		setupGame(game.name, game._X, game._Y, game.turn, game.gamemode, 15, game.ratio, a, {});
-		drawGameBoard(55, 16, 61, 21, black, white_pink);
+		drawGameBoard(55, 6, 61, 31, black, white_pink);
 		updateScreen();
 		removePanel(54, 5, 3);
-		drawInGamePanel_3(69, 6, black, white_pink, white, white_pink);
-		drawTurn(game.turn, 69, 6, light_pink, pink, white_pink);
+		drawInGamePanel_3(125, 5, black, white_pink, white, white_pink);
+		drawTurn(game.turn, 125, 5, light_pink, pink, white_pink);
 		StartGame(false);
 	}
 	else {
-		drawGameBoard(55, 16, 61, 21, black, white_pink);
-		saveGameScreen(true);
+		drawGameBoard(55, 6, 61, 31, black, white_pink);
+		if (saveOption) saveGameScreen(true);
 		//cái qq j đay?
 		system("cls");
 		fill(white_pink);
@@ -398,12 +395,12 @@ bool saveGame() {
 	return 1;
 }
 void saveGameScreen(bool refresh) {
-	if (refresh) drawMiniPopUp(69, 22, black, white_pink, white_pink, white_pink);
-	RGBPrint(71, 24, L"✍  ", black, light_pink, false);
-	RGBPrint(74, 24, getwstring(language, L"save_name") + L":", black, light_pink, true);
-	RGBPrint(76 + (int)getwstring(language, L"save_name").size(), 24, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(game.name), black, white_pink, false);
-	RGBPrint(90, 26, getwstring(language, L"save_save"), black, white_pink, true);
-	RGBPrint(75, 26, getwstring(language, L"save_cancel"), black, white_pink, true);
+	if (refresh) drawMiniPopUp(69, 14, black, white_pink, white_pink, white_pink);
+	RGBPrint(71, 16, L"✍  ", black, light_pink, false);
+	RGBPrint(74, 16, getwstring(language, L"save_name") + L":", black, light_pink, true);
+	RGBPrint(76 + (int)getwstring(language, L"save_name").size(), 16, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(game.name), black, white_pink, false);
+	RGBPrint(90, 18, getwstring(language, L"save_save"), black, white_pink, true);
+	RGBPrint(75, 18, getwstring(language, L"save_cancel"), black, white_pink, true);
 	bool isEditing = false;
 	string oldname = game.name;
 	int curSel = 0, prevSel = 0;
@@ -422,35 +419,35 @@ void saveGameScreen(bool refresh) {
 			if (curSel != prevSel) {
 				switch (prevSel) {
 				case 0:
-					RGBPrint(71, 24, L"✍  ", black, white_pink, false);
-					RGBPrint(74, 24, getwstring(language, L"save_name") + L": " + wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(game.name), black, white_pink, true);
+					RGBPrint(71, 16, L"✍  ", black, white_pink, false);
+					RGBPrint(74, 16, getwstring(language, L"save_name") + L": " + wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(game.name), black, white_pink, true);
 					break;
 				case 1:
-					RGBPrint(75, 26, getwstring(language, L"save_cancel"), black, white_pink, true);
+					RGBPrint(75, 18, getwstring(language, L"save_cancel"), black, white_pink, true);
 					break;
 				case 2:
-					RGBPrint(90, 26, getwstring(language, L"save_save"), black, white_pink, true);
+					RGBPrint(90, 18, getwstring(language, L"save_save"), black, white_pink, true);
 					break;
 				}
 				switch (curSel) {
 				case 0:
-					RGBPrint(71, 24, L"✍  ", black, light_pink, false);
-					RGBPrint(74, 24, getwstring(language, L"save_name") + L":", black, light_pink, true);
+					RGBPrint(71, 16, L"✍  ", black, light_pink, false);
+					RGBPrint(74, 16, getwstring(language, L"save_name") + L":", black, light_pink, true);
 					break;
 				case 1:
-					RGBPrint(75, 26, getwstring(language, L"save_cancel"), black, light_pink, true);
+					RGBPrint(75, 18, getwstring(language, L"save_cancel"), black, light_pink, true);
 					break;
 				case 2:
-					RGBPrint(90, 26, getwstring(language, L"save_save"), black, light_pink, true);
+					RGBPrint(90, 18, getwstring(language, L"save_save"), black, light_pink, true);
 					break;
 				}
 			}
 			if (n == 13) {
 				if (curSel != 0) break;
-				game.name = gameEditor_name(74, 24, black, white_pink, light_pink);
-				RGBPrint(71, 24, L"✍  ", black, light_pink, false);
-				RGBPrint(74, 24, getwstring(language, L"save_name") + L":", black, light_pink, true);
-				RGBPrint(76 + (int)getwstring(language, L"save_name").size(), 24,game.name +".", black, white_pink);
+				game.name = gameEditor_name(74, 16, black, white_pink, light_pink);
+				RGBPrint(71, 16, L"✍  ", black, light_pink, false);
+				RGBPrint(74, 16, getwstring(language, L"save_name") + L":", black, light_pink, true);
+				RGBPrint(76 + (int)getwstring(language, L"save_name").size(), 16,game.name +".", black, white_pink);
 			}
 		}
 	}
@@ -469,7 +466,7 @@ void saveGameScreen(bool refresh) {
 		}
 	}
 	if (enableSFX) playSound(9, 0);
-	//drawGameBoard(55, 16, 61, 21, black, white_pink);
+	//drawGameBoard(55, 6, 61, 31, black, white_pink);
 	//StartGame(0);
 }
 int loadAllSaves(vector<string>& saves) {
@@ -504,10 +501,10 @@ bool DrawOption() {
 		}
 	}
 	//Vẽ
-	drawMiniPopUp(69, 22, black, white_pink, white_pink, white_pink);
-	RGBPrint(73, 24, text_drawmsg, black, white_pink, true);
-	RGBPrint(75, 26, text_drawacp, black, white_pink, true);
-	RGBPrint(75, 27, L">> " + text_drawdeny + L" <<", black, white_pink, true);
+	drawMiniPopUp(69, 14, black, white_pink, white_pink, white_pink);
+	RGBPrint(85 - sizeOfText(text_drawmsg)/2, 16, text_drawmsg, black, white_pink, true);
+	RGBPrint(85 - sizeOfText(text_drawacp)/2, 18, text_drawacp, black, white_pink, true);
+	RGBPrint(82 - sizeOfText(text_drawdeny)/2, 19, L">> " + text_drawdeny + L" <<", black, white_pink, true);
 	//Xử lí
 	if (enableBGM) {
 		stopSound(7);
@@ -520,12 +517,12 @@ bool DrawOption() {
 				playSound(3, 0);
 				draw = !draw;
 				if (draw) {
-					RGBPrint(75, 26, L">> " + text_drawacp + L" <<", black, white_pink, true);
-					RGBPrint(75, 27, L"   " + text_drawdeny + L"   ", black, white_pink, true);
+					RGBPrint(82 - sizeOfText(text_drawacp) / 2, 18, L">> " + text_drawacp + L" <<", black, white_pink, true);
+					RGBPrint(82 - sizeOfText(text_drawdeny) / 2, 19, L"   " + text_drawdeny + L"   ", black, white_pink, true);
 				}
 				else {
-					RGBPrint(75, 26, L"   " + text_drawacp + L"   ", black, white_pink, true);
-					RGBPrint(75, 27, L">> " + text_drawdeny + L" <<", black, white_pink, true);
+					RGBPrint(82 - sizeOfText(text_drawacp) / 2, 18,L"   "+ text_drawacp + L"   ", black, white_pink, true);
+					RGBPrint(82 - sizeOfText(text_drawdeny) / 2, 19, L">> " + text_drawdeny + L" <<", black, white_pink, true);
 				}
 			}
 			if (n == 13) {
@@ -535,10 +532,12 @@ bool DrawOption() {
 		}
 	}
 	if (draw) {
+		drawGameBoard(55, 6, 61, 31, black, white_pink);
 		drawDrawEffect();
+		drawContinueOption(false);
 	}
 	else {
-		drawGameBoard(55, 16, 61, 21, black, white_pink);
+		drawGameBoard(55, 6, 61, 31, black, white_pink);
 		return false;
 	}
 	return true;
@@ -558,10 +557,10 @@ bool PauseOption() {
 		}
 	}
 	//Vẽ
-	drawMiniPopUp(69, 22, black, white_pink, white_pink, white_pink);
-	RGBPrint(73, 24, text_pausemsg, black, white_pink, true);
-	RGBPrint(75, 26, L"   " + text_pauseacp + L"   ", black, white_pink, true);
-	RGBPrint(75, 27, L">> " + text_pausedeny + L" <<", black, white_pink, true);
+	drawMiniPopUp(69, 14, black, white_pink, white_pink, white_pink);
+	RGBPrint(85 - sizeOfText(text_pausemsg) / 2, 16, text_pausemsg, black, white_pink, true);
+	RGBPrint(82 - sizeOfText(text_pauseacp)/2, 18, L"   " + text_pauseacp + L"   ", black, white_pink, true);
+	RGBPrint(82 - sizeOfText(text_pausedeny) / 2, 19, L">> " + text_pausedeny + L" <<", black, white_pink, true);
 	//Xử lí
 	if (enableBGM) {
 		stopSound(7);
@@ -574,12 +573,12 @@ bool PauseOption() {
 				playSound(3, 0);
 				pause = !pause;
 				if (pause) {
-					RGBPrint(75, 26, L">> " + text_pauseacp + L" <<", black, white_pink, true);
-					RGBPrint(75, 27, L"   " + text_pausedeny + L"   ", black, white_pink, true);
+					RGBPrint(82 - sizeOfText(text_pauseacp) / 2, 18, L">> " + text_pauseacp + L" <<", black, white_pink, true);
+					RGBPrint(82 - sizeOfText(text_pausedeny) / 2, 19, L"   " + text_pausedeny + L"   ", black, white_pink, true);
 				}
 				else {
-					RGBPrint(75, 26, L"   " + text_pauseacp + L"   ", black, white_pink, true);
-					RGBPrint(75, 27, L">> " + text_pausedeny + L" <<", black, white_pink, true);
+					RGBPrint(82 - sizeOfText(text_pauseacp) / 2, 18, L"   " + text_pauseacp + L"   ", black, white_pink, true);
+					RGBPrint(82 - sizeOfText(text_pausedeny) / 2, 19, L">> " + text_pausedeny + L" <<", black, white_pink, true);
 				}
 			}
 			if (n == 13) {
@@ -588,13 +587,13 @@ bool PauseOption() {
 			}
 		}
 	}
-
-	drawGameBoard(55, 16, 61, 21, black, white_pink);
+	_getch();
+	drawGameBoard(55, 6, 61, 31, black, white_pink);
 	if (pause) {
 		wstring text_continueMsg = getwstring(language, L"pause_continue");
-		drawInGamePanel_1(64, 5, black, white_pink, white, white_pink);
-		RGBPrint(69 + int(text_continueMsg.size()/4), 12, text_continueMsg, black, white_pink, true);
-		drawPauseText(69, 7, white_pink);
+		drawInGamePanel_1A(120, 4, black, white_pink, white, white_pink);
+		RGBPrint(123 + int(text_continueMsg.size()/4), 10, text_continueMsg, black, white_pink, true);
+		drawPauseText(124, 5, white_pink);
 		return true;
 	}
 	return false;
@@ -603,19 +602,19 @@ bool PauseOption() {
 void fixKeyboard() {
 	if (key_w) {
 		key_w = !key_w;
-		drawInGameKeyboard(123 + 13, 10 + 1, 'w', key_w, black, white_pink);
+		drawInGameKeyboard(124 + 13, 14 + 1, 'w', key_w, black, white_pink);
 	}
 	if (key_a) {
 		key_a = !key_a;
-		drawInGameKeyboard(123 + 3, 10 + 5, 'a', key_a, black, white_pink);
+		drawInGameKeyboard(124 + 3, 14 + 5, 'a', key_a, black, white_pink);
 	}
 	if (key_s) {
 		key_s = !key_s;
-		drawInGameKeyboard(123 + 13, 10 + 6, 's', key_s, black, white_pink);
+		drawInGameKeyboard(124 + 13, 14 + 6, 's', key_s, black, white_pink);
 	}
 	if (key_d) {
 		key_d = !key_d;
-		drawInGameKeyboard(123 + 24, 10 + 5, 'd', key_d, black, white_pink);
+		drawInGameKeyboard(124 + 24, 14 + 5, 'd', key_d, black, white_pink);
 	}
 }
 void updateScreen() {
@@ -666,17 +665,17 @@ void drawTheScreen() {
 	//history
 	drawInGamePanel_2(12, 22, black, white_pink, white, white_pink);
 	//turn
-	drawInGamePanel_3(69, 6, black, white_pink, white, white_pink);
+	drawInGamePanel_3(125, 5, black, white_pink, white, white_pink);
 	//keyboard
-	drawInGamePanel_4(123, 10, black, white_pink, white, white_pink);
-	drawInGameKeyboard(123 + 13, 10 + 1, 'w', key_w, black, white_pink);
-	drawInGameKeyboard(123 + 3, 10 + 5, 'a', key_a, black, white_pink);
-	drawInGameKeyboard(123 + 13, 10 + 6, 's', key_s, black, white_pink);
-	drawInGameKeyboard(123 + 24, 10 + 5, 'd', key_d, black, white_pink);
+	drawInGamePanel_4(124, 14, black, white_pink, white, white_pink);
+	drawInGameKeyboard(124 + 13, 14 + 1, 'w', key_w, black, white_pink);
+	drawInGameKeyboard(124 + 3, 14 + 5, 'a', key_a, black, white_pink);
+	drawInGameKeyboard(124 + 13, 14 + 6, 's', key_s, black, white_pink);
+	drawInGameKeyboard(124 + 24, 14 + 5, 'd', key_d, black, white_pink);
 	//keybinds
-	drawInGamePanel_1(120, 25, black, white_pink, white, white_pink);
+	drawInGamePanel_1(120, 27, black, white_pink, white, white_pink);
 	//
-	drawGameBoard(55, 16, 61, 21, black, white_pink);
+	drawGameBoard(55, 6, 61, 31, black, white_pink);
 	updateScreen();
 }
 void reRenderCursor(bool boldColor) {
@@ -710,7 +709,7 @@ bool botHitRandom() {
 	game.hits[0]++;
 	game.turn = !game.turn;
 	game.time = 15;
-	drawTurn(game.turn, 69, 6, light_pink, pink, white_pink);
+	drawTurn(game.turn, 125, 5, light_pink, pink, white_pink);
 	return false;
 }
 //Xừ lí trò chơi
@@ -733,7 +732,7 @@ bool boardTick() {
 		game.turn = !game.turn;
 		game.time = 15;
 
-		drawTurn(game.turn, 69, 6, light_pink, pink, white_pink);
+		drawTurn(game.turn, 125, 5, light_pink, pink, white_pink);
 		if (game.gamemode == 1) {
 			if (botHitRandom()) return true;
 		}
@@ -745,18 +744,19 @@ bool boardTick() {
 bool inputProcessing(char c) {
 	if (c == 'l') {
 		saveGameScreen(true);
-		drawGameBoard(55, 16, 61, 21, black, white_pink);
+		drawGameBoard(55, 6, 61, 31, black, white_pink);
 		StartGame(0);
-		return true;
+		return false;
 	}
 	if (c == 'q') {
 		if (enableSFX) playSound(3, 0);
+		if (game.name.size() == 0) saveGameScreen(true);
 		return true;
 	}
 	if (c == 'o') {
-		if (DrawOption()) {
+		if (DrawOption()) {/*
 			removePanel(54, 5, 3);
-			drawInGamePanel_3(69, 6, black, white_pink, white, white_pink);
+			drawInGamePanel_3(125, 5, black, white_pink, white, white_pink);*/
 		}
 		if (enableBGM) {
 			stopSound(8);
@@ -764,11 +764,13 @@ bool inputProcessing(char c) {
 		}
 		updateFullBoard();
 		reRenderCursor(true);
+		return false;
 	}
 	if (c == 'p') {
 		if (PauseOption()) {
-			removePanel(54, 5, 3);
-			drawInGamePanel_3(69, 6, black, white_pink, white, white_pink);
+			removePanel(120, 4, 2);
+			drawInGamePanel_3(125, 5, black, white_pink, white, white_pink);
+			drawTurn(game.turn, 125, 5, light_pink, pink, white_pink);
 		}
 		if (enableBGM) {
 			stopSound(8);
@@ -776,6 +778,8 @@ bool inputProcessing(char c) {
 		}
 		updateFullBoard();
 		reRenderCursor(true);
+
+		return false;
 	}
 	if (c == 13) {
 		return boardTick();
@@ -791,22 +795,22 @@ void movementProcessing(char c) {
 	case 'w':
 		game._Y = (game._Y == 0) ? game._Y : game._Y - 1;
 		key_w = !key_w;
-		drawInGameKeyboard(123 + 13, 10 + 1, 'w', key_w, black, white_pink);
+		drawInGameKeyboard(124 + 13, 14 + 1, 'w', key_w, black, white_pink);
 		break;
 	case 'a':
 		game._X = (game._X == 0) ? game._X : game._X - 1;
 		key_a = !key_a;
-		drawInGameKeyboard(123 + 3, 10 + 5, 'a', key_a, black, white_pink);
+		drawInGameKeyboard(124 + 3, 14 + 5, 'a', key_a, black, white_pink);
 		break;
 	case 'd':
 		game._X = (game._X == BOARD_SIZE_WIDTH - 1) ? game._X : game._X + 1;
 		key_d = !key_d;
-		drawInGameKeyboard(123 + 24, 10 + 5, 'd', key_d, black, white_pink);
+		drawInGameKeyboard(124 + 24, 14 + 5, 'd', key_d, black, white_pink);
 		break;
 	case 's':
 		game._Y = (game._Y == BOARD_SIZE_HEIGHT - 1) ? game._Y : game._Y + 1;
 		key_s = !key_s;
-		drawInGameKeyboard(123 + 13, 10 + 6, 's', key_s, black, white_pink);
+		drawInGameKeyboard(124 + 13, 14 + 6, 's', key_s, black, white_pink);
 		break;
 	}
 	reRenderCursor(true);//tô đậm lại vị trí mới
@@ -822,7 +826,7 @@ bool timeProcessing(int& count) {
 			if (game.turn) game.ratio[0]++;
 			else game.ratio[1]++;
 			updateScreen();
-			drawTurn(game.turn, 69, 6, light_pink, pink, white_pink);
+			drawTurn(game.turn, 125, 5, light_pink, pink, white_pink);
 			drawWinEffect(true, 5, 0, 0, 0);
 			return true;
 		}
@@ -832,7 +836,7 @@ bool timeProcessing(int& count) {
 void resetPosOnBoard() {
 	for (int i = 0; i < BOARD_SIZE_HEIGHT; i++) for (int j = 0; j < BOARD_SIZE_WIDTH; j++) {
 		game.point[i][j].x = 57 + j * 4;
-		game.point[i][j].y = 17 + 2 * i;
+		game.point[i][j].y = 7 + 2 * i;
 	}
 }
 void resetBoard() {
@@ -853,7 +857,7 @@ void StartGame(bool drawBackground) {
 		system("cls");
 		drawTheScreen();
 		updateFullBoard();
-		drawTurn(game.turn, 69, 6, light_pink, pink, white_pink);
+		drawTurn(game.turn, 125, 5, light_pink, pink, white_pink);
 	}
 	reRenderCursor(true);
 	//xử lí

@@ -10,7 +10,7 @@
 #include <wchar.h>
 
 #define BOARD_SIZE_WIDTH 15
-#define BOARD_SIZE_HEIGHT 10
+#define BOARD_SIZE_HEIGHT 15
 using namespace std; 
 namespace fs = std::experimental::filesystem;
 struct _POINT { int x, y, c; };
@@ -35,7 +35,7 @@ bool leftDiagonalCheck(int, int, int&);
 bool rightDiagonalCheck(int, int, int&);
 
 void drawWinEffect(bool, int, int, int, int);
-void drawContinueOption();
+void drawContinueOption(bool);
 bool checkWin();
 
 bool fileExists(string);
