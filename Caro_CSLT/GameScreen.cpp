@@ -659,6 +659,7 @@ void updateFullBoard() {
 }
 void drawTheScreen() {
 	fill(white_pink);
+	//background
 	drawInGameHeader(3, 1);
 	//match statistics
 	drawInGamePanel_1(10, 10, black, white_pink, white, white_pink);
@@ -666,6 +667,9 @@ void drawTheScreen() {
 	drawInGamePanel_2(12, 22, black, white_pink, white, white_pink);
 	//turn
 	drawInGamePanel_3(125, 5, black, white_pink, white, white_pink);
+	//
+
+	drawSnowFlake(116, 18, white_pink);
 	//keyboard
 	drawInGamePanel_4(124, 14, black, white_pink, white, white_pink);
 	drawInGameKeyboard(124 + 13, 14 + 1, 'w', key_w, black, white_pink);
@@ -674,6 +678,10 @@ void drawTheScreen() {
 	drawInGameKeyboard(124 + 24, 14 + 5, 'd', key_d, black, white_pink);
 	//keybinds
 	drawInGamePanel_1(120, 27, black, white_pink, white, white_pink);
+
+	drawReindeer(25, 3, white_pink);
+	drawSnowFlake(48, 5, white_pink);
+	drawPineTree(117, 23, white_pink, 1);
 	//
 	drawGameBoard(55, 6, 61, 31, black, white_pink);
 	updateScreen();
