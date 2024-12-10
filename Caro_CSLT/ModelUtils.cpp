@@ -127,7 +127,22 @@ void BetterDraw(int x, int y, wstring text, int bgcolor) {
         _preText = _text;
     }
 }
+void drawSmallSantaHat(int x, int y) {
+    RGB red = { 237,28,36 };
+    RGBPrint(x + 2, y, L"▄▄█▀▀▀▀█▄", black, white_pink, false);
+    RGBPrint(x + 5, y, L"▀▀▀▀", black, red, false);
+    //
+    RGBPrint(x + 1, y+1, L"█▀  ▄    █▄", black, red, false);
+    RGBPrint(x + 11, y+1, L"▄", black, white_pink, false);
+    //
+    RGBPrint(x, y+2, L"▄█▄█▀█", black, white_pink, false);
+    RGBPrint(x+2, y+2, L"▄", black, red, false);
+    RGBPrint(x+6, y+2, L"     █", black, red, false);
+    //
+    RGBPrint(x, y + 3, L"█▄█", black, white, false);
+    RGBPrint(x+4, y + 3, L" ▀▀▀▀▀▀▀", black, white_pink, false);
 
+}
 void drawLOGO(int x, int y) {
     const wstring logo[] = {
         L" ██████╗ █████╗ ██████╗  ██████╗      ██████╗  █████╗ ███╗   ███╗███████╗",
@@ -140,6 +155,11 @@ void drawLOGO(int x, int y) {
     for (size_t i = 0; i < sizeof(logo) / sizeof(logo[0]); ++i) {
         RGBPrint(x, y + i, logo[i], black, white_pink, false);
     }
+    drawSmallSantaHat(x + 3, y - 3);
+    drawSmallSantaHat(x + 41, y - 3);
+    RGBPrint(x + 9, y + 0, L"█████", black, white_pink, false);
+    RGBPrint(x + 47, y + 0, L"█████", black, white_pink, false);
+
 }
 void veMay(int x, int y) {
     printColoredText(x - 1, y + 3, L" ", 3, 15);
