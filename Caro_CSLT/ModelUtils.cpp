@@ -773,7 +773,7 @@ void drawPineTree(int x, int y, RGB background_color, int size) {
         RGBPrint(x, y + 3, L"▀▀▀█▀▀▀", leaves_color, background_color, false);
         RGBPrint(x + 3, y + 3, L"▀", leaves_color, tree_body, false);
         //
-        RGBPrint(x, y + 4, L"   █", tree_body, background_color, false);
+        RGBPrint(x+3, y + 4, L"█", tree_body, background_color, false);
     }
     else if (size == 2) {
 

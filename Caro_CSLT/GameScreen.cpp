@@ -236,7 +236,6 @@ void drawContinueOption(bool saveOption) {
 			if (n == 13) {
 				playSound(9, 0);
 				break;
-
 			}
 		}
 		Sleep(100);
@@ -248,7 +247,7 @@ void drawContinueOption(bool saveOption) {
 		setupGame(game.name, game._X, game._Y, game.turn, game.gamemode, 15, game.ratio, a, {});
 		drawGameBoard(55, 6, 61, 31, black, white_pink);
 		updateScreen();
-		removePanel(54, 5, 3);
+		removePanel(120, 4, 2);
 		drawInGamePanel_3(125, 5, black, white_pink, white, white_pink);
 		drawTurn(game.turn, 125, 5, light_pink, pink, white_pink);
 		StartGame(false);
@@ -447,7 +446,7 @@ void saveGameScreen(bool refresh) {
 				game.name = gameEditor_name(74, 16, black, white_pink, light_pink);
 				RGBPrint(71, 16, L"✍  ", black, light_pink, false);
 				RGBPrint(74, 16, getwstring(language, L"save_name") + L":", black, light_pink, true);
-				RGBPrint(76 + (int)getwstring(language, L"save_name").size(), 16,game.name +".", black, white_pink);
+				RGBPrint(76 + (int)getwstring(language, L"save_name").size(), 16,game.name, black, white_pink);
 			}
 		}
 	}
@@ -587,7 +586,7 @@ bool PauseOption() {
 			}
 		}
 	}
-	_getch();
+	//_getch();
 	drawGameBoard(55, 6, 61, 31, black, white_pink);
 	if (pause) {
 		wstring text_continueMsg = getwstring(language, L"pause_continue");
@@ -745,7 +744,6 @@ bool boardTick() {
 			if (botHitRandom()) return true;
 		}
 		return false;
-
 	}
 	return false;
 }
@@ -786,7 +784,6 @@ bool inputProcessing(char c) {
 		}
 		updateFullBoard();
 		reRenderCursor(true);
-
 		return false;
 	}
 	if (c == 13) {
@@ -797,7 +794,6 @@ bool inputProcessing(char c) {
 }
 void movementProcessing(char c) {
 	if (enableSFX) playSound(10, 0);
-
 	reRenderCursor(false); //ẩn con trỏ cũ
 	switch (c) {
 	case 'w':
@@ -884,24 +880,7 @@ void StartGame(bool drawBackground) {
 	system("cls");
 	fill(white_pink);
 	drawLOGO((172 - 73) / 2, 5);
-	drawMainMenu_Play(35, 20);
-	drawMainMenu_Options(35, 25);
-	drawMainMenu_Authors(35, 30);
-	drawMainMenu_Out(35, 35);
-	drawTriagle(30, 20 + 0 * 5, true);
-	//ve gi do vui vui
-	drawPineTree(15, 30, white_pink, 1);
-	drawPineTree(75, 13, white_pink, 1);
-	drawPineTree(129, 6, white_pink, 1);
-
-	drawSnowFlake(5, 12, white_pink);
-	drawSnowFlake(65, 0, white_pink);
-	drawSnowFlake(105, 13, white_pink);
-	drawSnowFlake(150, 35, white_pink);
-
-	drawGift(151, 18, white_pink);
-	drawCandy(160, 4, white_pink);
-	drawReindeer(43, 13, white_pink);
+	drawMainScreen(0);
 	if (enableBGM) {
 		stopSound(7);
 		playSound(4, 1);
@@ -1126,8 +1105,8 @@ void newGameOptionsScreen() {
 	int curSel = 0, prevSel = 0;
 	int n, size = sizeof(options) / sizeof(wstring);
 	for (int i = 0; i < size; i++) {
-		if (i == 0) RGBPrint(115 - sizeOfText(options[i])/2, 21 + 2 * i, L">> " + options[i] + L" <<", white, light_pink, true);
-		else RGBPrint(115 - sizeOfText(options[i]) / 2, 21 + 2 * i, L"   " + options[i] + L"   ", white, light_pink, true);
+		if (i == 0) RGBPrint(115 - sizeOfText(options[i])/2, 21 + 2 * i, L">> " + options[i] + L" <<", black, light_pink, true);
+		else RGBPrint(115 - sizeOfText(options[i]) / 2, 21 + 2 * i, L"   " + options[i] + L"   ", black, light_pink, true);
 	}
 	while (true) {
 		if (_kbhit()) {
@@ -1147,8 +1126,8 @@ void newGameOptionsScreen() {
 				curSel++;
 				curSel = (curSel > size - 1) ? 0 : curSel;
 			}
-			RGBPrint(115 - sizeOfText(options[prevSel]) / 2, 21 + 2 * prevSel, L"   " + options[prevSel] + L"   ", white, light_pink, true);
-			RGBPrint(115 - sizeOfText(options[curSel]) / 2, 21 + 2 * curSel, L">> " + options[curSel] + L" <<", white, light_pink, true);
+			RGBPrint(115 - sizeOfText(options[prevSel]) / 2, 21 + 2 * prevSel, L"   " + options[prevSel] + L"   ", black, light_pink, true);
+			RGBPrint(115 - sizeOfText(options[curSel]) / 2, 21 + 2 * curSel, L">> " + options[curSel] + L" <<", black, light_pink, true);
 		}
 	}
 	switch (curSel) {
@@ -1172,8 +1151,8 @@ void selectModeScreen() {
 	removePanel(90, 18, 5);
 	drawPanel(90, 18, 4);
 	for (int i = 0; i < size; i++) {
-		if (i == 0) RGBPrint(115 - sizeOfText(options[i]) / 2, 21 + 2 * i, L">> " + options[i] + L" <<", white, light_pink, true);
-		else RGBPrint(115 - sizeOfText(options[i]) / 2, 21 + 2 * i, L"   " + options[i] + L"   ", white, light_pink, true);
+		if (i == 0) RGBPrint(115 - sizeOfText(options[i]) / 2, 21 + 2 * i, L">> " + options[i] + L" <<", black, light_pink, true);
+		else RGBPrint(115 - sizeOfText(options[i]) / 2, 21 + 2 * i, L"   " + options[i] + L"   ", black, light_pink, true);
 	}
 	while (true) {
 		if (_kbhit()) {
@@ -1193,8 +1172,8 @@ void selectModeScreen() {
 				curSel++;
 				curSel = (curSel > size - 1) ? 0 : curSel;
 			}
-			RGBPrint(115 - sizeOfText(options[prevSel]) / 2, 21 + 2 * prevSel, L"   " + options[prevSel] + L"   ", white, light_pink, true);
-			RGBPrint(115 - sizeOfText(options[curSel]) / 2, 21 + 2 * curSel, L">> " + options[curSel] + L" <<", white, light_pink, true);
+			RGBPrint(115 - sizeOfText(options[prevSel]) / 2, 21 + 2 * prevSel, L"   " + options[prevSel] + L"   ", black, light_pink, true);
+			RGBPrint(115 - sizeOfText(options[curSel]) / 2, 21 + 2 * curSel, L">> " + options[curSel] + L" <<", black, light_pink, true);
 		}
 	}
 	switch (curSel) {

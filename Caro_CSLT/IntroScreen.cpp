@@ -17,7 +17,7 @@ wstring animatedText(wstring s, int& index) {
 	return s.substr(0, index) + L" " + s.substr(index + 1, s.size());
 }
 void startIntroScreen() {
-	playSound(2, true);
+	if (enableBGM) playSound(2, true);
 	fill(white_pink);
 	drawLOGO(50, 5);
 	int count = 0, index =0;

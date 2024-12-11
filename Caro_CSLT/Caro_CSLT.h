@@ -5,5 +5,6 @@
 #include "ModelUtils.h"
 #include <iostream>
 using namespace std;
-extern FILE* language;
+extern FILE* config;
+extern FILE *language;
 #endif

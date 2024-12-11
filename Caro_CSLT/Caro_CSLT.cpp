@@ -1,5 +1,5 @@
 ﻿#include "Caro_CSLT.h"
-FILE* language;
+FILE* language, *config;
 int main()
 {
 	SetUpWindow();

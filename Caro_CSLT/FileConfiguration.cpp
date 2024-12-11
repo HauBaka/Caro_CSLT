@@ -1,5 +1,5 @@
 ﻿#include "FileConfiguration.h"
-vector<FileConfiguration> yaml_loaded = {};
+vector<FileConfiguration> loaded = {};
 
 vector<wstring> toKeyValue(wstring s) {
 	if (!s.empty() && s.back() == '\n') {
@@ -19,7 +19,7 @@ bool loadConfiguration(FILE* file) {
 	if (file == NULL) return 0;
 	//kiểm tra file đã được load chưa
 	int index = -1;
-	for (int i = 0; i < yaml_loaded.size(); i++) if (yaml_loaded[i].file == file) {
+	for (int i = 0; i < loaded.size(); i++) if (loaded[i].file == file) {
 		index = i;
 		break;
 	}
@@ -31,14 +31,14 @@ bool loadConfiguration(FILE* file) {
 		yaml.keys.push_back(result[0]);
 		yaml.values.push_back(result[1]);
 	}
-	if (index != -1) yaml_loaded.erase(yaml_loaded.begin() + index);
-	yaml_loaded.push_back(yaml);
+	if (index != -1) loaded.erase(loaded.begin() + index);
+	loaded.push_back(yaml);
 	return 1;
 }
 FileConfiguration getYAML(FILE* file) {
-	for (int i = 0; i < yaml_loaded.size(); i++) {
-		if (yaml_loaded[i].file == file) {
-			return yaml_loaded[i];
+	for (int i = 0; i < loaded.size(); i++) {
+		if (loaded[i].file == file) {
+			return loaded[i];
 		}
 	}
 	return {};

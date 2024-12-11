@@ -2,38 +2,39 @@
 bool enableSFX = true, enableBGM = true;
 void drawVolume(bool isCurrent) {
 	wstring text = getwstring(language, L"settings_volume");
-	if (isCurrent) RGBPrint(100, 22, L">> " + text + L":", white, light_pink, true);
-	else  RGBPrint(100, 22, L"   " + text+L":", white, light_pink, true);
+	if (isCurrent) RGBPrint(100, 22, L">> " + text + L":", black, light_pink, true);
+	else  RGBPrint(100, 22, L"   " + text+L":", black, light_pink, true);
 	int n = getVolume() / 50;
 	drawSlider(113,22,24,n);
 	drawDOT(114 + n+1, 22);
 }
 void drawSFX(bool isCurrent) {
 	wstring text = getwstring(language, L"settings_sfx");
-	if (isCurrent) RGBPrint(100, 26, L">> " + text+L":", white, light_pink, true);
-	else RGBPrint(100, 26, L"   "+text+L":", white, light_pink, true);
+	if (isCurrent) RGBPrint(100, 26, L">> " + text+L":", black, light_pink, true);
+	else RGBPrint(100, 26, L"   "+text+L":", black, light_pink, true);
 	if (enableSFX) drawCheckBox(108 + 12, 26, pink);
 	else drawCheckBox(108 + 12, 26, white_pink);
 }
 void drawBGM(bool isCurrent) {
 	wstring text = getwstring(language, L"settings_bgm");
-	if (isCurrent) RGBPrint(100, 29, L">> " + text+L":", white, light_pink, true);
-	else RGBPrint(100, 29, L"   " + text +L":", white, light_pink, true);
+	if (isCurrent) RGBPrint(100, 29, L">> " + text+L":", black, light_pink, true);
+	else RGBPrint(100, 29, L"   " + text +L":", black, light_pink, true);
 	if (enableBGM) drawCheckBox(108 + 12, 29, pink);
 	else drawCheckBox(108 + 12, 29, white_pink);
 }
 void drawLanguage(bool isCurrent) {
 	wstring text = getwstring(language, L"settings_language"),
 		language_name = getwstring(language, L"name");
-	if (isCurrent) RGBPrint(100, 32, L">> " + text + L": " + language_name, white, light_pink, true);
-	else RGBPrint(100, 32, L"   " + text + L": " + language_name, white, light_pink, true);
+	if (isCurrent) RGBPrint(100, 32, L">> " + text + L": " + language_name, black, light_pink, true);
+	else RGBPrint(100, 32, L"   " + text + L": " + language_name, black, light_pink, true);
 }
 void drawBackOption(bool isCurrent) {
 	wstring text = getwstring(language, L"back_to_main");
 	int x = 116 - sizeOfText(text)/2;
-	if (isCurrent) RGBPrint(x, 34, L">> "+ text, white, light_pink, true);
-	else RGBPrint(x, 34, L"   "+ text, white, light_pink, true);
+	if (isCurrent) RGBPrint(x, 34, L">> "+ text, black, light_pink, true);
+	else RGBPrint(x, 34, L"   "+ text, black, light_pink, true);
 }
+
 void SettingsScreen() {
 	int current = 0, previous = 0;
 	drawPanel(90, 18, 12);
@@ -120,4 +121,4 @@ void SettingsScreen() {
 			}
 		}
 	}
-}
+} 

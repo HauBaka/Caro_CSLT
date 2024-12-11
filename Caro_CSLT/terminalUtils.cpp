@@ -47,7 +47,15 @@ void SetUpWindow() {
 	system("color F1");
 	SetConsoleTitleA("GROUP 6 | 24CTT3 | HCMUS");
 	SetConsoleOutputCP(CP_UTF8);
-	
-	fopen_s(&language, "./Languages/en-us.txt", "r");
+	fopen_s(&config, "config.txt", "r");
+	loadConfiguration(config);
+
+	enableSFX = getBool(config, L"enable_SFX");
+	enableBGM = getBool(config, L"enable_BGM");
+	wstring wlang = getwstring(config, L"language");
+	string lang(wlang.begin(), wlang.end());
+	string path = "./Languages/" + lang + ".txt";
+	fopen_s(&language, path.c_str(), "r");
 	loadConfiguration(language);
 }
+

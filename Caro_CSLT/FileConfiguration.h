@@ -13,7 +13,7 @@ struct FileConfiguration {
 	vector<wstring> values;
 };
 
-extern vector<FileConfiguration> yaml_loaded;
+extern vector<FileConfiguration> loaded;
 
 vector<wstring> toKeyValue(wstring);
 bool loadConfiguration(FILE*);
