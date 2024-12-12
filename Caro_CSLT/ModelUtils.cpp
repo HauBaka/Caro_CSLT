@@ -327,6 +327,11 @@ void drawMainMenu_Options(int x, int y) {
     RGBPrint(x + 1 + 7 + 1, y + 1, L"  ▄▀▄ █▀▄ ▀█▀ ▀ ▄▀▄ █▄ █ ▄▀    ", white, light_pink, false);
     RGBPrint(x + 1 + 7 + 1, y + 2, L"  ▀▄▀ █▀   █  █ ▀▄▀ █ ▀█ ▄▀    ", white, light_pink, false);
 }
+void drawMainMenu_Help(int x, int y) {
+    drawMainMenuButton(x, y);
+    RGBPrint(x + 1 + 7 + 1, y + 1, L" ▀█▀ █ █ ▀█▀ ▄▀▄ █▀▄ ▀ ▄▀▄ █   ", white, light_pink, false);
+    RGBPrint(x + 1 + 7 + 1, y + 2, L"  █  ▀▄▀  █  ▀▄▀ █▀▄ █ █▀█ █▄▄ ", white, light_pink, false);
+}
 void drawMainMenu_Authors(int x, int y) {
     drawMainMenuButton(x, y);
     RGBPrint(x + 1 + 7 + 1, y + 1, L"  ▄▀▄ █ █ ▀█▀ █ █ ▄▀▄ █▀▄ ▄▀   ", white, light_pink, false);

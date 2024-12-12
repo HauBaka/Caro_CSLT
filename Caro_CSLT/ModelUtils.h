@@ -31,6 +31,7 @@ void drawStartButton(int, int);
 void drawMainMenuButton(int, int);
 void drawMainMenu_Play(int, int);
 void drawMainMenu_Options(int, int);
+void drawMainMenu_Help(int, int);
 void drawMainMenu_Authors(int, int);
 void drawMainMenu_Out(int, int);
 void drawTriagle(int, int, bool);

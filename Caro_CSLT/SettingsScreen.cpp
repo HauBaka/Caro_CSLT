@@ -79,9 +79,6 @@ void SettingsScreen() {
 					drawBGM(true);
 				}
 				else if (current == 3) {
-					//fclose(language);
-					//fopen_s(&language, "./Languages/vi-vn.txt", "r");
-					//loadConfiguration(language);
 					currentLang = !currentLang;
 					drawLanguage(true);
 				}

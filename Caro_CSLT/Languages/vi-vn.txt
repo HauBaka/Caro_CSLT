@@ -47,3 +47,18 @@ authors_id: MSSV
 quit_message: Bạn có chắc muốn thoát không?
 quit_confirm: [Có]
 quit_cancel: [Không]
+help: 14
+help_1: Cờ caro là một trò chơi dân gian phổ biến,
+help_2: đơn giản nhưng đòi hỏi người chơi phải có 
+help_3: tư duy chiến lược, khả năng quan sát, và sự 
+help_4: nhạy bén trong từng nước đi.
+help_5: 
+help_6: Trên bàn cờ kích thước 15x15, hai người chơi
+help_7: lần lượt đặt các dấu "X" hoặc "O" vào các ô
+help_8: trống. Người chơi nào tạo được một dãy liên 
+help_9: tiếp lớn hơn hoặc bằng 5 ký hiệu của mình sẽ 
+help_10: chiến thắng.
+help_11: 
+help_12: Dùng các phím 'W/A/S/D' để di chuyển và 'Enter'
+help_13: để đặt kí hiệu. Các phím khác sẽ có hướng dẫn
+help_14: khi chơi.

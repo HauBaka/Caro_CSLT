@@ -34,18 +34,38 @@ void drawQuitOptions() {
 	if (isConfirm) ExitProcess(0);
 	else {
 		removePanel(90, 18, 4);
-		MainScreen(3, 0, false);
+		MainScreen(4, 0, false);
 	}
 }
+void helpScreen() {
+	drawPanel(90, 18, 14);
+	int lines = getInt(language, L"help");
+	wstring back_text = getwstring(language, L"back_to_main");
+	for (int i = 0; i < lines; i++) {
+		RGBPrint(96, 21 + i, getwstring(language, L"help_" + to_wstring(i + 1)), black, light_pink, true);
+	}
+	RGBPrint(116- sizeOfText(back_text)/2, 36, L">> " + back_text +L" <<", black, light_pink, true);
+	while (true) {
+		if (_kbhit()) {
+			if (_getch() == 13) {
+				if (enableSFX) playSound(9, 0);
+				break;
+			}
+		}
+	}
+	removePanel(90, 18, 14);
+	MainScreen(2, 0, false);
+}
 void drawMainScreen(int curSel) {
-	drawMainMenu_Play(35, 20);
-	drawMainMenu_Options(35, 25);
+	drawMainMenu_Play(35, 15);
+	drawMainMenu_Options(35, 20);
+	drawMainMenu_Help(35, 25);
 	drawMainMenu_Authors(35, 30);
 	drawMainMenu_Out(35, 35);
-	drawTriagle(30, 20 + curSel * 5, true);
+	drawTriagle(30, 15 + curSel * 5, true);
 	//ve gi do vui vui
-	drawPineTree(32, 16, white_pink, 1);
-	drawPineTree(72, 16, white_pink, 1);
+	drawPineTree(32, 11, white_pink, 1);
+	drawPineTree(72, 11, white_pink, 1);
 	drawPineTree(82, 32, white_pink, 1);
 
 	drawSnowFlake(5, 12, white_pink);
@@ -55,7 +75,7 @@ void drawMainScreen(int curSel) {
 
 	drawGift(151, 18, white_pink);
 	drawCandy(160, 4, white_pink);
-	drawReindeer(43, 13, white_pink);
+	drawReindeer(15, 25, white_pink);
 }
 void MainScreen(int curSel, bool playBGM, bool clear) {
 	int prevSel = 0;
@@ -72,43 +92,46 @@ void MainScreen(int curSel, bool playBGM, bool clear) {
 			if (n == 13)
 			{
 				if (enableSFX) playSound(9, 0);
-				drawTriagle(30, 20 + curSel * 5, true);
+				drawTriagle(30, 15 + curSel * 5, true);
 				break;
 			}
 			prevSel = curSel;
 			if (n == 'w' or n == 'a') {//go up
 				curSel--;
-				curSel = (curSel < 0) ? 4 - 1 : curSel;
+				curSel = (curSel < 0) ? 4 : curSel;
 			}
 			else if (n == 's' or n == 'd') {//go down
 				curSel++;
-				curSel = (curSel > 4 - 1) ? 0 : curSel;
+				curSel = (curSel > 4) ? 0 : curSel;
 			}
 			//xóa đánh dấu cũ
-			drawTriagle(30, 20 + prevSel * 5, false);
+			drawTriagle(30, 15 + prevSel * 5, false);
 			//đánh dấu mới
-			drawTriagle(30, 20 + curSel * 5, true);
+			drawTriagle(30, 15 + curSel * 5, true);
 			index = 400;
 		}
 		Sleep(50);
 		index += 50;
 		if (index <= 400) {
-			drawTriagle(30, 20 + curSel * 5, false);
+			drawTriagle(30, 15 + curSel * 5, false);
 			draw_tria = false;
 		}
 		else {
-			drawTriagle(30, 20 + curSel * 5, true);
+			drawTriagle(30, 15 + curSel * 5, true);
 			draw_tria = true;
 			if (index >= 800) index = 0;
 		}
 	}
 	switch (curSel) {
-	case 3:
+	case 4:
 		GotoXY(0, 0);
 		drawQuitOptions();
 		break;
-	case 2:
+	case 3:
 		ContributorsScreen();
+		break;
+	case 2:
+		helpScreen();
 		break;
 	case 1:
 		SettingsScreen();

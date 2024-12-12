@@ -23,7 +23,7 @@ void ContributorsScreen() {
 		}
 	}
 	RGBPrint(x, 33, L"═════════════════╩═════════════════", black, light_pink, false);
-	RGBPrint(x+6, 34, L">> "+ text_back + L" <<", black, light_pink, true);
+	RGBPrint(116-sizeOfText(text_back)/2, 34, L">> " + text_back + L" <<", black, light_pink, true);
 	while (true) {
 		if (_kbhit()) {
 			n = tolower(_getch());
@@ -34,5 +34,5 @@ void ContributorsScreen() {
 		}
 	}
 	removePanel(90, 18, 13);
-	MainScreen(2,0, false);
+	MainScreen(3,0, false);
 }

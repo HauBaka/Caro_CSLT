@@ -47,3 +47,17 @@ authors_id: ID
 quit_message: Want to quit?
 quit_confirm: [Yes]
 quit_cancel: [No]
+help: 13
+help_1: Gomoku (Caro) is a popular folk game,
+help_2: simple but requires players to have
+help_3: strategic thinking, observation skills, and
+help_4: sharpness in each move.
+help_5: 
+help_6: On a 15x15 board, two players take turns 
+help_7: placing "X" or "O" marks in the empty slots.
+help_8: The player who creates a sequence of 5 or more
+help_9: of their symbols in a row wins the game.
+help_10: 
+help_11: Use the keys 'W/A/S/D' to move and 'Enter'
+help_12: to place your symbol. Other keys will be 
+help_13: explained in the game.
