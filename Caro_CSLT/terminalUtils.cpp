@@ -52,6 +52,8 @@ void SetUpWindow() {
 
 	enableSFX = getBool(config, L"enable_SFX");
 	enableBGM = getBool(config, L"enable_BGM");
+	setVolume(getInt(config, L"sound_volume"));
+
 	wstring wlang = getwstring(config, L"language");
 	string lang(wlang.begin(), wlang.end());
 	string path = "./Languages/" + lang + ".txt";

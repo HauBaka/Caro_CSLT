@@ -259,24 +259,7 @@ void drawContinueOption(bool saveOption) {
 		system("cls");
 		fill(white_pink);
 		drawLOGO((172 - 73) / 2, 5);
-		drawMainMenu_Play(35, 20);
-		drawMainMenu_Options(35, 25);
-		drawMainMenu_Authors(35, 30);
-		drawMainMenu_Out(35, 35);
-		drawTriagle(30, 20 + 0 * 5, true);
-		//ve gi do vui vui
-		drawPineTree(15, 30, white_pink, 1);
-		drawPineTree(75, 13, white_pink, 1);
-		drawPineTree(129, 6, white_pink, 1);
-
-		drawSnowFlake(5, 12, white_pink);
-		drawSnowFlake(65, 0, white_pink);
-		drawSnowFlake(105, 13, white_pink);
-		drawSnowFlake(150, 35, white_pink);
-
-		drawGift(151, 18, white_pink);
-		drawCandy(160, 4, white_pink);
-		drawReindeer(43, 13, white_pink);
+		drawMainScreen(0);
 		GameScreen(0);
 	}
 }
@@ -369,7 +352,7 @@ bool saveGame() {
 	if (fileExists(game.name)) return 0;
 	FILE* savef;
 	fopen_s(&savef, ("./Saves/" + game.name + ".txt").c_str(), "w");
-
+	if (savef == NULL) return false;
 	fprintf_s(savef, ("time-left: " + to_string(game.time) + "\n").c_str());
 	fprintf_s(savef, ("gamemode: " + to_string(game.gamemode ? 1 : 0) + "\n").c_str());
 	fprintf_s(savef, ("Board_X: " + to_string(game._X) +"\n").c_str());
@@ -591,7 +574,7 @@ bool PauseOption() {
 	if (pause) {
 		wstring text_continueMsg = getwstring(language, L"pause_continue");
 		drawInGamePanel_1A(120, 4, black, white_pink, white, white_pink);
-		RGBPrint(123 + int(text_continueMsg.size()/4), 10, text_continueMsg, black, white_pink, true);
+		RGBPrint(140 - sizeOfText(text_continueMsg)/2, 10, text_continueMsg, black, white_pink, true);
 		drawPauseText(124, 5, white_pink);
 		return true;
 	}
@@ -678,6 +661,12 @@ void drawTheScreen() {
 	//keybinds
 	drawInGamePanel_1(120, 27, black, white_pink, white, white_pink);
 
+	RGBPrint(129, 30, getwstring(language, L"ingame_keybind_wasd"), black, white_pink, true);
+	RGBPrint(129, 31, getwstring(language, L"ingame_keybind_p"), black, white_pink, true);
+	RGBPrint(129, 32, getwstring(language, L"ingame_keybind_o"), black, white_pink, true);
+	RGBPrint(129, 33, getwstring(language, L"ingame_keybind_l"), black, white_pink, true);
+	RGBPrint(129, 34, getwstring(language, L"ingame_keybind_q"), black, white_pink, true);
+	//
 	drawReindeer(25, 3, white_pink);
 	drawSnowFlake(48, 5, white_pink);
 	drawPineTree(117, 23, white_pink, 1);

@@ -13,6 +13,11 @@ ingame_ratio: TỈ SỐ
 ingame_time: THỜI GIAN
 ingame_hits: LƯỢT ĐÁNH
 ingame_timeleft: Thời gian còn lại
+ingame_keybind_wasd: 'W/A/S/D' để di chuyển.
+ingame_keybind_p: 'P' để yêu cầu tạm dừng.
+ingame_keybind_o: 'O' để cầu hòa.
+ingame_keybind_l: 'L' để lưu trò chơi.
+ingame_keybind_q: 'Q/Esc' để thoát trò chơi.
 draw_msg: Người chơi %p muốn xin hòa
 draw_accept: [Đồng ý]
 draw_deny: Không

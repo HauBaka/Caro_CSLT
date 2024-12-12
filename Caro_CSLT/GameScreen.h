@@ -27,7 +27,7 @@ struct GAME {
 	_POINT point[BOARD_SIZE_HEIGHT][BOARD_SIZE_WIDTH];
 };
 
-extern bool key_w, key_a, key_s, key_d;
+extern bool key_w, key_a, key_s, key_d, currentLang;
 
 bool rowCheck(int, int, int&);
 bool colCheck(int, int, int&);

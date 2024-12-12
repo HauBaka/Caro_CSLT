@@ -34,7 +34,7 @@ wstring getSongbyNum(short song) {
 		return L"";
 	}
 }
-void setVolume(short value) {
+void setVolume(int value) {
 	value = (value > 1000) ? 1000 : (value < 0) ? 0 : value;
 	volume = value;
 	for (int i = 0; i < NUMSONGS; i++) {
@@ -42,7 +42,7 @@ void setVolume(short value) {
 		mciSendString((L"setaudio " + name + L" volume to " + to_wstring(value)).c_str(), NULL, 0, NULL);
 	}
 }
-short getVolume() {
+int getVolume() {
 	return volume;
 }
 void openSound(short song) {

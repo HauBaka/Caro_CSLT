@@ -13,9 +13,15 @@ ingame_ratio: Ratio
 ingame_time: Time left
 ingame_hits: Hits
 ingame_timeleft: Time left
+ingame_keybind_wasd: 'W/A/S/D' to move.
+ingame_keybind_p: 'P' to request pause.
+ingame_keybind_o: 'O' to request draw.
+ingame_keybind_l: 'L' to save game.
+ingame_keybind_q: 'Q/Esc' to quit game.
 draw_msg: Player %p wants to draw
 draw_accept: [Yes]
 draw_deny: [No]
+pause_continue: Press 'p' to continue.
 pause_msg: Player %p wants to pause game
 pause_accept: [Yes]
 pause_deny: [No]
