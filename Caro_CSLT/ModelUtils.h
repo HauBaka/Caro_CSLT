@@ -38,12 +38,14 @@ void drawTriagle(int, int, bool);
 
 void drawPanel(int, int, int);
 void removePanel(int, int, int);
-void drawSlider(int, int, int, int);
-void drawDOT(int, int);
-void drawCheckBox(int, int, RGB);
+void drawSlider(int, int, int, int, RGB);
+void drawDOT(int, int, RGB);
+void drawCheckBox(int, int, RGB, RGB);
 
 void fill(RGB);
 
+void drawInGameEscPanel(int, int);
+void drawInGameEscPanel_Settings(int, int);
 void drawInGameHeader(int, int);
 void drawInGamePanel_1(int, int, RGB, RGB, RGB, RGB);
 void drawInGamePanel_1A(int, int, RGB, RGB, RGB, RGB);

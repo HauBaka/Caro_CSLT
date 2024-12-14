@@ -468,6 +468,71 @@ int loadAllSaves(vector<string>& saves) {
 	for (int i = 0; i < _saves.size(); i++) saves.push_back(_saves[i].first.substr(0, _saves[i].first.size() - 4));
 	return dem;
 }
+//escape menu
+bool escapeMenu(int curSel) {
+	drawInGameEscPanel(75, 10);
+	wstring texts[] = { 
+		getwstring(language, L"esc_continue"),  
+		getwstring(language, L"esc_options"), 
+		getwstring(language, L"esc_draw"), 
+		getwstring(language, L"esc_save"),  
+		getwstring(language, L"esc_quit") };
+	for (int i = 0; i < 5; i++) {
+		RGBPrint(86 - sizeOfText(texts[i]) / 2, 12 + 2 * i, texts[i], black, white_pink, true);
+	}
+	int  prevSel = 0;
+	RGBPrint(83 - sizeOfText(texts[curSel]) / 2, 12 + 2 * curSel,L">> " +  texts[curSel] + L" <<", black, light_pink, true);
+	while (true) {
+		if (_kbhit()) {
+			char c = tolower(_getch());
+			if (c == 'w' || c == 'a' || c == 's' || c == 'd') {
+				prevSel = curSel;
+				if (c == 'w' || c == 'a') curSel = (curSel == 0) ? 4 : curSel - 1;
+				else curSel = (curSel == 4) ? 0 : curSel + 1;
+				RGBPrint(83 - sizeOfText(texts[prevSel]) / 2, 12 + 2 * prevSel, L"   " + texts[prevSel] + L"   ", black, white_pink, true);
+				RGBPrint(83 - sizeOfText(texts[curSel]) / 2, 12 + 2 * curSel, L">> " + texts[curSel] + L" <<", black, light_pink, true);
+			}
+			if (c == 13) {
+				if (enableSFX) playSound(3, 0);
+				break;
+			}
+			if (c == 27) {
+				if (enableSFX) playSound(3, 0);
+				curSel = 0;
+				break;
+			}
+		}
+	}
+	switch (curSel) {
+	case 0:
+		drawGameBoard(55, 6, 61, 31, black, white_pink);
+		StartGame(0);
+		return 0;
+	case 1:
+		settingsPopup();
+		drawGameBoard(55, 6, 61, 31, black, white_pink);
+		return escapeMenu(curSel);
+	case 2:
+		DrawOption();
+		//if (enableBGM) {
+		//	stopSound(8);
+		//	playSound(7, 1);
+		//}
+		//updateFullBoard();
+		//reRenderCursor(true);
+		return escapeMenu(curSel);
+	case 3:
+		saveGameScreen(true);
+		drawGameBoard(55, 6, 61, 31, black, white_pink);
+		return escapeMenu(curSel);
+	case 4:
+		if (enableSFX) playSound(3, 0);
+		if (game.name.size() == 0) saveGameScreen(true);
+		return 1;
+	}
+
+
+}
 //Xin hòa (Dùng 'o')
 bool DrawOption() {
 	bool draw = false;
@@ -711,7 +776,7 @@ bool botHitRandom() {
 //Xừ lí trò chơi
 bool boardTick() {
 	if (game.point[game._Y][game._X].c == 0) {
-		playSound(11, 0);
+		if (enableSFX) playSound(11, 0);
 		//đánh dấu lên bảng & thêm vào lịch xử
 		game.point[game._Y][game._X].c = game.turn ? 1 : 2;
 		game.history.insert(game.history.begin(), { 65 + game._X, game._Y + 1 });
@@ -737,6 +802,13 @@ bool boardTick() {
 	return false;
 }
 bool inputProcessing(char c) {
+	if (c == 27) {
+		bool _tmp = escapeMenu(0);
+		if (_tmp == 0) {
+			drawTheScreen();
+		}
+		return _tmp;
+	}
 	if (c == 'l') {
 		saveGameScreen(true);
 		drawGameBoard(55, 6, 61, 31, black, white_pink);

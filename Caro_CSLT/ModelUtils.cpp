@@ -16,6 +16,7 @@ void RGBPrint(int x, int y, wstring text, RGB textColor, RGB bgColor, bool fromF
     wcout << "\x1b[38;2;" << textColor.R << ";" << textColor.G << ";" << textColor.B << "m";//text color
     wcout << "\x1b[48;2;" << bgColor.R << ";" << bgColor.G << ";" << bgColor.B << "m";//bg color
     wcout << text;
+
     if (fromFile) SetConsoleCP(oldcp);
     if (!fromFile) _setmode(_fileno(stdout), OldMode);
     
@@ -425,11 +426,11 @@ void removePanel(int x, int y, int lines) {
             black, white_pink, false);
     }
  }
-void drawSlider(int x, int y, int length, int value) {
+void drawSlider(int x, int y, int length, int value, RGB bg_color) {
     RGBPrint(x, y, L"█", black, light_pink, false);
     for (int i = 1; i <= length; i++) {
-        RGBPrint(x + i, y - 1, L"▄", black, light_pink, false);
-        RGBPrint(x + i, y + 1, L"▀", black, light_pink, false);
+        RGBPrint(x + i, y - 1, L"▄", black, bg_color, false);
+        RGBPrint(x + i, y + 1, L"▀", black, bg_color, false);
         if (i <= value) {
             RGBPrint(x + i, y, L"█", { 85, 148, 230 }, { 85, 148, 230 }, false);
         }
@@ -438,19 +439,20 @@ void drawSlider(int x, int y, int length, int value) {
         }
     }
 
-    RGBPrint(x+length+1, y, L"█", black, light_pink, false);
+    RGBPrint(x+length+1, y, L"█", black, bg_color, false);
 }
-void drawDOT(int x, int y) {
-    RGBPrint(x+1, y-1,  L"▄▄", black, light_pink, false);
+void drawDOT(int x, int y, RGB bg_color) {
+    RGBPrint(x+1, y-1,  L"▄▄", black, bg_color, false);
     RGBPrint(x - 1, y, L"█  █", black, { 250, 177, 247 }, false);
 
     RGBPrint(x + 1, y, L"▄", { 250, 177, 247 }, white_pink, false);
-    RGBPrint(x + 1, y + 1, L"▀▀", black, light_pink, false);
+    RGBPrint(x + 1, y + 1, L"▀▀", black, bg_color, false);
 }
-void drawCheckBox(int x, int y, RGB color) {
-    RGBPrint(x, y - 1, L" ▄▄▄", black, light_pink, false);
+void drawCheckBox(int x, int y, RGB color, RGB bg_color) {
+    RGBPrint(x, y - 1, L" ▄▄▄", black, bg_color, false);
     RGBPrint(x, y,     L"█ ▄ █", black, color, false);
-    RGBPrint(x, y + 1, L"▀   ▀", black, light_pink, false);
+    RGBPrint(x, y + 1, L"▀   ▀", black, bg_color, false);
+    RGBPrint(x+1, y + 1, L"   ", black, light_pink, false);
     RGBPrint(x+1, y + 1, L"▄▄▄", black, color, false);
 }
 
@@ -503,6 +505,48 @@ void drawInGameHeader(int x, int y) {
     L"▀          ▀          ▀          ▀          ▀          ▀          ▀          ▀          ▀          ▀          ▀          ▀          ▀          ▀          ▀          ▀" 
     };
     for (int i = 0; i < sizeof(lines) / sizeof(wstring); i++) RGBPrint(x, y + i, lines[i], white, white_pink, false);
+}
+void drawInGameEscPanel(int x, int y) {
+    wstring lines[] = {
+        L" ▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄",
+        L"█                    █",
+        L"█                    █",
+        L"█                    █",
+        L"█                    █",
+        L"█                    █",
+        L"█                    █",
+        L"█                    █",
+        L"█                    █",
+        L"█                    █",
+        L"█                    █",
+        L"█                    █",
+        L"█                    █",
+        L" ▀▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀"
+    };
+    for (int i = 0; i <(int) sizeof(lines) / sizeof(wstring); i++) {
+        RGBPrint(x, y + i, lines[i], black, white_pink, false);
+    }
+}
+void drawInGameEscPanel_Settings(int x, int y) {
+    wstring lines[] = {
+        L" ▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄",
+        L"█                                         █",
+        L"█                                         █",
+        L"█                                         █",
+        L"█                                         █",
+        L"█                                         █",
+        L"█                                         █",
+        L"█                                         █",
+        L"█                                         █",
+        L"█                                         █",
+        L"█                                         █",
+        L"█                                         █",
+        L"█                                         █",
+        L" ▀▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀"
+    };    
+    for (int i = 0; i < (int)sizeof(lines) / sizeof(wstring); i++) {
+        RGBPrint(x, y + i, lines[i], black, white_pink, false);
+    }
 }
 void drawInGamePanel_1(int x, int y, RGB border_color,RGB background_color, RGB dot_color, RGB outside_color) {
     //line 1

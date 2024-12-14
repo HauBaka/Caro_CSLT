@@ -24,6 +24,11 @@ draw_deny: Không
 pause_msg: Người chơi %p muốn tạm dừng
 pause_accept: [Đồng ý]
 pause_deny: [Không]
+esc_continue: Quay lại
+esc_options: Cài đặt
+esc_draw: Xin hòa
+esc_save: Lưu trò chơi
+esc_quit: [THOÁT TRẬN]
 pause_continue: Nhấn 'p' để quay lại
 save_cancel: [HỦY]
 save_save: [LƯU]

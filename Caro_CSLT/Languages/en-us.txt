@@ -25,6 +25,11 @@ pause_continue: Press 'p' to continue.
 pause_msg: Player %p wants to pause game
 pause_accept: [Yes]
 pause_deny: [No]
+esc_continue: Continue
+esc_options: Options
+esc_draw: Make a draw
+esc_save: Save
+esc_quit: [QUIT GAME]
 save_cancel: [CANCEL]
 save_save: [SAVE]
 save_id: ID

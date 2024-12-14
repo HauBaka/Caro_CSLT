@@ -1,4 +1,4 @@
-language: en-us
-sound_volume: 350
-enable_BGM: false
+language: vi-vn
+sound_volume: 300
+enable_BGM: true
 enable_SFX: true

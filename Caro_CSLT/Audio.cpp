@@ -1,11 +1,6 @@
 #include "Audio.h"
 bool audio_loaded[NUMSONGS] = { 0 };
 short volume = 400;
-//Songs:
-//0: None
-//1: BG1
-//2: BG2
-//3: POP
 wstring getSongbyNum(short song) {
 	switch (song) {
 	case 1:
@@ -63,10 +58,12 @@ void resumeSound(short song) {
 	}
 }
 void stopSound(short song) {
-	wstring name = getSongbyNum(song);
-	mciSendString((L"stop " + name).c_str(), NULL, 0, NULL);
-	mciSendString((L"close " + name).c_str(), NULL, 0, NULL);
-	audio_loaded[song] = false;
+	if (audio_loaded[song]) {
+		wstring name = getSongbyNum(song);
+		mciSendString((L"stop " + name).c_str(), NULL, 0, NULL);
+		mciSendString((L"close " + name).c_str(), NULL, 0, NULL);
+		audio_loaded[song] = false;
+	}
 }
 void restartSound(short song) {
 	wstring name = getSongbyNum(song);
