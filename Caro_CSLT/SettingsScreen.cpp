@@ -75,6 +75,7 @@ void settingsPopup() {
 				else if (current == 2) {
 					enableBGM = !enableBGM;
 					if (!enableBGM) stopSound(7);
+					else playSound(7, 1);
 					drawBGM(true, 67, 18, white_pink);
 				}
 				else if (current == 3) {
@@ -170,8 +171,8 @@ void SettingsScreen() {
 				}
 				else if (current == 2) {
 					enableBGM = !enableBGM;
-					if (enableBGM) playSound(1, 1);
-					else stopSound(1);
+					if (enableBGM) playSound(4, 1);
+					else stopSound(4);
 					drawBGM(true,100,29, light_pink);
 				}
 				else if (current == 3) {
@@ -225,7 +226,7 @@ void SettingsScreen() {
 				}
 			}
 			if (n == 13 && current == 4) {
-				if (enableBGM == false) stopSound(1);
+				//if (enableBGM == false) stopSound(1);
 				if (enableSFX) playSound(9, 0);
 				saveConfig();
 				removePanel(90, 18, 12);

@@ -250,7 +250,7 @@ void drawContinueOption(bool saveOption) {
 		removePanel(120, 4, 2);
 		drawInGamePanel_3(125, 5, black, white_pink, white, white_pink);
 		drawTurn(game.turn, 125, 5, light_pink, pink, white_pink);
-		StartGame(false);
+		StartGame(false, 1);
 	}
 	else {
 		drawGameBoard(55, 6, 61, 31, black, white_pink);
@@ -260,6 +260,7 @@ void drawContinueOption(bool saveOption) {
 		fill(white_pink);
 		drawLOGO((172 - 73) / 2, 5);
 		drawMainScreen(0);
+		if (enableBGM) playSound(4, 1);
 		GameScreen(0);
 	}
 }
@@ -506,7 +507,7 @@ bool escapeMenu(int curSel) {
 	switch (curSel) {
 	case 0:
 		drawGameBoard(55, 6, 61, 31, black, white_pink);
-		StartGame(0);
+		StartGame(0,0);
 		return 0;
 	case 1:
 		settingsPopup();
@@ -812,7 +813,7 @@ bool inputProcessing(char c) {
 	if (c == 'l') {
 		saveGameScreen(true);
 		drawGameBoard(55, 6, 61, 31, black, white_pink);
-		StartGame(0);
+		StartGame(0, 1);
 		return false;
 	}
 	if (c == 'q') {
@@ -910,9 +911,9 @@ void resetBoard() {
 		game.point[i][j].c = 0;
 	}
 }
-void StartGame(bool drawBackground) {
+void StartGame(bool drawBackground, bool startBGM) {
 	int count = 0;
-	if (enableBGM) {
+	if (enableBGM && startBGM) {
 		stopSound(4);
 		playSound(7, 1);
 	}
@@ -1134,7 +1135,7 @@ void loadSaveGameEditor(string savename, bool refresh, int curSel) {
 	case 0:
 		loadGame(savename);
 		if (enableSFX) playSound(6, 0);
-		StartGame(1);
+		StartGame(1, 1);
 		break;
 	case 1: {
 		string oldname = game.name;
@@ -1242,14 +1243,14 @@ void selectModeScreen() {
 		short a[2] = { 0 };
 		resetBoard();
 		setupGame("",7,5, 1, 0, 15, a, a, {});
-		StartGame(1);
+		StartGame(1,1);
 		break;
 	}
 	case 1: {//start new game (PVE)
 		short a[2] = { 0 };
 		resetBoard();
 		setupGame("", 7,5,1, 1, 15, a, a, {});
-		StartGame(1);
+		StartGame(1,1);
 		break;
 	}
 	case 2:

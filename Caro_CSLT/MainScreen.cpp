@@ -75,13 +75,14 @@ void drawMainScreen(int curSel) {
 
 	drawGift(151, 18, white_pink);
 	drawCandy(160, 4, white_pink);
-	drawReindeer(15, 25, white_pink);
+	drawReindeer(17, 22, white_pink);
+	drawSnowman(10, 29, white_pink);	
 }
 void MainScreen(int curSel, bool playBGM, bool clear) {
 	int prevSel = 0;
 	int n, index = 0;
 	bool draw_tria = true;
-	if (enableBGM && playBGM)playSound(4, true);
+	if (enableBGM && playBGM) playSound(4, true);
 	if (clear) for (int i = 16; i < 42; i++) clearLine(i);
 	drawMainScreen(curSel);
 	while (true) {

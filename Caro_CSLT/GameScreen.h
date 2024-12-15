@@ -62,7 +62,7 @@ void movementProcessing(char);
 bool timeProcessing(int&);
 void resetPosOnBoard();
 void resetBoard();
-void StartGame(bool);
+void StartGame(bool, bool);
 
 void setupGame(string, int, int, bool, bool, short, short[2], short[2], vector<pair<short, short>>);
 

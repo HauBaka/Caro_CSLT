@@ -1023,3 +1023,196 @@ void drawPineTree2(int x, int y, RGB background_color) {
     for (int i = 0; i < 23; i++) RGBPrint(x, y + i, border1[i], black, background_color, false);
 }
 
+void drawSanta(int x, int y, RGB background_color) {
+    RGB skin = { 255, 202, 180 }, gray = { 168, 168, 168 }, red = { 190, 38, 42 };
+    RGBPrint(x + 3, y, " ", white_pink, white_pink);
+    RGBPrint(x , y+1, " ", white_pink, white_pink);
+    RGBPrint(x-1, y+2, " ", white_pink, white_pink);
+    RGBPrint(x, y+3, " ", white_pink, white_pink);
+    RGBPrint(x+1, y+4, " ", white_pink, white_pink);
+    RGBPrint(x, y+5, " ", white_pink, white_pink);
+    RGBPrint(x, y+6, " ", white_pink, white_pink);
+    RGBPrint(x-1, y+7, " ", white_pink, white_pink);
+    RGBPrint(x-1, y+8, " ", white_pink, white_pink);
+    RGBPrint(x+1, y+9, " ", white_pink, white_pink);
+    RGBPrint(x+4, y+10, " ", white_pink, white_pink);
+
+    RGBPrint(x + 4, y, L"▄      ▄▄", black, background_color, false);
+    RGBPrint(x + 5, y, L"▄▄▄▄▄▄", red, black, false);
+
+    RGBPrint(x + 1, y + 1, L"▄▄", black, background_color, false);
+    RGBPrint(x + 3, y + 1, L"▄", red, black, false);
+    RGBPrint(x + 4, y + 1, L"▄▄▄▄▄▄▄▄▄", red, red, false);
+    RGBPrint(x + 13, y + 1, L"▄", black, black, false);
+
+    RGBPrint(x, y + 2, L"▄  ▄          ▄", black, black, false);
+    RGBPrint(x + 1, y + 2, L"▄", gray, gray, false);
+    RGBPrint(x + 2, y + 2, L"▄", gray, white, false);
+    RGBPrint(x + 4, y + 2, L"▄", black, red, false);
+    RGBPrint(x + 5, y + 2, L"▄▄▄▄▄▄▄▄▄", red, red, false);
+
+    RGBPrint(x + 1, y + 3, L"▄▄", background_color, black, false);
+    RGBPrint(x + 3, y + 3, L"▄", black, white, false);
+    RGBPrint(x + 4, y + 3, L"▄▄", gray, black, false);
+    RGBPrint(x + 6, y + 3, L"▄▄▄▄▄▄▄▄▄", white, black, false);
+    RGBPrint(x + 15, y + 3, L"▄", black, background_color, false);
+
+    RGBPrint(x + 2, y + 4, L"▄             ▄", black, black, false);
+    RGBPrint(x + 3, y + 4, L"▄▄", gray, gray, false);
+    RGBPrint(x + 5, y + 4, L"▄▄▄▄", black, gray, false);
+    RGBPrint(x + 9, y + 4, L"▄▄▄▄▄", black, white, false);
+    RGBPrint(x + 14, y + 4, L"▄▄", white, white, false);
+
+    RGBPrint(x + 1, y + 5, L"▄               ▄", black, background_color, false);
+    RGBPrint(x + 2, y + 5, L"▄", gray, black, false);
+    RGBPrint(x + 3, y + 5, L"▄", black, gray, false);
+    RGBPrint(x + 4, y + 5, L"▄         ▄", skin, black, false);
+    RGBPrint(x + 5, y + 5, L"▄       ▄", skin, skin, false);
+    RGBPrint(x + 6, y + 5, L"▄", black, skin, false);
+    RGBPrint(x + 7, y + 5, L"▄", white, skin, false);
+    RGBPrint(x + 11, y + 5, L"▄", black, skin, false);
+    RGBPrint(x + 12, y + 5, L"▄", white, skin, false);
+    RGBPrint(x + 8, y + 5, L"▄▄▄", skin, skin, false);
+    RGBPrint(x + 16, y + 5, L"▄", white, black, false);
+
+    RGBPrint(x + 1, y + 6, L"▄ ▄           ▄ ▄", black, black, false);
+    RGBPrint(x + 2, y + 6, L"▄", gray, gray, false);
+    RGBPrint(x + 16, y + 6, L"▄", white, white, false);
+    RGBPrint(x + 4, y + 6, L"▄▄       ▄▄", skin, skin, false);
+    RGBPrint(x + 6, y + 6, L"▄▄   ▄▄", skin, black, false);
+    RGBPrint(x + 8, y + 6, L"▄▄▄", red, skin, false);
+    RGBPrint(x + 15, y + 5, L"▄", black, white, false);
+
+
+    RGBPrint(x, y + 7, L"▄   ▄         ▄   ▄", black, black, false);
+    RGBPrint(x + 1, y + 7, L"▄ ▄", gray, gray, false);
+    RGBPrint(x + 2, y + 7, L"▄", black, gray, false);
+    RGBPrint(x + 15, y + 7, L"▄ ▄", white, white, false);
+    RGBPrint(x + 16, y + 7, L"▄", black, white, false);
+    RGBPrint(x + 5, y + 7, L"▄       ▄", black, skin, false);
+    RGBPrint(x + 6, y + 7, L"▄▄   ▄▄", white, black, false);
+    RGBPrint(x + 8, y + 7, L"▄ ▄", white, red, false);
+    RGBPrint(x + 9, y + 7, L"▄", black, red, false);
+
+    RGBPrint(x, y + 8, L"▄                 ▄", background_color, black, false);
+    RGBPrint(x + 1, y + 8, L"▄", black, gray, false);
+    RGBPrint(x + 17, y + 8, L"▄", black, white, false);
+    RGBPrint(x + 2, y + 8, L"▄", gray, gray, false);
+    RGBPrint(x + 16, y + 8, L"▄", white, gray, false);
+    RGBPrint(x + 3, y + 8, L"▄           ▄", gray, black, false);
+    RGBPrint(x + 4, y + 8, L"▄▄▄▄   ▄▄▄▄", black, white, false);
+    RGBPrint(x + 8, y + 8, L"▄ ▄", gray, black, false);
+    RGBPrint(x + 9, y + 8, L"▄", gray, gray, false);
+
+    RGBPrint(x + 2, y + 9, L"▄             ▄", background_color, black, false);
+    RGBPrint(x + 3, y + 9, L"▄▄", black, gray, false);
+    RGBPrint(x + 4, y + 9, L"▄▄", gray, gray, false);
+    RGBPrint(x + 6, y + 9, L"▄▄▄ ▄▄▄▄", white, gray, false);
+    RGBPrint(x + 9, y + 9, L"▄", white, white, false);
+    RGBPrint(x + 14, y + 9, L"▄", black, gray, false);
+    RGBPrint(x + 15, y + 9, L"▄", black, white, false);
+
+    RGBPrint(x + 5, y + 10, L"▄▄▄▄▄▄▄▄▄", background_color, black, false);
+}
+
+void drawSnowman(int x, int y, RGB background_color) {
+    RGB brown_yellow = { 224, 166, 59 }, semi_black = { 46,45,46 }, dark_red_1 = { 160, 10, 8 }, semi_dark_red = { 194, 10, 10 };
+    RGB gray_1 = { 123,123,123 }, light_gray = { 203, 203 ,203 }, gray_white = { 230, 230, 230 };
+    RGB red_1 = { 250, 10, 11 }, red = { 190, 38, 42 };;
+    RGBPrint(x + 8, y, L"▄▄▄▄▄▄▄", black, black, false);
+    RGBPrint(x + 15, y, L"▄", semi_black, semi_black, false);
+
+    RGBPrint(x + 8, y + 1, L"▄", dark_red_1, black, false);
+    RGBPrint(x + 9, y + 1, L"▄", semi_dark_red, black, false);
+    RGBPrint(x + 10, y + 1, L"▄▄▄▄▄▄", red, black, false);
+
+    RGBPrint(x + 4, y + 2, L"▄▄▄          ▄▄▄", black, background_color, false);
+    RGBPrint(x + 7, y + 2, L"▄▄▄▄▄▄▄▄▄▄", black, black, false);
+
+    RGBPrint(x + 6, y + 3, L"▄          ▄", gray_1, background_color, false);
+    RGBPrint(x + 10, y + 3, L"      ", white, white, false);
+    RGBPrint(x + 7, y + 3, L"▄", light_gray, gray_1, false);
+    RGBPrint(x + 8, y + 3, L"▄", gray_white, light_gray, false);
+    RGBPrint(x + 9, y + 3, L"▄", white, gray_white, false);
+    RGBPrint(x + 16, y + 3, L"▄", white, gray_1, false);
+
+    RGBPrint(x + 5, y + 4, L"▄            ▄", gray_1, gray_1, false);
+    RGBPrint(x + 6, y + 4, L"▄", light_gray, light_gray, false);
+    RGBPrint(x + 7, y + 4, L"▄ ▄▄▄▄ ▄▄▄▄", white, white, false);
+    RGBPrint(x + 9, y + 4, L"▄", black, white, false);
+    RGBPrint(x + 14, y + 4, L"▄", black, white, false);
+    RGBPrint(x + 7, y + 4, L"▄", gray_white, gray_white, false);
+
+    RGBPrint(x + 4, y + 5, L"▄              ▄", gray_1, gray_1, false);
+    RGBPrint(x + 5, y + 5, L"▄", light_gray, light_gray, false);
+    RGBPrint(x + 6, y + 5, L"▄", gray_white, gray_white, false);
+    RGBPrint(x + 7, y + 5, L"▄▄ ▄▄     ▄▄", white, white, false);
+    RGBPrint(x + 9, y + 5, L"▄", white, black, false);
+    RGBPrint(x + 12, y + 5, L"▄▄ ▄▄", brown_yellow, white, false);
+    RGBPrint(x + 14, y + 5, L"▄", brown_yellow, black, false);
+
+    RGBPrint(x + 4, y + 6, L"▄              ▄", background_color, gray_1, false);
+    RGBPrint(x + 5, y + 6, L"▄", gray_1, light_gray, false);
+    RGBPrint(x + 6, y + 6, L"▄", light_gray, gray_white, false);
+    RGBPrint(x + 7, y + 6, L"▄", gray_white, white, false);
+    RGBPrint(x + 8, y + 6, L"▄ ▄▄▄▄ ▄▄▄", white, white, false);
+    RGBPrint(x + 9, y + 6, L"▄    ▄", gray_1, white, false);
+    RGBPrint(x + 18, y + 6, L"▄", gray_1, white, false);
+
+    RGBPrint(x + 5, y + 7, L"▄            ▄", background_color, gray_1, false);
+    RGBPrint(x + 6, y + 7, L"▄", gray_1, light_gray, false);
+    RGBPrint(x + 7, y + 7, L"▄", light_gray, gray_white, false);
+    RGBPrint(x + 8, y + 7, L"▄", gray_white, white, false);
+    RGBPrint(x + 9, y + 7, L"▄    ▄▄▄", white, white, false);
+    RGBPrint(x + 17, y + 7, L"▄", gray_1, white, false);
+    RGBPrint(x + 10, y + 7, L"▄▄▄▄", white, gray_1, false);
+    RGBPrint(x + 2, y + 7, L"▄", brown_yellow, background_color, false);
+    RGBPrint(x + 21, y + 7, L"▄", brown_yellow, background_color, false);
+
+    RGBPrint(x + 1, y + 8, L"▄▄", background_color, brown_yellow, false);
+    RGBPrint(x + 21, y + 8, L"▄▄", background_color, brown_yellow, false);
+    RGBPrint(x + 3, y + 8, L"▄", brown_yellow, background_color, false);
+    RGBPrint(x + 20, y + 8, L"▄", brown_yellow, background_color, false);
+
+    RGBPrint(x + 4, y + 8, L"▄▄", red_1, dark_red_1, false);
+    RGBPrint(x + 6, y + 8, L"▄         ▄", semi_dark_red, semi_dark_red, false);
+    RGBPrint(x + 7, y + 8, L"▄▄▄▄▄▄▄▄▄", red_1, red_1, false);
+
+    RGBPrint(x + 1, y + 9, L"▄▄", dark_red_1, background_color, false);
+    RGBPrint(x + 3, y + 9, L"▄", red_1, dark_red_1, false);
+    RGBPrint(x + 4, y + 9, L"▄", background_color, brown_yellow, false);
+    RGBPrint(x + 5, y + 9, L"▄", brown_yellow, background_color, false);
+    RGBPrint(x + 6, y + 9, L"▄          ▄", gray_1, gray_1, false);
+    RGBPrint(x + 7, y + 9, L"▄", light_gray, light_gray, false);
+    RGBPrint(x + 8, y + 9, L"▄", gray_white, gray_white, false);
+    RGBPrint(x + 9, y + 9, L"▄▄  ▄▄▄▄", white, white, false);
+    RGBPrint(x + 18, y + 9, L"▄", background_color, brown_yellow, false);
+    RGBPrint(x + 19, y + 9, L"▄", brown_yellow, background_color, false);
+    RGBPrint(x + 11, y + 9, L"▄▄", black, white, false);
+
+    RGBPrint(x, y + 10, L"▄", background_color, dark_red_1, false);
+    RGBPrint(x + 1, y + 10, L"▄", red_1, dark_red_1, false);
+    RGBPrint(x + 2, y + 10, L"▄", red_1, red_1, false);
+    RGBPrint(x + 3, y + 10, L"▄", background_color, red_1, false);
+    RGBPrint(x + 5, y + 10, L"▄            ▄", gray_1, gray_1, false);
+    RGBPrint(x + 6, y + 10, L"▄", light_gray, light_gray, false);
+    RGBPrint(x + 7, y + 10, L"▄", gray_white, gray_white, false);
+    RGBPrint(x + 8, y + 10, L"▄▄▄  ▄▄▄▄▄", white, white, false);
+    RGBPrint(x + 11, y + 10, L"▄▄", black, white, false);
+
+    RGBPrint(x + 11, y + 11, L"▄▄", black, white, false);
+    RGBPrint(x + 1, y + 11, L"▄", background_color, red_1, false);
+    RGBPrint(x + 4, y + 11, L"▄", gray_1, background_color, false);
+    RGBPrint(x + 5, y + 11, L"▄", light_gray, gray_1, false);
+    RGBPrint(x + 6, y + 11, L"▄", gray_white, light_gray, false);
+    RGBPrint(x + 7, y + 11, L"▄", white, gray_white, false);
+    RGBPrint(x + 8, y + 11, L"▄▄▄  ▄▄▄▄▄", white, white, false);
+    RGBPrint(x + 18, y + 11, L"▄", white, gray_1, false);
+    RGBPrint(x + 19, y + 11, L"▄", gray_1, background_color, false);
+
+    RGBPrint(x + 4, y + 12, L"▄", gray_1, gray_1, false);
+    RGBPrint(x + 19, y + 12, L"▄", gray_1, gray_1, false);
+    RGBPrint(x + 5, y + 12, L"▄", light_gray, light_gray, false);
+    RGBPrint(x + 6, y + 12, L"▄", gray_white, gray_white, false);
+    RGBPrint(x + 7, y + 12, L"▄▄▄▄▄▄▄▄▄▄▄▄", white, white, false);
+}

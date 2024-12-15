@@ -24,7 +24,7 @@ void startIntroScreen() {
 	GotoXY(0, 30);
 	wstring message = getwstring(language, L"press_any_key_to_start");
 	while (true) {
-		veMay(index, 30);
+		drawSanta(index, 30, white_pink);
 		index++;
 		if (index == 173) {
 			for (int i = 30; i < 42; i++) clearLine(i);
