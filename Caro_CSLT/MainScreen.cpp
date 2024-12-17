@@ -56,14 +56,16 @@ void helpScreen() {
 	removePanel(90, 18, 14);
 	MainScreen(2, 0, false);
 }
+/*Vẽ giao diện*/
 void drawMainScreen(int curSel) {
+	/*Vẽ các nút*/
 	drawMainMenu_Play(35, 15);
 	drawMainMenu_Options(35, 20);
 	drawMainMenu_Help(35, 25);
 	drawMainMenu_Authors(35, 30);
 	drawMainMenu_Out(35, 35);
 	drawTriagle(30, 15 + curSel * 5, true);
-	//ve gi do vui vui
+	/*Vẽ trang trí*/
 	drawPineTree(32, 11, white_pink, 1);
 	drawPineTree(72, 11, white_pink, 1);
 	drawPineTree(82, 32, white_pink, 1);
@@ -85,6 +87,7 @@ void MainScreen(int curSel, bool playBGM, bool clear) {
 	if (enableBGM && playBGM) playSound(4, true);
 	if (clear) for (int i = 16; i < 42; i++) clearLine(i);
 	drawMainScreen(curSel);
+	/*Xử lí di chuyển và cập nhật đồ họa*/
 	while (true) {
 		if (_kbhit()) {
 			n = _getch();
@@ -123,21 +126,22 @@ void MainScreen(int curSel, bool playBGM, bool clear) {
 			if (index >= 800) index = 0;
 		}
 	}
+	/*Xử lí tùy chọn*/
 	switch (curSel) {
-	case 4:
+	case 4:/*Mở menu tùy chọn thoát game*/
 		GotoXY(0, 0);
 		drawQuitOptions();
 		break;
-	case 3:
+	case 3:/*Mở menu các người phát triển*/
 		ContributorsScreen();
 		break;
-	case 2:
+	case 2:/*Mở menu hướng dẫn*/
 		helpScreen();
 		break;
-	case 1:
+	case 1:/*Mở menu cài đặt*/
 		SettingsScreen();
 		break;
-	case 0:
+	case 0:/*Giao diện tùy chọn tạo/nạp trò chơi*/
 		GameScreen(0);
 		break;
 	}

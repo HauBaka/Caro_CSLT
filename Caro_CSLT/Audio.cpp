@@ -1,6 +1,7 @@
-#include "Audio.h"
+﻿#include "Audio.h"
 bool audio_loaded[NUMSONGS] = { 0 };
 short volume = 400;
+/*Lấy tên bản lưu*/
 wstring getSongbyNum(short song) {
 	switch (song) {
 	case 1:
@@ -29,6 +30,7 @@ wstring getSongbyNum(short song) {
 		return L"";
 	}
 }
+/*Đặt âm lượng*/
 void setVolume(int value) {
 	value = (value > 1000) ? 1000 : (value < 0) ? 0 : value;
 	volume = value;
@@ -37,26 +39,31 @@ void setVolume(int value) {
 		mciSendString((L"setaudio " + name + L" volume to " + to_wstring(value)).c_str(), NULL, 0, NULL);
 	}
 }
+/*Lấy giá trị âm lượng*/
 int getVolume() {
 	return volume;
 }
+/*Mở file*/
 void openSound(short song) {
 	wstring name = getSongbyNum(song);
 	mciSendString((L"open " + name + L"  type mpegvideo alias " + name).c_str(), NULL, 0, NULL);
 	audio_loaded[song] = true;
 }
+/*Tạm dừng*/
 void pauseSound(short song) {
 	if (audio_loaded[song]) {
 		wstring name = getSongbyNum(song);
 		mciSendString((L"pause " + name).c_str(), NULL, 0, NULL);
 	}
 }
+/*Tiếp tục*/
 void resumeSound(short song) {
 	if (audio_loaded[song]) {
 		wstring name = getSongbyNum(song);
 		mciSendString((L"resume " + name).c_str(), NULL, 0, NULL);
 	}
 }
+/*Tắt*/
 void stopSound(short song) {
 	if (audio_loaded[song]) {
 		wstring name = getSongbyNum(song);
@@ -65,10 +72,12 @@ void stopSound(short song) {
 		audio_loaded[song] = false;
 	}
 }
+/*Chạy lại*/
 void restartSound(short song) {
 	wstring name = getSongbyNum(song);
 	mciSendString((L"seek " + name + L" to 0").c_str(), NULL, 0, NULL);
 }
+/*Chạy*/
 void playSound(short song, bool repeat) {
 	if (song != 0) {
 		if (audio_loaded[song] == false) openSound(song);

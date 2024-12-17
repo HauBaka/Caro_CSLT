@@ -2,9 +2,9 @@
 #define _MODELUTILS_H_
 #include "string.h"
 #include <iostream>
-#include <conio.h>//_getch,...
-#include <fcntl.h>//_O_WTEXT
-#include <io.h>//_setmode
+#include <conio.h>
+#include <fcntl.h>
+#include <io.h>
 #include <Windows.h>
 #define MaxSize 30
 using namespace std;

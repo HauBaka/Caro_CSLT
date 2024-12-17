@@ -41,6 +41,7 @@ void drawBackOption(bool isCurrent, int x, int y, RGB bg_color) {
 	if (isCurrent) RGBPrint(_x, y, L">> "+ back_to_main, black, bg_color, true);
 	else RGBPrint(_x, y, L"   "+ back_to_main, black, bg_color, true);
 }
+/*Lưu lại cài đặt của trò chơi*/
 void saveConfig() {
 	fclose(config);
 	fopen_s(&config, "config.txt", "w");
@@ -51,38 +52,42 @@ void saveConfig() {
 	fclose(config);
 	fopen_s(&config, "config.txt", "r");
 }
+/*Menu khi ấn esc trong game*/
 void settingsPopup() {
-	drawInGameEscPanel_Settings(64, 10);
 	int current = 0, previous = 0;
+	/*Vẽ khung và in văn bản*/
+	drawInGameEscPanel_Settings(64, 10);
 	loadTexts();
 	drawVolume(true, 67, 12, white_pink);
 	drawSFX(false, 67, 15, white_pink);
 	drawBGM(false, 67, 18, white_pink);
 	drawLanguage(false, 67, 20, white_pink);
 	drawBackOption(false, 67, 22, white_pink);
+	/*Xử lí*/
 	while (true) {
 		if (_kbhit()) {
 			int n = tolower(_getch());
-			if ((n == 'a' || n == 'd') && current <= 3) {
-				if (current == 0) {
+			if ((n == 'a' || n == 'd') && current <= 3) {/*Xử lí thay đổi tùy chọn*/
+				if (current == 0) {/*Thay đổi âm lượng*/
 					setVolume(getVolume() + (n == 'd' ? 50 : -50));
 					drawVolume(true, 67, 12, white_pink);
 				}
-				else if (current == 1) {
+				else if (current == 1) {/*Bật/tắt SFX*/
 					enableSFX = !enableSFX;
 					drawSFX(true, 67, 15, white_pink);
 				}
-				else if (current == 2) {
+				else if (current == 2) {/*Bật/tắt nhạc nền*/
 					enableBGM = !enableBGM;
 					if (!enableBGM) stopSound(7);
 					else playSound(7, 1);
 					drawBGM(true, 67, 18, white_pink);
 				}
-				else if (current == 3) {
+				else if (current == 3) {/*Thay đổi ngôn ngữ*/
 					currentLang = !currentLang;
 					drawLanguage(true, 67, 20, white_pink);
 				}
 			}
+			/*Xử lí di chuyển và âm thanh hiệu ứng*/
 			if ((n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);
 			if (n == 's' or n == 'w') {
 				if (n == 's') {
@@ -128,6 +133,7 @@ void settingsPopup() {
 					break;
 				}
 			}
+			/*Thoát*/
 			if (n == 13 && current == 4) {
 				if (enableBGM == false) stopSound(1);
 				if (enableSFX) playSound(9, 0);
@@ -141,7 +147,7 @@ void settingsPopup() {
 				drawPineTree(117, 23, white_pink, 1);
 				//match statistics
 				drawInGamePanel_1(10, 10, black, white_pink, white, white_pink);
-				updateScreen();
+				updateScreen();/*Cập nhật lại ngôn ngữ trò chơi*/
 				saveConfig();
 				break;
 			}
@@ -150,6 +156,7 @@ void settingsPopup() {
 }
 void SettingsScreen() {
 	int current = 0, previous = 0;
+	/*Vẽ khung và in văn bản*/
 	drawPanel(90, 18, 12);
 	loadTexts();
 	drawVolume(true, 100, 22, light_pink);
@@ -157,29 +164,31 @@ void SettingsScreen() {
 	drawBGM(false, 100, 29, light_pink);
 	drawLanguage(false,100,32, light_pink);
 	drawBackOption(false,100,34, light_pink);
+	/*Xử lí*/
 	while (true) {
 		if (_kbhit()) {
 			int n = tolower(_getch());
-			if ((n == 'a' || n == 'd') && current <=3) {
-				if (current == 0) {
+			if ((n == 'a' || n == 'd') && current <=3) {/*Xử lí thay đổi tùy chọn*/
+				if (current == 0) {/*Thay đổi âm lượng*/
 					setVolume(getVolume() + (n == 'd' ? 50 : -50));
 					drawVolume(true, 100, 22, light_pink);
 				}
-				else if (current == 1) {
+				else if (current == 1) {/*Bật/tắt SFX*/
 					enableSFX = !enableSFX;
 					drawSFX(true, 100, 26, light_pink);
 				}
-				else if (current == 2) {
+				else if (current == 2) {/*Bật/tắt nhạc nền*/
 					enableBGM = !enableBGM;
 					if (enableBGM) playSound(4, 1);
 					else stopSound(4);
 					drawBGM(true,100,29, light_pink);
 				}
-				else if (current == 3) {
+				else if (current == 3) {/*Thay đổi ngôn ngữ*/
 					currentLang = !currentLang;
 					drawLanguage(true,100,32, light_pink);
 				}
 			}
+			/*Xử lí di chuyển và âm thanh hiệu ứng*/
 			if ((n == 'w' || n == 'a' || n == 's' || n == 'd' || n == 'e') && enableSFX) playSound(3, 0);
 			if (n == 's' or n == 'w') {
 				if (n == 's') {
@@ -225,8 +234,8 @@ void SettingsScreen() {
 					break;
 				}
 			}
+			/*Thoát*/
 			if (n == 13 && current == 4) {
-				//if (enableBGM == false) stopSound(1);
 				if (enableSFX) playSound(9, 0);
 				saveConfig();
 				removePanel(90, 18, 12);

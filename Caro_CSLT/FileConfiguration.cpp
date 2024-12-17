@@ -1,6 +1,6 @@
 ﻿#include "FileConfiguration.h"
 vector<FileConfiguration> loaded = {};
-
+/*Tách từ 1 chuỗi sang key & value*/
 vector<wstring> toKeyValue(wstring s) {
 	if (!s.empty() && s.back() == '\n') {
 		s.pop_back();
@@ -15,6 +15,7 @@ vector<wstring> toKeyValue(wstring s) {
 	}
 	return result;
 }
+/*Nạp file*/
 bool loadConfiguration(FILE* file) {
 	if (file == NULL) return 0;
 	//kiểm tra file đã được load chưa
@@ -35,6 +36,7 @@ bool loadConfiguration(FILE* file) {
 	loaded.push_back(yaml);
 	return 1;
 }
+/*Lấy các key & value*/
 FileConfiguration getYAML(FILE* file) {
 	for (int i = 0; i < loaded.size(); i++) {
 		if (loaded[i].file == file) {
@@ -43,6 +45,7 @@ FileConfiguration getYAML(FILE* file) {
 	}
 	return {};
 }
+/*Lấy value dưới dạng wstring*/
 wstring getwstring(FILE* file, wstring path) {
 	FileConfiguration yaml = getYAML(file);
 	if (yaml.file != NULL) {
@@ -52,9 +55,11 @@ wstring getwstring(FILE* file, wstring path) {
 	}
 	return path + L" is not found!";
 }
+/*Lấy value dưới dạng int*/
 int getInt(FILE* file, wstring path) {
 	return stoi(getwstring(file, path));
 }
+/*Lấy value dưới dạng bool*/
 bool getBool(FILE* file, wstring path) {
 	return (getwstring(file, path) == L"true") ? 1 : 0;
 }
