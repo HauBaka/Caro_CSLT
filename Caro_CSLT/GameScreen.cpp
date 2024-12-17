@@ -1,7 +1,7 @@
 ﻿#include "GameScreen.h"
 GAME game;
 bool key_w = false, key_a = false, key_s = false, key_d = false;
-//Kiểm tra thắng/thua/hòa
+/*Kiểm tra thắng / thua / hòa*/
 bool rowCheck(int i, int j, int& count) {
 	count = 0; 
 	int value = game.turn ? 1 : 2;
@@ -52,7 +52,7 @@ bool rightDiagonalCheck(int i, int j, int& count) {
 	}
 	return count >= 5;
 }
-//Xử lí thắng/thua/hòa
+/*Xử lí thắng / thua / hòa*/
 void drawWinEffect(bool isWin, int winType, int row, int col, int streak) {
 	int i,
 		time = 8,
@@ -269,6 +269,8 @@ bool checkWin() {
 	for (int i = 0; i < BOARD_SIZE_HEIGHT; i++) {
 		for (int j = 0; j < BOARD_SIZE_WIDTH; j++) {
 			count = 0;
+			/*Kiểm tra xem đã có người chơi thắng hay chưa, đồng thời nếu có
+			thì sẽ lưu lại vị trí và chuỗi thắng*/
 			if (game.point[i][j].c != 0) boardSum++;
 			if (rowCheck(i, j, count)) { winType = 1; streak = count; }
 			if (colCheck(i, j, count)) { winType = 2; streak = count; }
@@ -283,13 +285,14 @@ bool checkWin() {
 			}
 		}
 	}
+	/*Nếu đánh toàn bộ bảng nhưng vẫn chưa có người thắng thì nghĩa là hòa*/
 	if (boardSum == BOARD_SIZE_HEIGHT * BOARD_SIZE_WIDTH) {
 		drawDrawEffect();
 		return true;
 	}
 	return false;
 }
-//Tải & lưu game
+/*Nạp và lưu trò chơi*/
 bool fileExists(string filename) {
 	FILE* file;
 	fopen_s(&file, ("./Saves/" + filename + ".txt").c_str(), "r");
@@ -308,27 +311,27 @@ bool loadGame(string filename) {
 		wstring text;
 		game = {};
 		game.name = filename;
-		//load time, turn, gamemode
+		/*Nạp dữ liệu thời gian, lượt đi, chế độ và vị trí con trỏ*/
 		game.time = getInt(savef, L"time-left");
 		game.turn = getInt(savef, L"turn");
 		game.gamemode = getInt(savef, L"gamemode") == 1 ? 1 :  0;
 		game._X = getInt(savef, L"Board_X");
 		game._Y = getInt(savef, L"Board_Y");
-		//load ratio
+		/*Nạp tỉ số*/
 		text = getwstring(savef, L"ratio");
 		for (int i = 0; i < text.size(); i++) if (text[i] == ' ') {
 			game.ratio[0] = stoi(text.substr(0, i).c_str());
 			game.ratio[1] = stoi(text.substr(i + 1));
 			break;
 		};
-		//load hits
+		/*Nạp số lượt đánh*/
 		text = getwstring(savef, L"hits");
 		for (int i = 0; i < text.size(); i++) if (text[i] == ' ') {
 			game.hits[0] = stoi(text.substr(0, i).c_str());
 			game.hits[1] = stoi(text.substr(i + 1));
 			break;
 		};
-		//load history
+		/*Nạp lịch sử đánh*/
 		for (int i = 0; i < 5; i++) {
 			text = getwstring(savef, L"history-" + to_wstring(i + 1));
 			if (text == L"No data") break;
@@ -337,7 +340,7 @@ bool loadGame(string filename) {
 			game.history[i].first = char(stoi(text.substr(0, 2)));
 			game.history[i].second = stoi(text.substr(2));
 		};
-		//load board
+		/*Nạp bảng*/
 		for (int i = 0; i < BOARD_SIZE_HEIGHT; i++) {
 			text = getwstring(savef, (wstring(L"board-line-") + ((i < 9) ? L"0" : L"") + to_wstring(i + 1)));
 			for (int j = 0; j < BOARD_SIZE_WIDTH; j++) {
@@ -347,13 +350,14 @@ bool loadGame(string filename) {
 		isLoaded = true;
 	}
 	fclose(savef);
-	return isLoaded;
+	return isLoaded; /*Trả về xem là file đã được nạp thành công hay không*/
 }
 bool saveGame() {
 	if (fileExists(game.name)) return 0;
 	FILE* savef;
 	fopen_s(&savef, ("./Saves/" + game.name + ".txt").c_str(), "w");
 	if (savef == NULL) return false;
+	/*Lưu các thông số*/
 	fprintf_s(savef, ("time-left: " + to_string(game.time) + "\n").c_str());
 	fprintf_s(savef, ("gamemode: " + to_string(game.gamemode ? 1 : 0) + "\n").c_str());
 	fprintf_s(savef, ("Board_X: " + to_string(game._X) +"\n").c_str());
@@ -379,19 +383,20 @@ bool saveGame() {
 }
 void saveGameScreen(bool refresh) {
 	if (refresh) drawMiniPopUp(69, 14, black, white_pink, white_pink, white_pink);
+	/*In nội dung cho Popup*/
 	RGBPrint(71, 16, L"✍  ", black, light_pink, false);
 	RGBPrint(74, 16, getwstring(language, L"save_name") + L":", black, light_pink, true);
 	RGBPrint(76 + (int)getwstring(language, L"save_name").size(), 16, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(game.name), black, white_pink, false);
 	RGBPrint(90, 18, getwstring(language, L"save_save"), black, white_pink, true);
 	RGBPrint(75, 18, getwstring(language, L"save_cancel"), black, white_pink, true);
-	bool isEditing = false;
+	//bool isEditing = false;
 	string oldname = game.name;
 	int curSel = 0, prevSel = 0;
 	while (true) {
 		if (_kbhit()) {
 			int n = tolower(_getch());
-			if ((n == 13 || n == 'w' || n == 'a' || n == 's' || n == 'd') && enableSFX) playSound(3, 0);
-
+			if ((n == 13 || n == 'w' || n == 'a' || n == 's' || n == 'd') && enableSFX) playSound(3, 0); /*Âm thanh di chuyển*/
+			/*Vẽ lại các lựa chọn của con trỏ, xóa đánh dấu cũ và in đậm đánh dấu mới*/
 			prevSel = curSel;
 			if (n == 'w' || n == 'a') {
 				curSel = (curSel == 0) ? 2 : curSel - 1;
@@ -425,8 +430,9 @@ void saveGameScreen(bool refresh) {
 					break;
 				}
 			}
+			/*Xử lí khi ấn enter*/
 			if (n == 13) {
-				if (curSel != 0) break;
+				if (curSel != 0) break; /*Nếu con trỏ đang ở vị trí sửa tên thì sẽ khởi động chế độ sửa tên bản lưu*/
 				game.name = gameEditor_name(74, 16, black, white_pink, light_pink);
 				RGBPrint(71, 16, L"✍  ", black, light_pink, false);
 				RGBPrint(74, 16, getwstring(language, L"save_name") + L":", black, light_pink, true);
@@ -434,6 +440,7 @@ void saveGameScreen(bool refresh) {
 			}
 		}
 	}
+	/*Xử lí tùy chọn lưu hoặc hủy*/
 	switch (curSel) {
 	case 1:
 		game.name = oldname;
@@ -449,9 +456,8 @@ void saveGameScreen(bool refresh) {
 		}
 	}
 	if (enableSFX) playSound(9, 0);
-	//drawGameBoard(55, 6, 61, 31, black, white_pink);
-	//StartGame(0);
 }
+/*Đếm số lượng bản lưu, đồng thời sắp xếp các bảng lưu theo thời gian đến từng miliseconds*/
 int loadAllSaves(vector<string>& saves) {
 	int dem = 0;
 	vector<pair<string, long>> _saves = {};
@@ -469,7 +475,7 @@ int loadAllSaves(vector<string>& saves) {
 	for (int i = 0; i < _saves.size(); i++) saves.push_back(_saves[i].first.substr(0, _saves[i].first.size() - 4));
 	return dem;
 }
-//escape menu
+/*Menu escape*/
 bool escapeMenu(int curSel) {
 	drawInGameEscPanel(75, 10);
 	wstring texts[] = { 
@@ -515,12 +521,6 @@ bool escapeMenu(int curSel) {
 		return escapeMenu(curSel);
 	case 2:
 		DrawOption();
-		//if (enableBGM) {
-		//	stopSound(8);
-		//	playSound(7, 1);
-		//}
-		//updateFullBoard();
-		//reRenderCursor(true);
 		return escapeMenu(curSel);
 	case 3:
 		saveGameScreen(true);
@@ -534,7 +534,7 @@ bool escapeMenu(int curSel) {
 
 
 }
-//Xin hòa (Dùng 'o')
+/*Xin hòa, dùng 'o'*/
 bool DrawOption() {
 	bool draw = false;
 	wstring
@@ -590,7 +590,7 @@ bool DrawOption() {
 	}
 	return true;
 }
-//Xin dừng (Dùng 'p')
+/*Xin tạm ngưng, dùng 'p'*/
 bool PauseOption() {
 	bool pause = false;
 	wstring
@@ -646,7 +646,7 @@ bool PauseOption() {
 	}
 	return false;
 }
-//Cập nhật màn hình
+/*Xử lí đồ họa*/
 void fixKeyboard() {
 	if (key_w) {
 		key_w = !key_w;
@@ -802,30 +802,28 @@ bool boardTick() {
 	}
 	return false;
 }
+/*Xử lí trò chơi khi người dùng nhập*/
 bool inputProcessing(char c) {
-	if (c == 27) {
+	if (c == 27) { /*escape: mở menu escape trong game*/
 		bool _tmp = escapeMenu(0);
 		if (_tmp == 0) {
 			drawTheScreen();
 		}
 		return _tmp;
 	}
-	if (c == 'l') {
+	if (c == 'l') {/*Lưu trò chơi*/
 		saveGameScreen(true);
 		drawGameBoard(55, 6, 61, 31, black, white_pink);
 		StartGame(0, 1);
 		return false;
 	}
-	if (c == 'q') {
+	if (c == 'q') {/*Thoát*/
 		if (enableSFX) playSound(3, 0);
 		if (game.name.size() == 0) saveGameScreen(true);
 		return true;
 	}
-	if (c == 'o') {
-		if (DrawOption()) {/*
-			removePanel(54, 5, 3);
-			drawInGamePanel_3(125, 5, black, white_pink, white, white_pink);*/
-		}
+	if (c == 'o') {/*xin hòa*/
+		DrawOption();
 		if (enableBGM) {
 			stopSound(8);
 			playSound(7, 1);
@@ -834,7 +832,7 @@ bool inputProcessing(char c) {
 		reRenderCursor(true);
 		return false;
 	}
-	if (c == 'p') {
+	if (c == 'p') {/*Xin tạm dừng*/
 		if (PauseOption()) {
 			removePanel(120, 4, 2);
 			drawInGamePanel_3(125, 5, black, white_pink, white, white_pink);
@@ -848,9 +846,10 @@ bool inputProcessing(char c) {
 		reRenderCursor(true);
 		return false;
 	}
-	if (c == 13) {
+	if (c == 13) {/*Đánh dấu lên bảng*/
 		return boardTick();
 	}
+	/*Xử lí di chuyển*/
 	if (c == 'w' || c == 'a' || c == 's' || c == 'd') movementProcessing(c);
 	return false;
 }
@@ -972,8 +971,9 @@ string gameEditor_name(int x, int y, RGB text_color, RGB background_color, RGB s
 	while (true) {///8: delete, 13: enter, 27: escape
 		if (_kbhit()) {
 			n = _getch();
-			if ((n >= 'A' && n <= 'Z') || (n >= 'a' && n <= 'z') || (n >= '0' && n <= '9') || n == '_') {//write
-				if (newname.size() < 12) {
+			/*Xử lí khi nhập*/
+			if ((n >= 'A' && n <= 'Z') || (n >= 'a' && n <= 'z') || (n >= '0' && n <= '9') || n == '_') {
+				if (newname.size() < 12) {/*Giới hạn 12 kí tự*/
 					newname.push_back(n);
 					RGBPrint(x, y, L"            ", text_color, background_color, false);
 					RGBPrint(x-3, y, L"✍  ", text_color, selected_color, false);
@@ -981,7 +981,8 @@ string gameEditor_name(int x, int y, RGB text_color, RGB background_color, RGB s
 					RGBPrint(x +2 + (int)getwstring(language, L"save_name").size(), y, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(newname) + L" ", text_color, background_color, false);
 				}
 			}
-			if (n == 8) {//delete
+			/*Xử lí khi xóa*/
+			if (n == 8) {
 				if (newname.size() > 0) {
 					newname.pop_back();
 					RGBPrint(x, y, L"            ", text_color, background_color, false);
@@ -990,13 +991,14 @@ string gameEditor_name(int x, int y, RGB text_color, RGB background_color, RGB s
 					RGBPrint(x + 2 + (int)getwstring(language, L"save_name").size(), y, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(newname) + L" ", text_color, background_color, false);
 				}
 			}
+			/*Thông báo bản lưu đã tồn tại*/
 			if (fileExists(newname) && newname != game.name) {
 				RGBPrint(x + 8, y - 1, getwstring(language, L"save_exists"), { 255,0,0 }, background_color, true);
 			}
 			else {
 				RGBPrint(x + 8, y - 1, L"              ", { 255,0,0 }, background_color, false);
 				if (n == 13) {
-					if (newname.size() == 0) {
+					if (newname.size() == 0) {/*Tên bản lưu phải có ít nhất 1 kí tự*/
 						RGBPrint(x + 8, y - 1, getwstring(language, L"save_invalidName"), { 255,0,0 }, background_color, true);
 					}
 					else {
@@ -1008,7 +1010,7 @@ string gameEditor_name(int x, int y, RGB text_color, RGB background_color, RGB s
 						break;
 					}
 				}
-				if (n == 27) {
+				if (n == 27) {/*Thoát khỏi chế độ nhập tên*/
 					newname = game.name;
 					RGBPrint(x + 2 + (int)getwstring(language, L"save_name").size(), y, L"            ", text_color, background_color, false);
 					break;
@@ -1017,36 +1019,37 @@ string gameEditor_name(int x, int y, RGB text_color, RGB background_color, RGB s
 			GotoXY(x + 2 + (int)getwstring(language, L"save_name").size() + (int)newname.size(), y);
 		}
 	}
-	/*
-	RGBPrint(x-3, y, L"✍      :", text_color, selected_color, false);
-	RGBPrint(x + 0, y, getwstring(language, L"save_name"), text_color, selected_color, true);
-	RGBPrint(x + 2 + (int)getwstring(language, L"save_name").size(), y, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(newname) + L" ", text_color, background_color, false);
-	*/
 	ShowConsoleCursor(false);
 	return newname;
 }
+/*Đếm ngược để xóa bản lưu, ấn phím bất kì để hủy*/
 void gameEditor_remove(string savename) {
-	int second_to_remove = 7000;
+	int second_to_remove = 7000;/*Thời gian để người dùng có thể hủy trước khi xóa, tính theo miliseconds*/
 	wstring _message = getwstring(language, L"save_remove_countdown"), message;
 	int index = 0;
+	/*Thay lại %d thành thời gian tương ứng*/
 	for (int i = 0; i < _message.size(); i++) if (_message[i] == '%') {
 		index = i;
 		message = _message.substr(0, index) + to_wstring(second_to_remove/1000) + _message.substr(index + 2);
 		break;
 	}
 	RGBPrint(118 - sizeOfText(message) / 2, 33, message, black, light_pink, true);
+
 	while (true) {
+		/*Nếu ấn 1 phím bất kì thì sẽ dừng việc xóa bản lưu*/
 		if (_kbhit()) {
 			_getch();
 			GotoXY(118 - sizeOfText(message) / 2, 33);
 			for (int i = 0; i < sizeOfText(message); i++) cout << " ";
 			break;
 		}
+		/*Cập nhật lại thông báo*/
 		message = _message.substr(0, index) + to_wstring(second_to_remove/1000) + _message.substr(index + 2);
 		RGBPrint(118-sizeOfText(message)/2, 33, message, black, light_pink, true);
+		/*Bộ đếm*/
 		second_to_remove -= 50;
 		Sleep(50);
-		if (second_to_remove <= 0) {
+		if (second_to_remove <= 0) {/*Khi đã hết thời gian thì xóa bản lưu*/
 			try {
 				fs::remove("./Saves/" + savename + ".txt");
 			}
@@ -1056,24 +1059,30 @@ void gameEditor_remove(string savename) {
 			break;
 		}
 	}
+	/*Nếu bản lưu đã xóa thì quay lại giao diện danh sách các bản lưu,
+	không thì quay trở lại phần chỉnh sửa bản lưu*/
 	if (second_to_remove <= 0) GameScreen(2);
 	else loadSaveGameEditor(savename, false, 2);
 
 }
+/*Chỉnh sửa bản lưu*/
 void loadSaveGameEditor(string savename, bool refresh, int curSel) {
 	loadGame(savename);
 	int x = 100, y = 25;
 	int n, prevSel = 0;
+	/*Nạp các dòng văn bản*/
 	wstring
 		text_save_editor = getwstring(language, L"save_editor"),
 		text_save_load = getwstring(language, L"save_load"),
 		text_save_remove = getwstring(language, L"save_remove"),
 		text_save_back = getwstring(language, L"save_back");
+	/*Tùy chọn tải lại giao diện*/
 	if (refresh) {
 		removePanel(90, 18, 13);
 		drawPanel(90, 18, 11);
 		RGBPrint(118-sizeOfText(text_save_editor)/2, 21, text_save_editor, black, light_pink, true);
 	}
+	/*In ra các nội dung*/
 	RGBPrint(118-sizeOfText(text_save_load)/2, y - 2, text_save_load, black, (curSel==0) ? pink : light_pink, true);
 	RGBPrint(x-3, y, L"✍  ", black, (curSel == 1) ? pink : light_pink, false);
 	RGBPrint(x, y, getwstring(language, L"ingame_name") + L":", black, (curSel == 1) ? pink : light_pink, true);
@@ -1084,6 +1093,7 @@ void loadSaveGameEditor(string savename, bool refresh, int curSel) {
 	RGBPrint(x, y+4, getwstring(language, L"ingame_hits") + wstring(L": [X]: ") + wstring((game.hits[0] < 10) ? L"0" : L"") + to_wstring(game.hits[0]) + wstring(L" | [O]: ") + wstring((game.hits[1] < 10) ? L"0" : L"") + to_wstring(game.hits[1]), black, light_pink, true);
 	RGBPrint(118-sizeOfText(text_save_remove)/2, y + 6, text_save_remove, black, (curSel == 2) ? pink : light_pink, true);
 	RGBPrint(118-sizeOfText(text_save_back)/2, y + 8, text_save_back, black, (curSel == 3) ? pink : light_pink, true);
+	/*Xử lí di khi di chuyển giữa các mục*/
 	while (true) {
 		if (_kbhit()) {
 			n = _getch();
@@ -1131,13 +1141,14 @@ void loadSaveGameEditor(string savename, bool refresh, int curSel) {
 			}
 		}
 	}	
+	/*Xử lí mục đang chọn*/
 	switch (curSel) {
-	case 0:
+	case 0:/*Xác nhận nạp bản lưu*/
 		loadGame(savename);
 		if (enableSFX) playSound(6, 0);
 		StartGame(1, 1);
 		break;
-	case 1: {
+	case 1: {/*Bật chế độ sửa tên bản lưu*/
 		string oldname = game.name;
 		game.name = gameEditor_name(x, y, black, light_pink, pink);
 		try {
@@ -1149,27 +1160,29 @@ void loadSaveGameEditor(string savename, bool refresh, int curSel) {
 		loadSaveGameEditor(game.name, false, curSel);
 		break;
 	}
-	case 2:
+	case 2:/*Bật chế độ xóa bản lưu đếm ngược*/
 		gameEditor_remove(savename);
 		break;
-	case 3:
+	case 3:/*Quay về menu danh sách bản lưu*/
 		removePanel(90, 18, 11);
 		if (enableSFX) playSound(9, 0);
 		GameScreen(2);
 		break;
 	}
 }
-
+/*Menu tùy chọn tạo ván mới hay nạp bản lưu*/
 void newGameOptionsScreen() {
-	drawPanel(90, 18, 5);
-
+	drawPanel(90, 18, 5);/*Vẽ khung*/
+	/*Nạp văn bản*/
 	wstring options[3] = { getwstring(language, L"play_newgame"), getwstring(language, L"play_loadgame"), getwstring(language, L"back_to_main") };
 	int curSel = 0, prevSel = 0;
 	int n, size = sizeof(options) / sizeof(wstring);
+	/*In văn bản*/
 	for (int i = 0; i < size; i++) {
 		if (i == 0) RGBPrint(115 - sizeOfText(options[i])/2, 21 + 2 * i, L">> " + options[i] + L" <<", black, light_pink, true);
 		else RGBPrint(115 - sizeOfText(options[i]) / 2, 21 + 2 * i, L"   " + options[i] + L"   ", black, light_pink, true);
 	}
+	/*Xử lí di chuyển và cập nhật đồ họa*/
 	while (true) {
 		if (_kbhit()) {
 			n = _getch();
@@ -1193,29 +1206,33 @@ void newGameOptionsScreen() {
 		}
 	}
 	switch (curSel) {
-	case 0: {//new game menu
+	case 0: {/*Tạo một trò chơi mới*/
 		GameScreen(1);
 		break;
 	}
-	case 1: //load game menu
+	case 1: /*Nạp bản lưu*/
 		GameScreen(2);
 		break;
-	case 2://back
+	case 2:/*Quay lại menu trước đó*/
 		removePanel(90, 18, 5);
 		MainScreen(0, 0, false);
 		break;
 	}
 }
+/*Menu chọn chế độ chơi*/
 void selectModeScreen() {
+	/*Nạp văn b ản*/
 	wstring options[3] = { getwstring(language, L"play_pvp"),getwstring(language, L"play_pve"), getwstring(language, L"play_back") };
 	int curSel = 0, prevSel = 0;
 	int n, size = sizeof(options) / sizeof(wstring);
+	/*Xóa khung cũ và vẽ khung mới, đồng thời in văn bản*/
 	removePanel(90, 18, 5);
 	drawPanel(90, 18, 4);
 	for (int i = 0; i < size; i++) {
 		if (i == 0) RGBPrint(115 - sizeOfText(options[i]) / 2, 21 + 2 * i, L">> " + options[i] + L" <<", black, light_pink, true);
 		else RGBPrint(115 - sizeOfText(options[i]) / 2, 21 + 2 * i, L"   " + options[i] + L"   ", black, light_pink, true);
 	}
+	/*Xử lí di chuyển và đồ họa*/
 	while (true) {
 		if (_kbhit()) {
 			n = _getch();
@@ -1239,28 +1256,30 @@ void selectModeScreen() {
 		}
 	}
 	switch (curSel) {
-	case 0: {//start new game (PVP)
+	case 0: {/*Chế độ PVP*/
 		short a[2] = { 0 };
 		resetBoard();
 		setupGame("",7,5, 1, 0, 15, a, a, {});
 		StartGame(1,1);
 		break;
 	}
-	case 1: {//start new game (PVE)
+	case 1: {/*Chế độ  PVE*/
 		short a[2] = { 0 };
 		resetBoard();
 		setupGame("", 7,5,1, 1, 15, a, a, {});
 		StartGame(1,1);
 		break;
 	}
-	case 2:
+	case 2:/*Quay lại Menu trước*/
 		removePanel(90, 18, 4);
 		GameScreen(0);
 		break;
 	}
 }
+/*Giao diện menu danh sách bản lưu*/
 void loadGameScreen() {
-	//lay thong tin tu folder
+	/*Lấy thông tin cơ bản như số bản lưu, tên các bản lưu, từ đó phân chia cho 
+	số bản lưu mỗi trang và số trang tất cả*/
 	vector<string> saves_names = {};
 	int saves = loadAllSaves(saves_names);
 	int currentpage = 1,
@@ -1271,11 +1290,13 @@ void loadGameScreen() {
 		x = 98,
 		y = 22;
 	if (maxpages == 0) maxpages++;
-	//ve
+	/*Nạp văn bản*/
 	wstring text_name = getwstring(language, L"save_name"),
 			text_back = getwstring(language, L"play_back");
+	/*Xóa khung cũ và vẽ khung mới*/
 	removePanel(90, 18, 5);
 	drawPanel(90, 18, 13);
+	//TO DO: MOVE SANG MODELUTIL
 	RGBPrint(x, y-1, L"      ║                                    ", black, light_pink, false);
 	RGBPrint(x, y, L"══════╬════════════════════════════════════", black, light_pink, false);
 	int _i = 0;
@@ -1304,6 +1325,7 @@ void loadGameScreen() {
 		RGBPrint(x + 7 + (14 - (int)saves_names[index].size() / 2), y + 2 * index + 1, saves_names[index], black, pink);
 	}
 	int n;
+	/*Xử lí di chuyển và cập nhật đồ họa*/
 	while (true) {//từ đây trở đi tôi đã mất não.
 		if (_kbhit()) {
 			n = _getch();
@@ -1364,8 +1386,8 @@ void loadGameScreen() {
 		GameScreen(0);
 	}
 }
-void GameScreen(int state) {//0: game menu, 1:new game menu, 2: load game menu
-	if (state == 0) {//new/load game options
+void GameScreen(int state) {//TO DO: Xóa cái này, vướng.
+	if (state == 0) {/*Mở menu */
 		newGameOptionsScreen();
 	}
 	else if (state == 1) {//select mode
