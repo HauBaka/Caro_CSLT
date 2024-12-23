@@ -34,15 +34,17 @@ bool leftDiagonalCheck(int, int, int&);
 bool rightDiagonalCheck(int, int, int&);
 
 void drawWinEffect(bool, int, int, int, int);
+void drawDrawEffect();
 void drawContinueOption(bool);
 bool checkWin();
 
 bool fileExists(string);
-bool saveGame();
 bool loadGame(string);
+bool saveGame();
 void saveGameScreen(bool);
 int loadAllSaves(vector<string>&);
 
+bool escapeMenu(int);
 bool DrawOption();
 bool PauseOption();
 
@@ -54,7 +56,6 @@ void reRenderCursor(bool);
 
 int getRandom(int, int);
 bool botHitRandom();
-
 bool boardTick();
 bool inputProcessing(char);
 void movementProcessing(char);
@@ -72,5 +73,4 @@ void loadSaveGameEditor(string, bool, int);
 void newGameOptionsScreen();
 void selectModeScreen();
 void loadGameScreen();
-void GameScreen(int);
 #endif

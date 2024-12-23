@@ -18,14 +18,14 @@ void drawVolume(bool isCurrent, int x, int y, RGB bg_color) {
 void drawSFX(bool isCurrent, int x, int y, RGB bg_color) {
 	if (isCurrent) RGBPrint(x, y, L">> " + settings_sfx +L":", black, bg_color, true);
 	else RGBPrint(x, y, L"   "+ settings_sfx +L":", black, bg_color, true);
-	if (enableSFX) drawCheckBox(x+20, y, pink, bg_color);
-	else drawCheckBox(x+20, y, white_pink, bg_color);
+	if (enableSFX) drawCheckBox(x+20, y, aqua, bg_color);
+	else drawCheckBox(x+20, y, white_aqua, bg_color);
 }
 void drawBGM(bool isCurrent, int x, int y, RGB bg_color) {
 	if (isCurrent) RGBPrint(x, y, L">> " + settings_bgm +L":", black, bg_color, true);
 	else RGBPrint(x, y, L"   " + settings_bgm +L":", black, bg_color, true);
-	if (enableBGM) drawCheckBox(x+20, y, pink, bg_color);
-	else drawCheckBox(x+20, y, white_pink, bg_color);
+	if (enableBGM) drawCheckBox(x+20, y, aqua, bg_color);
+	else drawCheckBox(x+20, y, white_aqua, bg_color);
 }
 void drawLanguage(bool isCurrent, int x, int y, RGB bg_color) {
 	fclose(language);
@@ -58,11 +58,11 @@ void settingsPopup() {
 	/*Vẽ khung và in văn bản*/
 	drawInGameEscPanel_Settings(64, 10);
 	loadTexts();
-	drawVolume(true, 67, 12, white_pink);
-	drawSFX(false, 67, 15, white_pink);
-	drawBGM(false, 67, 18, white_pink);
-	drawLanguage(false, 67, 20, white_pink);
-	drawBackOption(false, 67, 22, white_pink);
+	drawVolume(true, 67, 12, white_aqua);
+	drawSFX(false, 67, 15, white_aqua);
+	drawBGM(false, 67, 18, white_aqua);
+	drawLanguage(false, 67, 20, white_aqua);
+	drawBackOption(false, 67, 22, white_aqua);
 	/*Xử lí*/
 	while (true) {
 		if (_kbhit()) {
@@ -70,21 +70,21 @@ void settingsPopup() {
 			if ((n == 'a' || n == 'd') && current <= 3) {/*Xử lí thay đổi tùy chọn*/
 				if (current == 0) {/*Thay đổi âm lượng*/
 					setVolume(getVolume() + (n == 'd' ? 50 : -50));
-					drawVolume(true, 67, 12, white_pink);
+					drawVolume(true, 67, 12, white_aqua);
 				}
 				else if (current == 1) {/*Bật/tắt SFX*/
 					enableSFX = !enableSFX;
-					drawSFX(true, 67, 15, white_pink);
+					drawSFX(true, 67, 15, white_aqua);
 				}
 				else if (current == 2) {/*Bật/tắt nhạc nền*/
 					enableBGM = !enableBGM;
 					if (!enableBGM) stopSound(7);
 					else playSound(7, 1);
-					drawBGM(true, 67, 18, white_pink);
+					drawBGM(true, 67, 18, white_aqua);
 				}
 				else if (current == 3) {/*Thay đổi ngôn ngữ*/
 					currentLang = !currentLang;
-					drawLanguage(true, 67, 20, white_pink);
+					drawLanguage(true, 67, 20, white_aqua);
 				}
 			}
 			/*Xử lí di chuyển và âm thanh hiệu ứng*/
@@ -100,36 +100,36 @@ void settingsPopup() {
 				}
 				switch (previous) {
 				case 0:
-					drawVolume(false, 67, 12, white_pink);
+					drawVolume(false, 67, 12, white_aqua);
 					break;
 				case 1:
-					drawSFX(false, 67, 15, white_pink);
+					drawSFX(false, 67, 15, white_aqua);
 					break;
 				case 2:
-					drawBGM(false, 67, 18, white_pink);
+					drawBGM(false, 67, 18, white_aqua);
 					break;
 				case 3:
-					drawLanguage(false, 67, 20, white_pink);
+					drawLanguage(false, 67, 20, white_aqua);
 					break;
 				case 4:
-					drawBackOption(false, 67, 22, white_pink);
+					drawBackOption(false, 67, 22, white_aqua);
 					break;
 				}
 				switch (current) {
 				case 0:
-					drawVolume(true, 67, 12, white_pink);
+					drawVolume(true, 67, 12, white_aqua);
 					break;
 				case 1:
-					drawSFX(true, 67, 15, white_pink);
+					drawSFX(true, 67, 15, white_aqua);
 					break;
 				case 2:
-					drawBGM(true, 67, 18, white_pink);
+					drawBGM(true, 67, 18, white_aqua);
 					break;
 				case 3:
-					drawLanguage(true, 67, 20, white_pink);
+					drawLanguage(true, 67, 20, white_aqua);
 					break;
 				case 4:
-					drawBackOption(true, 67, 22, white_pink);
+					drawBackOption(true, 67, 22, white_aqua);
 					break;
 				}
 			}
@@ -138,15 +138,15 @@ void settingsPopup() {
 				if (enableBGM == false) stopSound(1);
 				if (enableSFX) playSound(9, 0);
 				//keybinds
-				drawInGamePanel_1(120, 27, black, white_pink, white, white_pink);
-				RGBPrint(129, 30, getwstring(language, L"ingame_keybind_wasd"), black, white_pink, true);
-				RGBPrint(129, 31, getwstring(language, L"ingame_keybind_p"), black, white_pink, true);
-				RGBPrint(129, 32, getwstring(language, L"ingame_keybind_o"), black, white_pink, true);
-				RGBPrint(129, 33, getwstring(language, L"ingame_keybind_l"), black, white_pink, true);
-				RGBPrint(129, 34, getwstring(language, L"ingame_keybind_q"), black, white_pink, true);
-				drawPineTree(117, 23, white_pink, 1);
+				drawInGamePanel_1(120, 27, black, white_aqua, white, white_aqua);
+				RGBPrint(129, 30, getwstring(language, L"ingame_keybind_wasd"), black, white_aqua, true);
+				RGBPrint(129, 31, getwstring(language, L"ingame_keybind_p"), black, white_aqua, true);
+				RGBPrint(129, 32, getwstring(language, L"ingame_keybind_o"), black, white_aqua, true);
+				RGBPrint(129, 33, getwstring(language, L"ingame_keybind_l"), black, white_aqua, true);
+				RGBPrint(129, 34, getwstring(language, L"ingame_keybind_q"), black, white_aqua, true);
+				drawPineTree(117, 23, white_aqua, 1);
 				//match statistics
-				drawInGamePanel_1(10, 10, black, white_pink, white, white_pink);
+				drawInGamePanel_1(10, 10, black, white_aqua, white, white_aqua);
 				updateScreen();/*Cập nhật lại ngôn ngữ trò chơi*/
 				saveConfig();
 				break;
@@ -159,11 +159,11 @@ void SettingsScreen() {
 	/*Vẽ khung và in văn bản*/
 	drawPanel(90, 18, 12);
 	loadTexts();
-	drawVolume(true, 100, 22, light_pink);
-	drawSFX(false,100,26, light_pink);
-	drawBGM(false, 100, 29, light_pink);
-	drawLanguage(false,100,32, light_pink);
-	drawBackOption(false,100,34, light_pink);
+	drawVolume(true, 100, 22, light_aqua);
+	drawSFX(false,100,26, light_aqua);
+	drawBGM(false, 100, 29, light_aqua);
+	drawLanguage(false,100,32, light_aqua);
+	drawBackOption(false,100,34, light_aqua);
 	/*Xử lí*/
 	while (true) {
 		if (_kbhit()) {
@@ -171,21 +171,21 @@ void SettingsScreen() {
 			if ((n == 'a' || n == 'd') && current <=3) {/*Xử lí thay đổi tùy chọn*/
 				if (current == 0) {/*Thay đổi âm lượng*/
 					setVolume(getVolume() + (n == 'd' ? 50 : -50));
-					drawVolume(true, 100, 22, light_pink);
+					drawVolume(true, 100, 22, light_aqua);
 				}
 				else if (current == 1) {/*Bật/tắt SFX*/
 					enableSFX = !enableSFX;
-					drawSFX(true, 100, 26, light_pink);
+					drawSFX(true, 100, 26, light_aqua);
 				}
 				else if (current == 2) {/*Bật/tắt nhạc nền*/
 					enableBGM = !enableBGM;
 					if (enableBGM) playSound(4, 1);
 					else stopSound(4);
-					drawBGM(true,100,29, light_pink);
+					drawBGM(true,100,29, light_aqua);
 				}
 				else if (current == 3) {/*Thay đổi ngôn ngữ*/
 					currentLang = !currentLang;
-					drawLanguage(true,100,32, light_pink);
+					drawLanguage(true,100,32, light_aqua);
 				}
 			}
 			/*Xử lí di chuyển và âm thanh hiệu ứng*/
@@ -201,36 +201,36 @@ void SettingsScreen() {
 				}
 				switch (previous) {
 				case 0:
-					drawVolume(false,100,22, light_pink);
+					drawVolume(false,100,22, light_aqua);
 					break;
 				case 1:
-					drawSFX(false,100,26, light_pink);
+					drawSFX(false,100,26, light_aqua);
 					break;
 				case 2:
-					drawBGM(false,100,29, light_pink);
+					drawBGM(false,100,29, light_aqua);
 					break;
 				case 3:
-					drawLanguage(false,100,32, light_pink);
+					drawLanguage(false,100,32, light_aqua);
 					break;
 				case 4:
-					drawBackOption(false,100,34, light_pink);
+					drawBackOption(false,100,34, light_aqua);
 					break;
 				}
 				switch (current) {
 				case 0:
-					drawVolume(true,100,22, light_pink);
+					drawVolume(true,100,22, light_aqua);
 					break;
 				case 1:
-					drawSFX(true,100,26, light_pink);
+					drawSFX(true,100,26, light_aqua);
 					break;
 				case 2:
-					drawBGM(true,100,29, light_pink);
+					drawBGM(true,100,29, light_aqua);
 					break;
 				case 3:
-					drawLanguage(true,100,32, light_pink);
+					drawLanguage(true,100,32, light_aqua);
 					break;
 				case 4:
-					drawBackOption(true,100,34, light_pink);
+					drawBackOption(true,100,34, light_aqua);
 					break;
 				}
 			}

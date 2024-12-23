@@ -6,9 +6,9 @@ void drawQuitOptions() {
 		x2 = 118 + 4 + sizeOfText(cancel) / 2;
 	bool isConfirm = true;
 	drawPanel(90, 18, 4);
-	RGBPrint(118-int(sizeOfText(message)/2), 22, message, black, light_pink, true);
-	RGBPrint(x1, 24, L"\033[4m" + confirm + L"\033[0m", black, light_pink, true);
-	RGBPrint(x2, 24, cancel , black, light_pink, true);
+	RGBPrint(118-int(sizeOfText(message)/2), 22, message, black, light_aqua, true);
+	RGBPrint(x1, 24, L"\033[4m" + confirm + L"\033[0m", black, light_aqua, true);
+	RGBPrint(x2, 24, cancel , black, light_aqua, true);
 
 	while (true) {
 		if (_kbhit()) {
@@ -21,17 +21,20 @@ void drawQuitOptions() {
 			if (n == 'w' || n == 'a' || n == 's' || n == 'd') {
 				isConfirm = !isConfirm;
 				if (isConfirm) {
-					RGBPrint(x1, 24, L"\033[4m" + confirm + L"\033[0m", black, light_pink, true);
-					RGBPrint(x2, 24, cancel, black, light_pink, true);
+					RGBPrint(x1, 24, L"\033[4m" + confirm + L"\033[0m", black, light_aqua, true);
+					RGBPrint(x2, 24, cancel, black, light_aqua, true);
 				}
 				else {
-					RGBPrint(x1, 24, confirm, black, light_pink, true);
-					RGBPrint(x2, 24, L"\033[4m" + cancel + L"\033[0m", black, light_pink, true);
+					RGBPrint(x1, 24, confirm, black, light_aqua, true);
+					RGBPrint(x2, 24, L"\033[4m" + cancel + L"\033[0m", black, light_aqua, true);
 				}
 			}
 		}
 	}
-	if (isConfirm) ExitProcess(0);
+	if (isConfirm) {
+		closeProgram();
+		ExitProcess(0);
+	}
 	else {
 		removePanel(90, 18, 4);
 		MainScreen(4, 0, false);
@@ -42,9 +45,9 @@ void helpScreen() {
 	int lines = getInt(language, L"help");
 	wstring back_text = getwstring(language, L"back_to_main");
 	for (int i = 0; i < lines; i++) {
-		RGBPrint(96, 21 + i, getwstring(language, L"help_" + to_wstring(i + 1)), black, light_pink, true);
+		RGBPrint(96, 21 + i, getwstring(language, L"help_" + to_wstring(i + 1)), black, light_aqua, true);
 	}
-	RGBPrint(116- sizeOfText(back_text)/2, 36, L">> " + back_text +L" <<", black, light_pink, true);
+	RGBPrint(116- sizeOfText(back_text)/2, 36, L">> " + back_text +L" <<", black, light_aqua, true);
 	while (true) {
 		if (_kbhit()) {
 			if (_getch() == 13) {
@@ -66,19 +69,19 @@ void drawMainScreen(int curSel) {
 	drawMainMenu_Out(35, 35);
 	drawTriagle(30, 15 + curSel * 5, true);
 	/*Vẽ trang trí*/
-	drawPineTree(32, 11, white_pink, 1);
-	drawPineTree(72, 11, white_pink, 1);
-	drawPineTree(82, 32, white_pink, 1);
+	drawPineTree(32, 11, white_aqua, 1);
+	drawPineTree(72, 11, white_aqua, 1);
+	drawPineTree(82, 32, white_aqua, 1);
 
-	drawSnowFlake(5, 12, white_pink);
-	drawSnowFlake(65, 0, white_pink);
-	drawSnowFlake(105, 13, white_pink);
-	drawSnowFlake(150, 35, white_pink);
+	drawSnowFlake(5, 12, white_aqua);
+	drawSnowFlake(65, 0, white_aqua);
+	drawSnowFlake(105, 13, white_aqua);
+	drawSnowFlake(150, 35, white_aqua);
 
-	drawGift(151, 18, white_pink);
-	drawCandy(160, 4, white_pink);
-	drawReindeer(17, 22, white_pink);
-	drawSnowman(10, 29, white_pink);	
+	drawGift(151, 18, white_aqua);
+	drawCandy(160, 4, white_aqua);
+	drawReindeer(17, 22, white_aqua);
+	drawSnowman(10, 29, white_aqua);	
 }
 void MainScreen(int curSel, bool playBGM, bool clear) {
 	int prevSel = 0;
@@ -142,7 +145,7 @@ void MainScreen(int curSel, bool playBGM, bool clear) {
 		SettingsScreen();
 		break;
 	case 0:/*Giao diện tùy chọn tạo/nạp trò chơi*/
-		GameScreen(0);
+		newGameOptionsScreen();
 		break;
 	}
 }

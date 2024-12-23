@@ -17,4 +17,5 @@ void resumeSound(short);
 void stopSound(short);
 void restartSound(short);
 void playSound(short, bool);
+void closeAllSound();
 #endif

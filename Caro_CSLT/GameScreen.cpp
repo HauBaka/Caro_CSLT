@@ -60,24 +60,6 @@ void drawWinEffect(bool isWin, int winType, int row, int col, int streak) {
 		_col = col,
 		_row = row,
 		color = 0;
-	RGB colors[16] = {
-	{199,66,79},
-	{224,107,81},
-	{242,165,97},
-	{242,165,97},
-	{177,212,128},
-	{128,184,120},
-	{128,184,120},
-	{137,217,217},
-	{137,217,217},
-	{92,139,168},
-	{78,102,121},
-	{70,73,105},
-	{68,53,93},
-	{61,0,61},
-	{98,23,72},
-	{148,44,75}
-	};
 	wstring win_header[5] = {
 			L"▐▄• ▄     ▄▄▌ ▐ ▄▌       ▐ ▄ ",
 			L" █▌█▌▪    ██· █▌▐█▪     •█▌▐█",
@@ -92,26 +74,25 @@ void drawWinEffect(bool isWin, int winType, int row, int col, int streak) {
 		win_header[3] = L"▐█▌.▐▌    ▐█▌██▐█▌▐█▌.▐▌██▐█▌";
 		win_header[4] = L" ▀█▄▀▪     ▀▀▀▀ ▀▪ ▀█▄▀▪▀▀ █▪";
 	};
-	drawInGamePanel_1A(120, 4, black, white_pink, white, white_pink);
+	drawInGamePanel_1A(120, 4, black, white_aqua, white, white_aqua);
 	if (enableBGM) {
 		stopSound(7);
 		playSound(5, false);
 	}
 	if (isWin) {
-
 		while (true) {
 			_col = col; _row = row; 
 			color++;
 			if (color >= 20) color = 0;
 			streak = (streak > 5) ? streak : 5;
 			for (i = 0; i < streak; i++) {
-				RGBPrint(128,  6 + i % 5, win_header[i % 5], colors[(color + i) % 16], white_pink, false);
+				RGBPrint(128,  6 + i % 5, win_header[i % 5], rainbows[(color + i) % 16], white_aqua, false);
 				if (winType == 5) {//time out
-					RGBPrint(game.point[7][5].x, game.point[7][7].y, "TIME OUT!!", colors[(color + i) % 16], white_pink);
+					RGBPrint(game.point[7][5].x, game.point[7][7].y, "TIME OUT!!", rainbows[(color + i) % 16], white_aqua);
 				}
 				else {
-					if (color <= 15 || color % 2 != 0) RGBPrint(game.point[_row][_col].x, game.point[_row][_col].y, (game.point[_row][_col].c == 1 ? "X" : "O"), colors[(color + i) % 16], white_pink);
-					else RGBPrint(game.point[_row][_col].x, game.point[_row][_col].y, " ", white_pink, white_pink);
+					if (color <= 15 || color % 2 != 0) RGBPrint(game.point[_row][_col].x, game.point[_row][_col].y, (game.point[_row][_col].c == 1 ? "X" : "O"), rainbows[(color + i) % 16], white_aqua);
+					else RGBPrint(game.point[_row][_col].x, game.point[_row][_col].y, " ", white_aqua, white_aqua);
 
 					switch (winType)
 					{
@@ -145,24 +126,6 @@ void drawDrawEffect() {
 		time = 4,
 		timer = 0,
 		color = 0;
-	RGB colors[16] = {
-	{199,66,79},
-	{224,107,81},
-	{242,165,97},
-	{242,165,97},
-	{177,212,128},
-	{128,184,120},
-	{128,184,120},
-	{137,217,217},
-	{137,217,217},
-	{92,139,168},
-	{78,102,121},
-	{70,73,105},
-	{68,53,93},
-	{61,0,61},
-	{98,23,72},
-	{148,44,75}
-	};
 	wstring textBanner[] = {
 		L"·▄▄▄▄  ▄▄▄   ▄▄▄· ▄▄▌ ▐ ▄▌",
 		L"██▪ ██ ▀▄ █·▐█ ▀█ ██· █▌▐█",
@@ -170,10 +133,10 @@ void drawDrawEffect() {
 		L"██. ██ ▐█•█▌▐█ ▪▐▌▐█▌██▐█▌",
 		L"▀▀▀▀▀• .▀  ▀ ▀  ▀  ▀▀▀▀ ▀▪"
 	};
-	drawInGamePanel_1A(120, 4, black, white_pink, white, white_pink);
+	drawInGamePanel_1A(120, 4, black, white_aqua, white, white_aqua);
 	while (true) {
 		color++;
-		for (i = 0; i < 5; i++) RGBPrint(128, 6 + i % 5, textBanner[i], colors[(color+i) % 16], white_pink, false);
+		for (i = 0; i < 5; i++) RGBPrint(128, 6 + i % 5, textBanner[i], rainbows[(color+i) % 16], white_aqua, false);
 		if (color <= 15) Sleep(100);
 		else Sleep(200);
 		timer += 1;
@@ -183,24 +146,6 @@ void drawDrawEffect() {
 void drawContinueOption(bool saveOption) {
 	int i, color =0;
 	bool playAgain = false;
-	RGB colors[16] = {
-	{199,66,79},
-	{224,107,81},
-	{242,165,97},
-	{242,165,97},
-	{177,212,128},
-	{128,184,120},
-	{128,184,120},
-	{137,217,217},
-	{137,217,217},
-	{92,139,168},
-	{78,102,121},
-	{70,73,105},
-	{68,53,93},
-	{61,0,61},
-	{98,23,72},
-	{148,44,75}
-	};
 	wstring header[5] = {
 	   L" ▄▄▄·  ▄▄ •  ▄▄▄· ▪   ▐ ▄ ",
 	   L"▐█ ▀█ ▐█ ▀ ▪▐█ ▀█ ██ •█▌▐█",
@@ -208,33 +153,33 @@ void drawContinueOption(bool saveOption) {
 	   L"▐█ ▪▐▌▐█▄▪▐█▐█ ▪▐▌▐█▌██▐█▌",
 	   L" ▀  ▀ ·▀▀▀▀  ▀  ▀ ▀▀▀▀▀ █▪"
 	};
-	drawInGamePanel_5(64, 14, black, white_pink, white_pink, white_pink);
-	RGBPrint(73, 23, L"Play again?", black, white_pink, false);
-	RGBPrint(78, 25, L">> NO <<", black, light_pink, false);
-	RGBPrint(78, 26, L"   YES  ", black, white_pink, false);
+	drawInGamePanel_5(64, 14, black, white_aqua, white_aqua, white_aqua);
+	RGBPrint(73, 23, L"Play again?", black, white_aqua, false);
+	RGBPrint(78, 25, L">> NO <<", black, light_aqua, false);
+	RGBPrint(78, 26, L"   YES  ", black, white_aqua, false);
 	if (enableBGM) {
 		stopSound(7);
 		playSound(8, 1);
 	}
 	while (true) {
 		color++;
-		for (i = 0; i < 5; i++) RGBPrint(73, 16 + i % 5, header[i%5], colors[color % 16], white_pink, false);
+		for (i = 0; i < 5; i++) RGBPrint(73, 16 + i % 5, header[i%5], rainbows[color % 16], white_aqua, false);
 		if (_kbhit()) {
 			int n = tolower(_getch());
 			if (n == 'w' || n == 'a' || n == 's' || n == 'd') {
-				playSound(3, 0);
+				if (enableSFX) playSound(3, 0);
 				playAgain = !playAgain;
 				if (playAgain) {
-					RGBPrint(78, 25, L"   NO   ", black, white_pink, false);
-					RGBPrint(78, 26, L">> YES <<", black, light_pink, false);
+					RGBPrint(78, 25, L"   NO   ", black, white_aqua, false);
+					RGBPrint(78, 26, L">> YES <<", black, light_aqua, false);
 				}
 				else {
-					RGBPrint(78, 25, L">> NO <<", black, light_pink, false);
-					RGBPrint(78, 26, L"   YES   ", black, white_pink, false);
+					RGBPrint(78, 25, L">> NO <<", black, light_aqua, false);
+					RGBPrint(78, 26, L"   YES   ", black, white_aqua, false);
 				}
 			}
 			if (n == 13) {
-				playSound(9, 0);
+				if (enableSFX) playSound(9, 0);
 				break;
 			}
 		}
@@ -245,23 +190,23 @@ void drawContinueOption(bool saveOption) {
 		short a[2] = { 0 };
 		resetBoard();
 		setupGame(game.name, game._X, game._Y, game.turn, game.gamemode, 15, game.ratio, a, {});
-		drawGameBoard(55, 6, 61, 31, black, white_pink);
+		drawGameBoard(55, 6, 61, 31, black, white_aqua);
 		updateScreen();
 		removePanel(120, 4, 2);
-		drawInGamePanel_3(125, 5, black, white_pink, white, white_pink);
-		drawTurn(game.turn, 125, 5, light_pink, pink, white_pink);
+		drawInGamePanel_3(125, 5, black, white_aqua, white, white_aqua);
+		drawTurn(game.turn, 125, 5, light_aqua, aqua, white_aqua);
 		StartGame(false, 1);
 	}
 	else {
-		drawGameBoard(55, 6, 61, 31, black, white_pink);
+		drawGameBoard(55, 6, 61, 31, black, white_aqua);
 		if (saveOption) saveGameScreen(true);
 		//cái qq j đay?
 		system("cls");
-		fill(white_pink);
+		fill(white_aqua);
 		drawLOGO((172 - 73) / 2, 5);
 		drawMainScreen(0);
 		if (enableBGM) playSound(4, 1);
-		GameScreen(0);
+		newGameOptionsScreen();
 	}
 }
 bool checkWin() {
@@ -382,13 +327,13 @@ bool saveGame() {
 	return 1;
 }
 void saveGameScreen(bool refresh) {
-	if (refresh) drawMiniPopUp(69, 14, black, white_pink, white_pink, white_pink);
+	if (refresh) drawMiniPopUp(69, 14, black, white_aqua, white_aqua, white_aqua);
 	/*In nội dung cho Popup*/
-	RGBPrint(71, 16, L"✍  ", black, light_pink, false);
-	RGBPrint(74, 16, getwstring(language, L"save_name") + L":", black, light_pink, true);
-	RGBPrint(76 + (int)getwstring(language, L"save_name").size(), 16, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(game.name), black, white_pink, false);
-	RGBPrint(90, 18, getwstring(language, L"save_save"), black, white_pink, true);
-	RGBPrint(75, 18, getwstring(language, L"save_cancel"), black, white_pink, true);
+	RGBPrint(71, 16, L"✍  ", black, light_aqua, false);
+	RGBPrint(74, 16, getwstring(language, L"save_name") + L":", black, light_aqua, true);
+	RGBPrint(76 + (int)getwstring(language, L"save_name").size(), 16, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(game.name), black, white_aqua, false);
+	RGBPrint(90, 18, getwstring(language, L"save_save"), black, white_aqua, true);
+	RGBPrint(75, 18, getwstring(language, L"save_cancel"), black, white_aqua, true);
 	//bool isEditing = false;
 	string oldname = game.name;
 	int curSel = 0, prevSel = 0;
@@ -407,36 +352,36 @@ void saveGameScreen(bool refresh) {
 			if (curSel != prevSel) {
 				switch (prevSel) {
 				case 0:
-					RGBPrint(71, 16, L"✍  ", black, white_pink, false);
-					RGBPrint(74, 16, getwstring(language, L"save_name") + L": " + wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(game.name), black, white_pink, true);
+					RGBPrint(71, 16, L"✍  ", black, white_aqua, false);
+					RGBPrint(74, 16, getwstring(language, L"save_name") + L": " + wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(game.name), black, white_aqua, true);
 					break;
 				case 1:
-					RGBPrint(75, 18, getwstring(language, L"save_cancel"), black, white_pink, true);
+					RGBPrint(75, 18, getwstring(language, L"save_cancel"), black, white_aqua, true);
 					break;
 				case 2:
-					RGBPrint(90, 18, getwstring(language, L"save_save"), black, white_pink, true);
+					RGBPrint(90, 18, getwstring(language, L"save_save"), black, white_aqua, true);
 					break;
 				}
 				switch (curSel) {
 				case 0:
-					RGBPrint(71, 16, L"✍  ", black, light_pink, false);
-					RGBPrint(74, 16, getwstring(language, L"save_name") + L":", black, light_pink, true);
+					RGBPrint(71, 16, L"✍  ", black, light_aqua, false);
+					RGBPrint(74, 16, getwstring(language, L"save_name") + L":", black, light_aqua, true);
 					break;
 				case 1:
-					RGBPrint(75, 18, getwstring(language, L"save_cancel"), black, light_pink, true);
+					RGBPrint(75, 18, getwstring(language, L"save_cancel"), black, light_aqua, true);
 					break;
 				case 2:
-					RGBPrint(90, 18, getwstring(language, L"save_save"), black, light_pink, true);
+					RGBPrint(90, 18, getwstring(language, L"save_save"), black, light_aqua, true);
 					break;
 				}
 			}
 			/*Xử lí khi ấn enter*/
 			if (n == 13) {
 				if (curSel != 0) break; /*Nếu con trỏ đang ở vị trí sửa tên thì sẽ khởi động chế độ sửa tên bản lưu*/
-				game.name = gameEditor_name(74, 16, black, white_pink, light_pink);
-				RGBPrint(71, 16, L"✍  ", black, light_pink, false);
-				RGBPrint(74, 16, getwstring(language, L"save_name") + L":", black, light_pink, true);
-				RGBPrint(76 + (int)getwstring(language, L"save_name").size(), 16,game.name, black, white_pink);
+				game.name = gameEditor_name(74, 16, black, white_aqua, light_aqua);
+				RGBPrint(71, 16, L"✍  ", black, light_aqua, false);
+				RGBPrint(74, 16, getwstring(language, L"save_name") + L":", black, light_aqua, true);
+				RGBPrint(76 + (int)getwstring(language, L"save_name").size(), 16,game.name, black, white_aqua);
 			}
 		}
 	}
@@ -485,10 +430,10 @@ bool escapeMenu(int curSel) {
 		getwstring(language, L"esc_save"),  
 		getwstring(language, L"esc_quit") };
 	for (int i = 0; i < 5; i++) {
-		RGBPrint(86 - sizeOfText(texts[i]) / 2, 12 + 2 * i, texts[i], black, white_pink, true);
+		RGBPrint(86 - sizeOfText(texts[i]) / 2, 12 + 2 * i, texts[i], black, white_aqua, true);
 	}
 	int  prevSel = 0;
-	RGBPrint(83 - sizeOfText(texts[curSel]) / 2, 12 + 2 * curSel,L">> " +  texts[curSel] + L" <<", black, light_pink, true);
+	RGBPrint(83 - sizeOfText(texts[curSel]) / 2, 12 + 2 * curSel,L">> " +  texts[curSel] + L" <<", black, light_aqua, true);
 	while (true) {
 		if (_kbhit()) {
 			char c = tolower(_getch());
@@ -496,8 +441,8 @@ bool escapeMenu(int curSel) {
 				prevSel = curSel;
 				if (c == 'w' || c == 'a') curSel = (curSel == 0) ? 4 : curSel - 1;
 				else curSel = (curSel == 4) ? 0 : curSel + 1;
-				RGBPrint(83 - sizeOfText(texts[prevSel]) / 2, 12 + 2 * prevSel, L"   " + texts[prevSel] + L"   ", black, white_pink, true);
-				RGBPrint(83 - sizeOfText(texts[curSel]) / 2, 12 + 2 * curSel, L">> " + texts[curSel] + L" <<", black, light_pink, true);
+				RGBPrint(83 - sizeOfText(texts[prevSel]) / 2, 12 + 2 * prevSel, L"   " + texts[prevSel] + L"   ", black, white_aqua, true);
+				RGBPrint(83 - sizeOfText(texts[curSel]) / 2, 12 + 2 * curSel, L">> " + texts[curSel] + L" <<", black, light_aqua, true);
 			}
 			if (c == 13) {
 				if (enableSFX) playSound(3, 0);
@@ -512,19 +457,19 @@ bool escapeMenu(int curSel) {
 	}
 	switch (curSel) {
 	case 0:
-		drawGameBoard(55, 6, 61, 31, black, white_pink);
+		drawGameBoard(55, 6, 61, 31, black, white_aqua);
 		StartGame(0,0);
 		return 0;
 	case 1:
 		settingsPopup();
-		drawGameBoard(55, 6, 61, 31, black, white_pink);
+		drawGameBoard(55, 6, 61, 31, black, white_aqua);
 		return escapeMenu(curSel);
 	case 2:
 		DrawOption();
 		return escapeMenu(curSel);
 	case 3:
 		saveGameScreen(true);
-		drawGameBoard(55, 6, 61, 31, black, white_pink);
+		drawGameBoard(55, 6, 61, 31, black, white_aqua);
 		return escapeMenu(curSel);
 	case 4:
 		if (enableSFX) playSound(3, 0);
@@ -549,10 +494,10 @@ bool DrawOption() {
 		}
 	}
 	//Vẽ
-	drawMiniPopUp(69, 14, black, white_pink, white_pink, white_pink);
-	RGBPrint(85 - sizeOfText(text_drawmsg)/2, 16, text_drawmsg, black, white_pink, true);
-	RGBPrint(85 - sizeOfText(text_drawacp)/2, 18, text_drawacp, black, white_pink, true);
-	RGBPrint(82 - sizeOfText(text_drawdeny)/2, 19, L">> " + text_drawdeny + L" <<", black, white_pink, true);
+	drawMiniPopUp(69, 14, black, white_aqua, white_aqua, white_aqua);
+	RGBPrint(85 - sizeOfText(text_drawmsg)/2, 16, text_drawmsg, black, white_aqua, true);
+	RGBPrint(85 - sizeOfText(text_drawacp)/2, 18, text_drawacp, black, white_aqua, true);
+	RGBPrint(82 - sizeOfText(text_drawdeny)/2, 19, L">> " + text_drawdeny + L" <<", black, white_aqua, true);
 	//Xử lí
 	if (enableBGM) {
 		stopSound(7);
@@ -565,12 +510,12 @@ bool DrawOption() {
 				playSound(3, 0);
 				draw = !draw;
 				if (draw) {
-					RGBPrint(82 - sizeOfText(text_drawacp) / 2, 18, L">> " + text_drawacp + L" <<", black, white_pink, true);
-					RGBPrint(82 - sizeOfText(text_drawdeny) / 2, 19, L"   " + text_drawdeny + L"   ", black, white_pink, true);
+					RGBPrint(82 - sizeOfText(text_drawacp) / 2, 18, L">> " + text_drawacp + L" <<", black, white_aqua, true);
+					RGBPrint(82 - sizeOfText(text_drawdeny) / 2, 19, L"   " + text_drawdeny + L"   ", black, white_aqua, true);
 				}
 				else {
-					RGBPrint(82 - sizeOfText(text_drawacp) / 2, 18,L"   "+ text_drawacp + L"   ", black, white_pink, true);
-					RGBPrint(82 - sizeOfText(text_drawdeny) / 2, 19, L">> " + text_drawdeny + L" <<", black, white_pink, true);
+					RGBPrint(82 - sizeOfText(text_drawacp) / 2, 18,L"   "+ text_drawacp + L"   ", black, white_aqua, true);
+					RGBPrint(82 - sizeOfText(text_drawdeny) / 2, 19, L">> " + text_drawdeny + L" <<", black, white_aqua, true);
 				}
 			}
 			if (n == 13) {
@@ -580,12 +525,12 @@ bool DrawOption() {
 		}
 	}
 	if (draw) {
-		drawGameBoard(55, 6, 61, 31, black, white_pink);
+		drawGameBoard(55, 6, 61, 31, black, white_aqua);
 		drawDrawEffect();
 		drawContinueOption(false);
 	}
 	else {
-		drawGameBoard(55, 6, 61, 31, black, white_pink);
+		drawGameBoard(55, 6, 61, 31, black, white_aqua);
 		return false;
 	}
 	return true;
@@ -605,10 +550,10 @@ bool PauseOption() {
 		}
 	}
 	//Vẽ
-	drawMiniPopUp(69, 14, black, white_pink, white_pink, white_pink);
-	RGBPrint(85 - sizeOfText(text_pausemsg) / 2, 16, text_pausemsg, black, white_pink, true);
-	RGBPrint(82 - sizeOfText(text_pauseacp)/2, 18, L"   " + text_pauseacp + L"   ", black, white_pink, true);
-	RGBPrint(82 - sizeOfText(text_pausedeny) / 2, 19, L">> " + text_pausedeny + L" <<", black, white_pink, true);
+	drawMiniPopUp(69, 14, black, white_aqua, white_aqua, white_aqua);
+	RGBPrint(85 - sizeOfText(text_pausemsg) / 2, 16, text_pausemsg, black, white_aqua, true);
+	RGBPrint(82 - sizeOfText(text_pauseacp)/2, 18, L"   " + text_pauseacp + L"   ", black, white_aqua, true);
+	RGBPrint(82 - sizeOfText(text_pausedeny) / 2, 19, L">> " + text_pausedeny + L" <<", black, white_aqua, true);
 	//Xử lí
 	if (enableBGM) {
 		stopSound(7);
@@ -621,12 +566,12 @@ bool PauseOption() {
 				playSound(3, 0);
 				pause = !pause;
 				if (pause) {
-					RGBPrint(82 - sizeOfText(text_pauseacp) / 2, 18, L">> " + text_pauseacp + L" <<", black, white_pink, true);
-					RGBPrint(82 - sizeOfText(text_pausedeny) / 2, 19, L"   " + text_pausedeny + L"   ", black, white_pink, true);
+					RGBPrint(82 - sizeOfText(text_pauseacp) / 2, 18, L">> " + text_pauseacp + L" <<", black, white_aqua, true);
+					RGBPrint(82 - sizeOfText(text_pausedeny) / 2, 19, L"   " + text_pausedeny + L"   ", black, white_aqua, true);
 				}
 				else {
-					RGBPrint(82 - sizeOfText(text_pauseacp) / 2, 18, L"   " + text_pauseacp + L"   ", black, white_pink, true);
-					RGBPrint(82 - sizeOfText(text_pausedeny) / 2, 19, L">> " + text_pausedeny + L" <<", black, white_pink, true);
+					RGBPrint(82 - sizeOfText(text_pauseacp) / 2, 18, L"   " + text_pauseacp + L"   ", black, white_aqua, true);
+					RGBPrint(82 - sizeOfText(text_pausedeny) / 2, 19, L">> " + text_pausedeny + L" <<", black, white_aqua, true);
 				}
 			}
 			if (n == 13) {
@@ -636,12 +581,12 @@ bool PauseOption() {
 		}
 	}
 	//_getch();
-	drawGameBoard(55, 6, 61, 31, black, white_pink);
+	drawGameBoard(55, 6, 61, 31, black, white_aqua);
 	if (pause) {
 		wstring text_continueMsg = getwstring(language, L"pause_continue");
-		drawInGamePanel_1A(120, 4, black, white_pink, white, white_pink);
-		RGBPrint(140 - sizeOfText(text_continueMsg)/2, 10, text_continueMsg, black, white_pink, true);
-		drawPauseText(124, 5, white_pink);
+		drawInGamePanel_1A(120, 4, black, white_aqua, white, white_aqua);
+		RGBPrint(140 - sizeOfText(text_continueMsg)/2, 10, text_continueMsg, black, white_aqua, true);
+		drawPauseText(124, 5, white_aqua);
 		return true;
 	}
 	return false;
@@ -650,19 +595,19 @@ bool PauseOption() {
 void fixKeyboard() {
 	if (key_w) {
 		key_w = !key_w;
-		drawInGameKeyboard(124 + 13, 14 + 1, 'w', key_w, black, white_pink);
+		drawInGameKeyboard(124 + 13, 14 + 1, 'w', key_w, black, white_aqua);
 	}
 	if (key_a) {
 		key_a = !key_a;
-		drawInGameKeyboard(124 + 3, 14 + 5, 'a', key_a, black, white_pink);
+		drawInGameKeyboard(124 + 3, 14 + 5, 'a', key_a, black, white_aqua);
 	}
 	if (key_s) {
 		key_s = !key_s;
-		drawInGameKeyboard(124 + 13, 14 + 6, 's', key_s, black, white_pink);
+		drawInGameKeyboard(124 + 13, 14 + 6, 's', key_s, black, white_aqua);
 	}
 	if (key_d) {
 		key_d = !key_d;
-		drawInGameKeyboard(124 + 24, 14 + 5, 'd', key_d, black, white_pink);
+		drawInGameKeyboard(124 + 24, 14 + 5, 'd', key_d, black, white_aqua);
 	}
 }
 void updateScreen() {
@@ -670,30 +615,30 @@ void updateScreen() {
 		ingame_ratio = getwstring(language, L"ingame_ratio"),
 		ingame_time = getwstring(language, L"ingame_time"),
 		ingame_hits = getwstring(language, L"ingame_hits");
-	RGBPrint(16, 12, ingame_ratio, black, white_pink, true);
+	RGBPrint(16, 12, ingame_ratio, black, white_aqua, true);
 	RGBPrint(32-9, 13,
 		wstring(L"[X]: ") + ((game.ratio[0] < 10) ? L"0" : L"") + to_wstring(game.ratio[0]) +
 		wstring(L" | [O]: ") + ((game.ratio[1] < 10) ? wstring(L"0") : wstring(L"")) + to_wstring(game.ratio[1])
-		, black, white_pink, false);
+		, black, white_aqua, false);
 
 	RGBPrint(16, 15,
 		ingame_time + L": " + wstring((game.time < 10) ? L"0" : L"") + to_wstring(game.time) + L"s",
-		black, white_pink, true);
+		black, white_aqua, true);
 
-	RGBPrint(16, 17, ingame_hits + L":", black, white_pink, true);
+	RGBPrint(16, 17, ingame_hits + L":", black, white_aqua, true);
 	RGBPrint(32-9 , 18	,
 		wstring(L"[X]: " + wstring((game.hits[0] < 10) ? L"0" : L"")) + to_wstring(game.hits[1]) +
 		wstring(L" | [O]: ") + wstring((game.hits[1] < 10) ? L"0" : L"") + to_wstring(game.hits[0]),
-		black, white_pink, false);
+		black, white_aqua, false);
 	bool c = !game.turn;
 	for (int i = 0; i < game.history.size(); i++) {
 		if (i == 5) break;
 		string text = (c) ? "[X]" : "[O]";
 		c = !c;
-		RGBPrint(20, 25 + 2 * i, text, black, white_pink);
+		RGBPrint(20, 25 + 2 * i, text, black, white_aqua);
 		RGBPrint(30, 25 + 2 * i,
 			char(game.history[i].first) + string((game.history[i].second < 10) ? "0" : "") + to_string(game.history[i].second)
-			, black, white_pink);
+			, black, white_aqua);
 	}
 }
 void updateFullBoard() {
@@ -701,49 +646,49 @@ void updateFullBoard() {
 		for (int j = 0; j < BOARD_SIZE_WIDTH; j++) {
 			RGBPrint(game.point[i][j].x, game.point[i][j].y,
 				(game.point[i][j].c  == 0 ? L" " : game.point[i][j].c  == 1 ? L"X" : L"O"),
-				black, white_pink, false);
+				black, white_aqua, false);
 		}
 	}
 }
 void drawTheScreen() {
-	fill(white_pink);
+	fill(white_aqua);
 	//background
 	drawInGameHeader(3, 1);
 	//match statistics
-	drawInGamePanel_1(10, 10, black, white_pink, white, white_pink);
+	drawInGamePanel_1(9, 10, black, white_aqua, white, white_aqua);
 	//history
-	drawInGamePanel_2(12, 22, black, white_pink, white, white_pink);
+	drawInGamePanel_2(12, 22, black, white_aqua, white, white_aqua);
 	//turn
-	drawInGamePanel_3(125, 5, black, white_pink, white, white_pink);
+	drawInGamePanel_3(125, 5, black, white_aqua, white, white_aqua);
 	//
 
-	drawSnowFlake(116, 18, white_pink);
+	drawSnowFlake(116, 18, white_aqua);
 	//keyboard
-	drawInGamePanel_4(124, 14, black, white_pink, white, white_pink);
-	drawInGameKeyboard(124 + 13, 14 + 1, 'w', key_w, black, white_pink);
-	drawInGameKeyboard(124 + 3, 14 + 5, 'a', key_a, black, white_pink);
-	drawInGameKeyboard(124 + 13, 14 + 6, 's', key_s, black, white_pink);
-	drawInGameKeyboard(124 + 24, 14 + 5, 'd', key_d, black, white_pink);
+	drawInGamePanel_4(124, 14, black, white_aqua, white, white_aqua);
+	drawInGameKeyboard(124 + 13, 14 + 1, 'w', key_w, black, white_aqua);
+	drawInGameKeyboard(124 + 3, 14 + 5, 'a', key_a, black, white_aqua);
+	drawInGameKeyboard(124 + 13, 14 + 6, 's', key_s, black, white_aqua);
+	drawInGameKeyboard(124 + 24, 14 + 5, 'd', key_d, black, white_aqua);
 	//keybinds
-	drawInGamePanel_1(120, 27, black, white_pink, white, white_pink);
+	drawInGamePanel_1(120, 27, black, white_aqua, white, white_aqua);
 
-	RGBPrint(129, 30, getwstring(language, L"ingame_keybind_wasd"), black, white_pink, true);
-	RGBPrint(129, 31, getwstring(language, L"ingame_keybind_p"), black, white_pink, true);
-	RGBPrint(129, 32, getwstring(language, L"ingame_keybind_o"), black, white_pink, true);
-	RGBPrint(129, 33, getwstring(language, L"ingame_keybind_l"), black, white_pink, true);
-	RGBPrint(129, 34, getwstring(language, L"ingame_keybind_q"), black, white_pink, true);
+	RGBPrint(129, 30, getwstring(language, L"ingame_keybind_wasd"), black, white_aqua, true);
+	RGBPrint(129, 31, getwstring(language, L"ingame_keybind_p"), black, white_aqua, true);
+	RGBPrint(129, 32, getwstring(language, L"ingame_keybind_o"), black, white_aqua, true);
+	RGBPrint(129, 33, getwstring(language, L"ingame_keybind_l"), black, white_aqua, true);
+	RGBPrint(129, 34, getwstring(language, L"ingame_keybind_q"), black, white_aqua, true);
 	//
-	drawReindeer(25, 3, white_pink);
-	drawSnowFlake(48, 5, white_pink);
-	drawPineTree(117, 23, white_pink, 1);
+	drawReindeer(25, 3, white_aqua);
+	drawSnowFlake(48, 5, white_aqua);
+	drawPineTree(117, 23, white_aqua, 1);
 	//
-	drawGameBoard(55, 6, 61, 31, black, white_pink);
+	drawGameBoard(55, 6, 61, 31, black, white_aqua);
 	updateScreen();
 }
 void reRenderCursor(bool boldColor) {
 	RGBPrint(game.point[game._Y][game._X].x, game.point[game._Y][game._X].y,
 		(game.point[game._Y][game._X].c == 0 ? L" " : game.point[game._Y][game._X].c == 1 ? L"X" : L"O"),
-		black, (boldColor ? light_pink : white_pink), false);
+		black, (boldColor ? light_aqua : white_aqua), false);
 }
 //PVE
 int getRandom(int a, int b) {
@@ -771,7 +716,7 @@ bool botHitRandom() {
 	game.hits[0]++;
 	game.turn = !game.turn;
 	game.time = 15;
-	drawTurn(game.turn, 125, 5, light_pink, pink, white_pink);
+	drawTurn(game.turn, 125, 5, light_aqua, aqua, white_aqua);
 	return false;
 }
 //Xừ lí trò chơi
@@ -794,7 +739,7 @@ bool boardTick() {
 		game.turn = !game.turn;
 		game.time = 15;
 
-		drawTurn(game.turn, 125, 5, light_pink, pink, white_pink);
+		drawTurn(game.turn, 125, 5, light_aqua, aqua, white_aqua);
 		if (game.gamemode == 1) {
 			if (botHitRandom()) return true;
 		}
@@ -813,7 +758,7 @@ bool inputProcessing(char c) {
 	}
 	if (c == 'l') {/*Lưu trò chơi*/
 		saveGameScreen(true);
-		drawGameBoard(55, 6, 61, 31, black, white_pink);
+		drawGameBoard(55, 6, 61, 31, black, white_aqua);
 		StartGame(0, 1);
 		return false;
 	}
@@ -835,8 +780,8 @@ bool inputProcessing(char c) {
 	if (c == 'p') {/*Xin tạm dừng*/
 		if (PauseOption()) {
 			removePanel(120, 4, 2);
-			drawInGamePanel_3(125, 5, black, white_pink, white, white_pink);
-			drawTurn(game.turn, 125, 5, light_pink, pink, white_pink);
+			drawInGamePanel_3(125, 5, black, white_aqua, white, white_aqua);
+			drawTurn(game.turn, 125, 5, light_aqua, aqua, white_aqua);
 		}
 		if (enableBGM) {
 			stopSound(8);
@@ -860,22 +805,22 @@ void movementProcessing(char c) {
 	case 'w':
 		game._Y = (game._Y == 0) ? game._Y : game._Y - 1;
 		key_w = !key_w;
-		drawInGameKeyboard(124 + 13, 14 + 1, 'w', key_w, black, white_pink);
+		drawInGameKeyboard(124 + 13, 14 + 1, 'w', key_w, black, white_aqua);
 		break;
 	case 'a':
 		game._X = (game._X == 0) ? game._X : game._X - 1;
 		key_a = !key_a;
-		drawInGameKeyboard(124 + 3, 14 + 5, 'a', key_a, black, white_pink);
+		drawInGameKeyboard(124 + 3, 14 + 5, 'a', key_a, black, white_aqua);
 		break;
 	case 'd':
 		game._X = (game._X == BOARD_SIZE_WIDTH - 1) ? game._X : game._X + 1;
 		key_d = !key_d;
-		drawInGameKeyboard(124 + 24, 14 + 5, 'd', key_d, black, white_pink);
+		drawInGameKeyboard(124 + 24, 14 + 5, 'd', key_d, black, white_aqua);
 		break;
 	case 's':
 		game._Y = (game._Y == BOARD_SIZE_HEIGHT - 1) ? game._Y : game._Y + 1;
 		key_s = !key_s;
-		drawInGameKeyboard(124 + 13, 14 + 6, 's', key_s, black, white_pink);
+		drawInGameKeyboard(124 + 13, 14 + 6, 's', key_s, black, white_aqua);
 		break;
 	}
 	reRenderCursor(true);//tô đậm lại vị trí mới
@@ -891,7 +836,7 @@ bool timeProcessing(int& count) {
 			if (game.turn) game.ratio[0]++;
 			else game.ratio[1]++;
 			updateScreen();
-			drawTurn(game.turn, 125, 5, light_pink, pink, white_pink);
+			drawTurn(game.turn, 125, 5, light_aqua, aqua, white_aqua);
 			drawWinEffect(true, 5, 0, 0, 0);
 			return true;
 		}
@@ -922,7 +867,7 @@ void StartGame(bool drawBackground, bool startBGM) {
 		system("cls");
 		drawTheScreen();
 		updateFullBoard();
-		drawTurn(game.turn, 125, 5, light_pink, pink, white_pink);
+		drawTurn(game.turn, 125, 5, light_aqua, aqua, white_aqua);
 	}
 	reRenderCursor(true);
 	//xử lí
@@ -939,17 +884,16 @@ void StartGame(bool drawBackground, bool startBGM) {
 	}
 	//cái qq j đay?
 	system("cls");
-	fill(white_pink);
+	fill(white_aqua);
 	drawLOGO((172 - 73) / 2, 5);
 	drawMainScreen(0);
 	if (enableBGM) {
 		stopSound(7);
 		playSound(4, 1);
 	}
-	GameScreen(0);
+	newGameOptionsScreen();
 }
 //Game SETUP
-
 void setupGame(string name, int _x, int _y, bool turn,bool gamemode, short time, short ratio[2], short hits[2], vector<pair<short, short>> history) {
 	game.name = name;
 	game._X = _x;
@@ -1033,7 +977,7 @@ void gameEditor_remove(string savename) {
 		message = _message.substr(0, index) + to_wstring(second_to_remove/1000) + _message.substr(index + 2);
 		break;
 	}
-	RGBPrint(118 - sizeOfText(message) / 2, 33, message, black, light_pink, true);
+	RGBPrint(118 - sizeOfText(message) / 2, 33, message, black, light_aqua, true);
 
 	while (true) {
 		/*Nếu ấn 1 phím bất kì thì sẽ dừng việc xóa bản lưu*/
@@ -1045,7 +989,7 @@ void gameEditor_remove(string savename) {
 		}
 		/*Cập nhật lại thông báo*/
 		message = _message.substr(0, index) + to_wstring(second_to_remove/1000) + _message.substr(index + 2);
-		RGBPrint(118-sizeOfText(message)/2, 33, message, black, light_pink, true);
+		RGBPrint(118-sizeOfText(message)/2, 33, message, black, light_aqua, true);
 		/*Bộ đếm*/
 		second_to_remove -= 50;
 		Sleep(50);
@@ -1061,7 +1005,7 @@ void gameEditor_remove(string savename) {
 	}
 	/*Nếu bản lưu đã xóa thì quay lại giao diện danh sách các bản lưu,
 	không thì quay trở lại phần chỉnh sửa bản lưu*/
-	if (second_to_remove <= 0) GameScreen(2);
+	if (second_to_remove <= 0) loadGameScreen();
 	else loadSaveGameEditor(savename, false, 2);
 
 }
@@ -1080,19 +1024,19 @@ void loadSaveGameEditor(string savename, bool refresh, int curSel) {
 	if (refresh) {
 		removePanel(90, 18, 13);
 		drawPanel(90, 18, 11);
-		RGBPrint(118-sizeOfText(text_save_editor)/2, 21, text_save_editor, black, light_pink, true);
+		RGBPrint(118-sizeOfText(text_save_editor)/2, 21, text_save_editor, black, light_aqua, true);
 	}
 	/*In ra các nội dung*/
-	RGBPrint(118-sizeOfText(text_save_load)/2, y - 2, text_save_load, black, (curSel==0) ? pink : light_pink, true);
-	RGBPrint(x-3, y, L"✍  ", black, (curSel == 1) ? pink : light_pink, false);
-	RGBPrint(x, y, getwstring(language, L"ingame_name") + L":", black, (curSel == 1) ? pink : light_pink, true);
-	RGBPrint(x+2+ getwstring(language, L"ingame_name").size(), y, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(savename), black, light_pink, true);
-	RGBPrint(x, y+1, getwstring(language, L"ingame_turn") + wstring(L": ") + wstring((game.turn) ? L"[X]" : L"[O]"), black, light_pink, true);
-	RGBPrint(x, y+2, getwstring(language, L"ingame_timeleft") + wstring(L": ") + wstring((game.time < 10) ? L"0" : L"") + to_wstring(game.time) + L"s", black, light_pink, true);
-	RGBPrint(x, y+3, getwstring(language, L"ingame_ratio") + wstring(L": ") + wstring(L"[X]: ") + ((game.ratio[0] < 10) ? L"0" : L"") + to_wstring(game.ratio[0]) + wstring(L" | [O]: ") + wstring((game.ratio[1] < 0) ? L"0" : L"") + to_wstring(game.ratio[1]), black, light_pink, true);
-	RGBPrint(x, y+4, getwstring(language, L"ingame_hits") + wstring(L": [X]: ") + wstring((game.hits[0] < 10) ? L"0" : L"") + to_wstring(game.hits[0]) + wstring(L" | [O]: ") + wstring((game.hits[1] < 10) ? L"0" : L"") + to_wstring(game.hits[1]), black, light_pink, true);
-	RGBPrint(118-sizeOfText(text_save_remove)/2, y + 6, text_save_remove, black, (curSel == 2) ? pink : light_pink, true);
-	RGBPrint(118-sizeOfText(text_save_back)/2, y + 8, text_save_back, black, (curSel == 3) ? pink : light_pink, true);
+	RGBPrint(118-sizeOfText(text_save_load)/2, y - 2, text_save_load, black, (curSel==0) ? aqua : light_aqua, true);
+	RGBPrint(x-3, y, L"✍  ", black, (curSel == 1) ? aqua : light_aqua, false);
+	RGBPrint(x, y, getwstring(language, L"ingame_name") + L":", black, (curSel == 1) ? aqua : light_aqua, true);
+	RGBPrint(x+2+ getwstring(language, L"ingame_name").size(), y, wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(savename), black, light_aqua, true);
+	RGBPrint(x, y+1, getwstring(language, L"ingame_turn") + wstring(L": ") + wstring((game.turn) ? L"[X]" : L"[O]"), black, light_aqua, true);
+	RGBPrint(x, y+2, getwstring(language, L"ingame_timeleft") + wstring(L": ") + wstring((game.time < 10) ? L"0" : L"") + to_wstring(game.time) + L"s", black, light_aqua, true);
+	RGBPrint(x, y+3, getwstring(language, L"ingame_ratio") + wstring(L": ") + wstring(L"[X]: ") + ((game.ratio[0] < 10) ? L"0" : L"") + to_wstring(game.ratio[0]) + wstring(L" | [O]: ") + wstring((game.ratio[1] < 0) ? L"0" : L"") + to_wstring(game.ratio[1]), black, light_aqua, true);
+	RGBPrint(x, y+4, getwstring(language, L"ingame_hits") + wstring(L": [X]: ") + wstring((game.hits[0] < 10) ? L"0" : L"") + to_wstring(game.hits[0]) + wstring(L" | [O]: ") + wstring((game.hits[1] < 10) ? L"0" : L"") + to_wstring(game.hits[1]), black, light_aqua, true);
+	RGBPrint(118-sizeOfText(text_save_remove)/2, y + 6, text_save_remove, black, (curSel == 2) ? aqua : light_aqua, true);
+	RGBPrint(118-sizeOfText(text_save_back)/2, y + 8, text_save_back, black, (curSel == 3) ? aqua : light_aqua, true);
 	/*Xử lí di khi di chuyển giữa các mục*/
 	while (true) {
 		if (_kbhit()) {
@@ -1110,32 +1054,32 @@ void loadSaveGameEditor(string savename, bool refresh, int curSel) {
 			if (curSel != prevSel) {
 				switch (prevSel) {
 				case 0:
-					RGBPrint(118 - sizeOfText(text_save_load) / 2, y - 2, text_save_load, black, light_pink, true);
+					RGBPrint(118 - sizeOfText(text_save_load) / 2, y - 2, text_save_load, black, light_aqua, true);
 					break;
 				case 1:
-					RGBPrint(x-3, y, L"✍  ", black, light_pink, false);
-					RGBPrint(x, y, getwstring(language, L"ingame_name") + L":", black, light_pink, true);
+					RGBPrint(x-3, y, L"✍  ", black, light_aqua, false);
+					RGBPrint(x, y, getwstring(language, L"ingame_name") + L":", black, light_aqua, true);
 					break;
 				case 2:
-					RGBPrint(118 - sizeOfText(text_save_remove)/2, y + 6, text_save_remove, black, light_pink, true);
+					RGBPrint(118 - sizeOfText(text_save_remove)/2, y + 6, text_save_remove, black, light_aqua, true);
 					break;
 				case 3:
-					RGBPrint(118 - sizeOfText(text_save_back) / 2, y + 8, text_save_back, black, light_pink, true);
+					RGBPrint(118 - sizeOfText(text_save_back) / 2, y + 8, text_save_back, black, light_aqua, true);
 					break;
 				}
 				switch (curSel) {
 				case 0:
-					RGBPrint(118 - sizeOfText(text_save_load) / 2, y - 2, text_save_load, black, pink, true);
+					RGBPrint(118 - sizeOfText(text_save_load) / 2, y - 2, text_save_load, black, aqua, true);
 					break;
 				case 1:
-					RGBPrint(x-3, y, L"✍  ", black, pink, false);
-					RGBPrint(x, y, getwstring(language, L"ingame_name") + L":", black, pink, true);
+					RGBPrint(x-3, y, L"✍  ", black, aqua, false);
+					RGBPrint(x, y, getwstring(language, L"ingame_name") + L":", black, aqua, true);
 					break;
 				case 2:
-					RGBPrint(118 - sizeOfText(text_save_remove)/2, y + 6, text_save_remove, black, pink, true);
+					RGBPrint(118 - sizeOfText(text_save_remove)/2, y + 6, text_save_remove, black, aqua, true);
 					break;
 				case 3:
-					RGBPrint(118 - sizeOfText(text_save_back) / 2, y + 8, text_save_back, black, pink, true);
+					RGBPrint(118 - sizeOfText(text_save_back) / 2, y + 8, text_save_back, black, aqua, true);
 					break;
 				}
 			}
@@ -1150,7 +1094,7 @@ void loadSaveGameEditor(string savename, bool refresh, int curSel) {
 		break;
 	case 1: {/*Bật chế độ sửa tên bản lưu*/
 		string oldname = game.name;
-		game.name = gameEditor_name(x, y, black, light_pink, pink);
+		game.name = gameEditor_name(x, y, black, light_aqua, aqua);
 		try {
 			fs::rename("./Saves/" + oldname + ".txt", "./Saves/" + game.name + ".txt");
 		}
@@ -1166,7 +1110,7 @@ void loadSaveGameEditor(string savename, bool refresh, int curSel) {
 	case 3:/*Quay về menu danh sách bản lưu*/
 		removePanel(90, 18, 11);
 		if (enableSFX) playSound(9, 0);
-		GameScreen(2);
+		loadGameScreen();
 		break;
 	}
 }
@@ -1179,8 +1123,8 @@ void newGameOptionsScreen() {
 	int n, size = sizeof(options) / sizeof(wstring);
 	/*In văn bản*/
 	for (int i = 0; i < size; i++) {
-		if (i == 0) RGBPrint(115 - sizeOfText(options[i])/2, 21 + 2 * i, L">> " + options[i] + L" <<", black, light_pink, true);
-		else RGBPrint(115 - sizeOfText(options[i]) / 2, 21 + 2 * i, L"   " + options[i] + L"   ", black, light_pink, true);
+		if (i == 0) RGBPrint(115 - sizeOfText(options[i])/2, 21 + 2 * i, L">> " + options[i] + L" <<", black, light_aqua, true);
+		else RGBPrint(115 - sizeOfText(options[i]) / 2, 21 + 2 * i, L"   " + options[i] + L"   ", black, light_aqua, true);
 	}
 	/*Xử lí di chuyển và cập nhật đồ họa*/
 	while (true) {
@@ -1201,17 +1145,17 @@ void newGameOptionsScreen() {
 				curSel++;
 				curSel = (curSel > size - 1) ? 0 : curSel;
 			}
-			RGBPrint(115 - sizeOfText(options[prevSel]) / 2, 21 + 2 * prevSel, L"   " + options[prevSel] + L"   ", black, light_pink, true);
-			RGBPrint(115 - sizeOfText(options[curSel]) / 2, 21 + 2 * curSel, L">> " + options[curSel] + L" <<", black, light_pink, true);
+			RGBPrint(115 - sizeOfText(options[prevSel]) / 2, 21 + 2 * prevSel, L"   " + options[prevSel] + L"   ", black, light_aqua, true);
+			RGBPrint(115 - sizeOfText(options[curSel]) / 2, 21 + 2 * curSel, L">> " + options[curSel] + L" <<", black, light_aqua, true);
 		}
 	}
 	switch (curSel) {
 	case 0: {/*Tạo một trò chơi mới*/
-		GameScreen(1);
+		selectModeScreen();
 		break;
 	}
 	case 1: /*Nạp bản lưu*/
-		GameScreen(2);
+		loadGameScreen();
 		break;
 	case 2:/*Quay lại menu trước đó*/
 		removePanel(90, 18, 5);
@@ -1229,8 +1173,8 @@ void selectModeScreen() {
 	removePanel(90, 18, 5);
 	drawPanel(90, 18, 4);
 	for (int i = 0; i < size; i++) {
-		if (i == 0) RGBPrint(115 - sizeOfText(options[i]) / 2, 21 + 2 * i, L">> " + options[i] + L" <<", black, light_pink, true);
-		else RGBPrint(115 - sizeOfText(options[i]) / 2, 21 + 2 * i, L"   " + options[i] + L"   ", black, light_pink, true);
+		if (i == 0) RGBPrint(115 - sizeOfText(options[i]) / 2, 21 + 2 * i, L">> " + options[i] + L" <<", black, light_aqua, true);
+		else RGBPrint(115 - sizeOfText(options[i]) / 2, 21 + 2 * i, L"   " + options[i] + L"   ", black, light_aqua, true);
 	}
 	/*Xử lí di chuyển và đồ họa*/
 	while (true) {
@@ -1251,8 +1195,8 @@ void selectModeScreen() {
 				curSel++;
 				curSel = (curSel > size - 1) ? 0 : curSel;
 			}
-			RGBPrint(115 - sizeOfText(options[prevSel]) / 2, 21 + 2 * prevSel, L"   " + options[prevSel] + L"   ", black, light_pink, true);
-			RGBPrint(115 - sizeOfText(options[curSel]) / 2, 21 + 2 * curSel, L">> " + options[curSel] + L" <<", black, light_pink, true);
+			RGBPrint(115 - sizeOfText(options[prevSel]) / 2, 21 + 2 * prevSel, L"   " + options[prevSel] + L"   ", black, light_aqua, true);
+			RGBPrint(115 - sizeOfText(options[curSel]) / 2, 21 + 2 * curSel, L">> " + options[curSel] + L" <<", black, light_aqua, true);
 		}
 	}
 	switch (curSel) {
@@ -1272,7 +1216,7 @@ void selectModeScreen() {
 	}
 	case 2:/*Quay lại Menu trước*/
 		removePanel(90, 18, 4);
-		GameScreen(0);
+		newGameOptionsScreen();
 		break;
 	}
 }
@@ -1297,32 +1241,32 @@ void loadGameScreen() {
 	removePanel(90, 18, 5);
 	drawPanel(90, 18, 13);
 	//TO DO: MOVE SANG MODELUTIL
-	RGBPrint(x, y-1, L"      ║                                    ", black, light_pink, false);
-	RGBPrint(x, y, L"══════╬════════════════════════════════════", black, light_pink, false);
+	RGBPrint(x, y-1, L"      ║                                    ", black, light_aqua, false);
+	RGBPrint(x, y, L"══════╬════════════════════════════════════", black, light_aqua, false);
 	int _i = 0;
 	for (int i = 0; i < 2 * 5; i++) {
 		if (i % 2 == 0) {
-			RGBPrint(x, y + i + 1, L"      ║                                    ", black, light_pink, false);
+			RGBPrint(x, y + i + 1, L"      ║                                    ", black, light_aqua, false);
 			if (_i < saves_names.size() && _i <= maxindex - 1) {
-				RGBPrint(x + 2, y + i + 1, string((_i + 1 < 10) ? "0" : "") + to_string(_i + 1), black, light_pink);
-				RGBPrint(x + 7 + (14 - (int)saves_names[_i].size() / 2), y + i + 1, saves_names[_i], black, light_pink);
+				RGBPrint(x + 2, y + i + 1, string((_i + 1 < 10) ? "0" : "") + to_string(_i + 1), black, light_aqua);
+				RGBPrint(x + 7 + (14 - (int)saves_names[_i].size() / 2), y + i + 1, saves_names[_i], black, light_aqua);
 				_i++;
 			}
 		}
-		else RGBPrint(x, y + i + 1, L"══════╬════════════════════════════════════", black, light_pink, false);
+		else RGBPrint(x, y + i + 1, L"══════╬════════════════════════════════════", black, light_aqua, false);
 	}
-	RGBPrint(x, y+10, L"══════╩════════════════════════════════════", black, light_pink, false);
-	RGBPrint(x, y + 11, L"                                           ", black, light_pink, false);
-	RGBPrint(x + 1, y + 11, L"<<", black, light_pink, false);
-	RGBPrint(x + 18, y + 11, L"01/" + wstring((saves / 5 < 10) ? L"0" : L"") + to_wstring(maxpages), black, light_pink, false);
-	RGBPrint(x + 38, y + 11, L">>", black, light_pink, false);
+	RGBPrint(x, y+10, L"══════╩════════════════════════════════════", black, light_aqua, false);
+	RGBPrint(x, y + 11, L"                                           ", black, light_aqua, false);
+	RGBPrint(x + 1, y + 11, L"<<", black, light_aqua, false);
+	RGBPrint(x + 18, y + 11, L"01/" + wstring((saves / 5 < 10) ? L"0" : L"") + to_wstring(maxpages), black, light_aqua, false);
+	RGBPrint(x + 38, y + 11, L">>", black, light_aqua, false);
 
-	RGBPrint(x, y + 12, L"═══════════════════════════════════════════", black, light_pink, false);
-	RGBPrint(115 - sizeOfText(text_back)/2, y + 13, L"   " + text_back + L"   ", black, light_pink, true);
+	RGBPrint(x, y + 12, L"═══════════════════════════════════════════", black, light_aqua, false);
+	RGBPrint(115 - sizeOfText(text_back)/2, y + 13, L"   " + text_back + L"   ", black, light_aqua, true);
 	//
 	if (saves_names.size() >= 1) {
-		RGBPrint(x + 2, y + 2 * index + 1, string((index + 1 < 10) ? "0" : "") + to_string(index + 1), black, pink);
-		RGBPrint(x + 7 + (14 - (int)saves_names[index].size() / 2), y + 2 * index + 1, saves_names[index], black, pink);
+		RGBPrint(x + 2, y + 2 * index + 1, string((index + 1 < 10) ? "0" : "") + to_string(index + 1), black, aqua);
+		RGBPrint(x + 7 + (14 - (int)saves_names[index].size() / 2), y + 2 * index + 1, saves_names[index], black, aqua);
 	}
 	int n;
 	/*Xử lí di chuyển và cập nhật đồ họa*/
@@ -1338,16 +1282,16 @@ void loadGameScreen() {
 				else index = (index >= maxindex) ? 0 : index + 1;
 				int d = 5 * (currentpage - 1);
 				if (previousSelect < maxindex) {
-					RGBPrint(x + 2, y + 2 * previousSelect + 1, string((previousSelect + 1 + d < 10) ? "0" : "") + to_string(previousSelect + d + 1), black, light_pink);
-					RGBPrint(x + 7 + (14 - (int)saves_names[previousSelect + d].size() / 2), y + 2 * previousSelect + 1, saves_names[previousSelect + d], black, light_pink);
+					RGBPrint(x + 2, y + 2 * previousSelect + 1, string((previousSelect + 1 + d < 10) ? "0" : "") + to_string(previousSelect + d + 1), black, light_aqua);
+					RGBPrint(x + 7 + (14 - (int)saves_names[previousSelect + d].size() / 2), y + 2 * previousSelect + 1, saves_names[previousSelect + d], black, light_aqua);
 				}
-				else RGBPrint(115 - sizeOfText(text_back) / 2, y + 13, L"   " + text_back + L"   ", black, light_pink, true);
+				else RGBPrint(115 - sizeOfText(text_back) / 2, y + 13, L"   " + text_back + L"   ", black, light_aqua, true);
 
 				if (index < maxindex) {
-					RGBPrint(x + 2, y + 2 * index + 1, string((index + d + 1 < 10) ? "0" : "") + to_string(index + d + 1), black, pink);
-					RGBPrint(x + 7 + (14 - (int)saves_names[index + d].size() / 2), y + 2 * index + 1, saves_names[index + d], black, pink);
+					RGBPrint(x + 2, y + 2 * index + 1, string((index + d + 1 < 10) ? "0" : "") + to_string(index + d + 1), black, aqua);
+					RGBPrint(x + 7 + (14 - (int)saves_names[index + d].size() / 2), y + 2 * index + 1, saves_names[index + d], black, aqua);
 				}
-				else RGBPrint(115 - sizeOfText(text_back) / 2, y + 13, L">> " + text_back + L" <<", black, light_pink, true);
+				else RGBPrint(115 - sizeOfText(text_back) / 2, y + 13, L">> " + text_back + L" <<", black, light_aqua, true);
 			}
 			if ((n == 'a' || n == 'd') && index < maxindex) {
 				if (n == 'a') currentpage = (currentpage == 1) ? maxpages : currentpage - 1;
@@ -1358,22 +1302,22 @@ void loadGameScreen() {
 				_i = 5 * (currentpage - 1);
 				for (int i = 0; i < 2 * 5; i++) {
 					if (i % 2 == 0) {
-						RGBPrint(x, y + i + 1, L"      ║                                    ", black, light_pink, false);
+						RGBPrint(x, y + i + 1, L"      ║                                    ", black, light_aqua, false);
 						if (_i < saves_names.size()) {
 							if (_i <= maxindex + 5 * (currentpage - 1)) {
-								RGBPrint(x + 7 + (14 - (int)saves_names[_i].size() / 2), y + i + 1, saves_names[_i], black, light_pink);
-								RGBPrint(x + 2, y + i + 1, string((_i + 1 < 10) ? "0" : "") + to_string(_i + 1), black, light_pink);
+								RGBPrint(x + 7 + (14 - (int)saves_names[_i].size() / 2), y + i + 1, saves_names[_i], black, light_aqua);
+								RGBPrint(x + 2, y + i + 1, string((_i + 1 < 10) ? "0" : "") + to_string(_i + 1), black, light_aqua);
 								_i++;
 							}
 						}
 					}
-					else RGBPrint(x, y + i + 1, L"══════╬════════════════════════════════════", black, light_pink, false);
+					else RGBPrint(x, y + i + 1, L"══════╬════════════════════════════════════", black, light_aqua, false);
 				}
-				RGBPrint(x + 18, y + 11, wstring((currentpage < 10) ? L"0" : L"") + to_wstring(currentpage) + L"/" + wstring((saves / 5 < 10) ? L"0" : L"") + to_wstring(maxpages), black, light_pink, false);
+				RGBPrint(x + 18, y + 11, wstring((currentpage < 10) ? L"0" : L"") + to_wstring(currentpage) + L"/" + wstring((saves / 5 < 10) ? L"0" : L"") + to_wstring(maxpages), black, light_aqua, false);
 
 				_i = 5 * (currentpage - 1);
-				RGBPrint(x + 7 + (14 - (int)saves_names[_i].size() / 2), y + 1, saves_names[_i], black, pink);
-				RGBPrint(x + 2, y + 1, string((_i + 1 < 10) ? "0" : "") + to_string(_i + 1), black, pink);
+				RGBPrint(x + 7 + (14 - (int)saves_names[_i].size() / 2), y + 1, saves_names[_i], black, aqua);
+				RGBPrint(x + 2, y + 1, string((_i + 1 < 10) ? "0" : "") + to_string(_i + 1), black, aqua);
 			}
 		}
 	}
@@ -1383,18 +1327,7 @@ void loadGameScreen() {
 	}
 	else {
 		removePanel(90, 18, 13);
-		GameScreen(0);
-	}
-}
-void GameScreen(int state) {//TO DO: Xóa cái này, vướng.
-	if (state == 0) {/*Mở menu */
 		newGameOptionsScreen();
-	}
-	else if (state == 1) {//select mode
-		selectModeScreen();
-	}
-	else if (state == 2) {//load game screen
-		loadGameScreen();
 	}
 }
 

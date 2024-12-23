@@ -9,5 +9,6 @@
 #include "ModelUtils.h"
 void MainScreen(int, bool, bool);
 void drawQuitOptions();
+void helpScreen();
 void drawMainScreen(int);
 #endif

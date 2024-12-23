@@ -18,21 +18,21 @@ wstring animatedText(wstring s, int& index) {
 }
 void startIntroScreen() {
 	if (enableBGM) playSound(2, true);
-	fill(white_pink);
+	fill(white_aqua);
 	drawLOGO(50, 5);
-	int count = 0, index =0;
 	GotoXY(0, 30);
+	int count = 0, index = 0;
 	wstring message = getwstring(language, L"press_any_key_to_start");
 	while (true) {
-		drawSanta(index, 30, white_pink);
+		drawSanta(index, 30, white_aqua);
 		index++;
 		if (index == 173) {
 			for (int i = 30; i < 42; i++) clearLine(i);
 			index = 0;
 		}
 		count++;
-		RGBPrint(74, 21, animatedText(message, count), black, white_pink, true);
-		if (_kbhit()) {
+		RGBPrint(74, 21, animatedText(message, count), black, white_aqua, true);
+		if (_kbhit()) {/*Khi ấn phím bất kì thì sẽ đi đến màn hình chính*/
 			int _t = _getch();
 			if (enableSFX) playSound(9, 0);
 			break;

@@ -12,14 +12,13 @@ struct FileConfiguration {
 	vector<wstring> keys;
 	vector<wstring> values;
 };
-
 extern vector<FileConfiguration> loaded;
 
 vector<wstring> toKeyValue(wstring);
 bool loadConfiguration(FILE*);
-FileConfiguration getYAML(FILE*);
+FileConfiguration getFileConfiguration(FILE*);
 wstring getwstring(FILE*, wstring);
 int getInt(FILE*, wstring);
 bool getBool(FILE*, wstring);
-
+void closeAllFiles();
 #endif

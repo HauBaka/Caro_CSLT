@@ -7,4 +7,5 @@
 using namespace std;
 extern FILE* config;
 extern FILE *language;
+void closeProgram();
 #endif

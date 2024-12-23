@@ -87,3 +87,9 @@ void playSound(short song, bool repeat) {
 		setVolume(volume);
 	}
 }
+/*Đóng tất cả file nhạc đã mở*/
+void closeAllSound() {
+	for (int i =0;i<NUMSONGS;i++) {
+		stopSound(i);
+	}
+}

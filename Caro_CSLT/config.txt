@@ -1,4 +1,4 @@
 language: en-us
-sound_volume: 250
+sound_volume: 150
 enable_BGM: true
 enable_SFX: true

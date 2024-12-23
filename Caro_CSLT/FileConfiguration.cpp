@@ -1,4 +1,5 @@
 ﻿#include "FileConfiguration.h"
+#include "Caro_CSLT.h"
 vector<FileConfiguration> loaded = {};
 /*Tách từ 1 chuỗi sang key & value*/
 vector<wstring> toKeyValue(wstring s) {
@@ -37,7 +38,7 @@ bool loadConfiguration(FILE* file) {
 	return 1;
 }
 /*Lấy các key & value*/
-FileConfiguration getYAML(FILE* file) {
+FileConfiguration getFileConfiguration(FILE* file) {
 	for (int i = 0; i < loaded.size(); i++) {
 		if (loaded[i].file == file) {
 			return loaded[i];
@@ -47,7 +48,7 @@ FileConfiguration getYAML(FILE* file) {
 }
 /*Lấy value dưới dạng wstring*/
 wstring getwstring(FILE* file, wstring path) {
-	FileConfiguration yaml = getYAML(file);
+	FileConfiguration yaml = getFileConfiguration(file);
 	if (yaml.file != NULL) {
 		for (int i = 0; i < yaml.keys.size(); i++) {
 			if (path == yaml.keys[i]) return yaml.values[i];
@@ -63,5 +64,13 @@ int getInt(FILE* file, wstring path) {
 bool getBool(FILE* file, wstring path) {
 	return (getwstring(file, path) == L"true") ? 1 : 0;
 }
-
-
+/*Đóng tất cả các file đã mở*/
+void closeAllFiles() {
+	FILE* f;
+	fclose(language);
+	fclose(config);
+	for (int i = 0; i < loaded.size(); i++) {
+		f = loaded[i].file;
+		if (f != NULL)  fclose(f);
+	}
+}

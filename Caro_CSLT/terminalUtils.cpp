@@ -45,15 +45,18 @@ int sizeOfText(wstring text) {
 }
 /*Xóa cả 1 dòng*/
 void clearLine(int line) {
-	RGBPrint(0, line, "                                                                                                                                                                             ", white_pink, white_pink);
+	RGBPrint(0, line, "                                                                                                                                                                             ", white_aqua, white_aqua);
 }
 /*Thiết lập trò chơi*/
 void SetUpWindow() {
+	/*Thiết lập cửa sổ: cố định vị trí, kích thước, tắt con trỏ,
+	 đặt màu nền và tiêu đề cửa sổ */
 	FixConsoleWindow();
 	ShowConsoleCursor(false);
 	system("color F1");
 	SetConsoleTitleA("GROUP 6 | 24CTT3 | HCMUS");
 	SetConsoleOutputCP(CP_UTF8);
+	/*Nạp file cài đặt và ngôn ngữ*/
 	fopen_s(&config, "config.txt", "r");
 	loadConfiguration(config);
 
@@ -61,6 +64,7 @@ void SetUpWindow() {
 	enableBGM = getBool(config, L"enable_BGM");
 	setVolume(getInt(config, L"sound_volume"));
 	currentLang = (getwstring(config, L"language") == L"vi-vn"); 
+
 	wstring wlang = getwstring(config, L"language");
 	string lang(wlang.begin(), wlang.end());
 	string path = "./Languages/" + lang + ".txt";

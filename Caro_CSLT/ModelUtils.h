@@ -11,15 +11,11 @@ using namespace std;
 struct RGB {
 	int R, G, B;
 };
-extern RGB pink, white_pink, light_pink, black, white, default_white;
-
+extern RGB aqua, white_aqua, light_aqua, black, white, default_white;
+extern RGB rainbows[16];
 void RGBPrint(int, int, wstring, RGB, RGB, bool);
 void RGBPrint(int, int, string, RGB, RGB);
-void printColoredText(int, int, wstring, int, int);
-void printColoredText(int, int, string, int, int);
-void BetterDraw(int, int, string, int); 
-void BetterDraw(int, int, wstring, int);
-
+void drawSmallSantaHat(int, int);
 void drawLOGO(int, int);
 void veMay(int, int); 
 
@@ -27,7 +23,6 @@ void drawPlayer(bool, bool, int, int, RGB, RGB);
 void drawTurn(bool, int, int, RGB, RGB, RGB);
 void drawGameBoard(int, int, int, int, RGB, RGB);
 
-void drawStartButton(int, int);
 void drawMainMenuButton(int, int);
 void drawMainMenu_Play(int, int);
 void drawMainMenu_Options(int, int);
