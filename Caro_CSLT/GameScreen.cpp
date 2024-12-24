@@ -233,6 +233,7 @@ bool checkWin() {
 	/*Nếu đánh toàn bộ bảng nhưng vẫn chưa có người thắng thì nghĩa là hòa*/
 	if (boardSum == BOARD_SIZE_HEIGHT * BOARD_SIZE_WIDTH) {
 		drawDrawEffect();
+		drawContinueOption(false);
 		return true;
 	}
 	return false;
@@ -563,7 +564,7 @@ bool PauseOption() {
 		if (_kbhit()) {
 			int n = tolower(_getch());
 			if (n == 'w' || n == 'a' || n == 's' || n == 'd') {
-				playSound(3, 0);
+				if (enableSFX) playSound(3, 0);
 				pause = !pause;
 				if (pause) {
 					RGBPrint(82 - sizeOfText(text_pauseacp) / 2, 18, L">> " + text_pauseacp + L" <<", black, white_aqua, true);
@@ -575,7 +576,7 @@ bool PauseOption() {
 				}
 			}
 			if (n == 13) {
-				playSound(9, 0);
+				if (enableSFX) playSound(9, 0);
 				break;
 			}
 		}

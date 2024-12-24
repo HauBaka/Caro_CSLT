@@ -170,6 +170,7 @@ void drawTurn(bool turn, int x, int y, RGB text_color1, RGB text_color2, RGB bac
 }
 void drawGameBoard(int x, int y, int length, int width, RGB border_color, RGB background_color) {
     for (int i = 0; i < 15; i++) {
+        RGBPrint(0, 0, L"", black, white_aqua, true);
         GotoXY(x + 2+4*i, y - 1);
         cout << char('A'+i);
         GotoXY(x - 2, y + 1 + 2 * i);
